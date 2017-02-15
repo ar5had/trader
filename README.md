@@ -1,5 +1,5 @@
-# book-trade-club-app
-A full stack app for book sharing.
+# trades-app
+A full stack app for trading.
 
 ## User stories
 * I can view all books posted by every user.

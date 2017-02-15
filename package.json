@@ -1,7 +1,7 @@
 {
-  "name": "book-trade-club-app",
+  "name": "trading-app",
   "version": "0.1.0",
-  "description": "A full stack js app for book trading.",
+  "description": "A full stack js app for trading anything.",
   "engines": {
     "npm": ">=3"
   },
