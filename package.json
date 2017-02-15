@@ -12,7 +12,7 @@
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
-    "open:src": "babel-node tools/server.js ",
+    "open:src": "babel-node tools/server.js production",
     "open:dist": "babel-node tools/server.js",
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
@@ -30,7 +30,9 @@
   "author": "Arshad Khan <arshdkhn1@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^0.0.2",
     "body-parser": "^1.16.1",
+    "cross-env": "^3.1.4",
     "dotenv": "^4.0.0",
     "express-session": "^1.15.1",
     "material-ui": "^0.17.0",

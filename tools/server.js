@@ -4,25 +4,32 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { chalkSuccess } from './chalkConfig';
-import config from '../webpack.config.dev';
+import devConfig from '../webpack.config.dev';
+import prodConfig from '../webpack.config.prod';
 import express from 'express';
 import http from 'http';
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const path = require('path');
 
-const bundler = webpack(config);
+let config;
 const app = express();
 const server = http.createServer(app);
+
 /* eslint-disable no-console */
 console.log(chalkSuccess('Starting Express server...'));
 
-if (process.env.NODE_ENV !== "production") {
-  require('dotenv').load();
+if (process.argv[2] !== "production") {
+  require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
+  config = devConfig;
+} else {
+  config = prodConfig;
 }
 
-console.log(`process.env is ${process.env.PORT}`);
+const bundler = webpack(config);
+
 require('../config/passport')(passport);
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -22,3 +22,6 @@ A full stack app for trading.
 * now as paas -done
 * Use React-redux-router
 * yarn - done
+
+## Questions
+* Why `path.resolve("..", ".env")` goes one level up then it should in tools/server.js?
