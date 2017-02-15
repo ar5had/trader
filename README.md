@@ -1,4 +1,4 @@
-# trades-app
+# trade-app
 A full stack app for trading.
 
 ## User stories

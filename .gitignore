@@ -42,3 +42,6 @@ dist
 # Random
 .github
 docs
+
+# Env file
+.env
