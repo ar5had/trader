@@ -17,6 +17,8 @@ module.exports = function (passport) {
     });
   });
 
+  console.log(configAuth);
+
   passport.use(new TwitterStrategy({
     consumerKey: configAuth.twitterAuth.clientID,
     consumerSecret: configAuth.twitterAuth.clientSecret,

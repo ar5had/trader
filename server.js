@@ -9,9 +9,9 @@ const bodyParser = require('body-parser');
 const app = express();
 
 if (process.env.NODE_ENV !== "production")
-  require('dotenv').load();
+  require('dotenv').load({path: './tools/.env'});
 
-require('./app/config/passport')(passport);
+require('./config/passport')(passport);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -39,9 +39,5 @@ dist
 # Mac files
 .DS_Store
 
-# Random
-.github
-docs
-
 # Env file
 .env
