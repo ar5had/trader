@@ -4,8 +4,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { chalkSuccess } from './chalkConfig';
-import devConfig from '../webpack.config.dev';
-import prodConfig from '../webpack.config.prod';
+import config from '../webpack.config.dev';
 import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
@@ -14,19 +13,18 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
 
+const environment = process.argv[2];
 const app = express();
 const server = http.createServer(app);
 
 /* eslint-disable no-console */
-console.log(chalkSuccess('Starting Express server...'));
-console.log(process.argv[2]);
+console.log(chalkSuccess(`Starting Express server in ${environment} mode...`));
 
-if (process.argv[2] !== "production") {
-
+if (environment !== "production") {
   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
 
-  const config = devConfig;
   const bundler = webpack(config);
+
   app.use(express.static('src/*.html'));
   app.use(historyApiFallback());
   app.use(webpackHotMiddleware(bundler));
@@ -45,15 +43,14 @@ if (process.argv[2] !== "production") {
       timings: false,
       chunks: false,
       chunkModules: false
-    },
+    }
 
     // for other settings see
     // http://webpack.github.io/docs/webpack-dev-middleware.html
   }));
 } else {
-
+  app.use(express.static('dist'));
 }
-
 
 require('../config/passport')(passport);
 
@@ -93,6 +90,7 @@ conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', () => {
   // Routes
 });
+
 server.listen(process.env.PORT);
 /* eslint-disable no-console */
 console.log(chalkSuccess('Express server is listening on port: ' + server.address().port));
