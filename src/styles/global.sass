@@ -1,10 +1,6 @@
 @import './fonts.sass'
 @import './mediaqueries.sass'
-
-// Global variables
-$black: #222
-$light-grey: rgba(0, 0, 0, .5)
-$grey: rgba(34, 34, 34, .55)
+@import './variables.sass'
 
 // http://meyerweb.com/eric/tools/css/reset/
 // v2.0 | 20110126
@@ -51,8 +47,12 @@ table
 html
   font-size: 14px
 
-*, p, h4, h5, h6
+body
+  background: #fcfcfc
+
+*, p, h4, h5, h6, a
   font-size: 1rem
+  letter-spacing: 1px
   font-family: roboto, helvetica, sans-serif
   line-height: 2
 
