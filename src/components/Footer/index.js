@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import './styles.sass';
 
 class Footer extends Component {
   render() {
     return (
-      <footer>
+      <footer className="footer">
         <p className="text-center has-link">
           Made by <a href="http://iamarshad.com">Arshad Khan</a>
         </p>

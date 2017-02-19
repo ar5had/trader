@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import './styles.sass'
 
 class Homepage extends Component {
   render() {
     return (
-      <div>
+      <main className="main">
         body
-      </div>
+      </main>
     );
   }
 }
