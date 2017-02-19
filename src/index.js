@@ -1,24 +1,11 @@
-/* eslint-disable import/default */
-
 import React from 'react';
-import {render} from 'react-dom';
-import { Provider } from 'react-redux';
+import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
+
 import routes from './routes';
-import configureStore from './store/configureStore';
-require('./favicon.ico'); // Tell webpack to load favicon.ico
-import './styles/fonts.sass';
+
 import './styles/global.sass';
-import './styles/demo.sass';
-import { syncHistoryWithStore } from 'react-router-redux';
+import './favicon.ico';
 
-const store = configureStore();
 
-// Create an enhanced history that syncs navigation events with the store
-const history = syncHistoryWithStore(browserHistory, store);
-
-render(
-  <Provider store={store}>
-    <Router history={history} routes={routes} />
-  </Provider>, document.getElementById('app')
-);
+render(<Router history={browserHistory} routes={routes} />, document.getElementById('app'));

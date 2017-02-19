@@ -1,6 +1,13 @@
-/* http://meyerweb.com/eric/tools/css/reset/
- * v2.0 | 20110126
- * License: none (public domain)
+@import './fonts.sass'
+
+// Global variables
+$black: #222
+$light-grey: rgba(0, 0, 0, .5)
+$grey: rgba(34, 34, 34, .55)
+
+// http://meyerweb.com/eric/tools/css/reset/
+// v2.0 | 20110126
+// License: none (public domain)
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video
   margin: 0
@@ -10,7 +17,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font: inherit
   vertical-align: baseline
 
-/* HTML5 display-role reset for older browsers
+// HTML5 display-role reset for older browsers
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section
   display: block
@@ -38,8 +45,83 @@ table
   border-collapse: collapse
   border-spacing: 0
 
-/* Global styles starts
+// Global styles starts
 
-*
-  font-family: roboto_mono, roboto, helvatica, sans-serif
+html
+  font-size: 14px
+
+*, p, h4, h5, h6
+  font-size: 1rem
+  font-family: roboto, helvetica, sans-serif
+  line-height: 2
+
+h1, h2, h3
+  text-transform: uppercase
+  font-weight: 900
+  letter-spacing: 4px
+  line-height: 1.5
+  font-family: roboto_mono, helvetica, sans-serif
+
+h1
+  font-size: 1.5rem
+
+h2
+  letter-spacing: 3px
+  font-size: 1.5rem
+  font-weight: 400
+
+h3
+  font-size: 1.2rem
+  letter-spacing: 3px
+
+h4
+  letter-spacing: 2px
+  font-size: 1.2rem
+  font-weight: 400
+
+h5
+  letter-spacing: 2px
+  font-size: 1.2rem
+  font-family: roboto_mono, helvetica, sans-serif
+
+h6
+  font-size: 1rem
+  font-weight: 800
+  text-transform: uppercase
+  letter-spacing: 1px
+
+p
+  font-weight: 400
+  letter-spacing: 1px
+
+.marB10
+  margin-bottom: 10px
+
+.marT10
+  margin-top: 10px
+
+.marB20
+  margin-bottom: 20px
+
+.marT20
+  margin-top: 20px
+
+.text-center
+  text-align: center
+
+.text-left
+  text-align: left
+
+.text-right
+  text-align: right
+
+.has-link
+  color: $grey
+
+.has-link > a
+  text-decoration: none
+  color: $black
+  border-bottom: 1px dotted $black
+  &:hover
+    border-bottom: 1px solid $black
 

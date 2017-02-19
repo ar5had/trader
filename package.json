@@ -8,10 +8,9 @@
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",
     "setup": "node tools/setup/setupMessage.js && npm install && node tools/setup/setup.js",
-    "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
+    "start": "npm-run-all --parallel open:src lint:watch",
     "open:src": "babel-node tools/server.js development",
     "open:dist": "babel-node tools/server.js production",
     "lint": "esw webpack.config.* src tools --color",
@@ -33,7 +32,6 @@
     "body-parser": "^1.16.1",
     "dotenv": "^4.0.0",
     "express-session": "^1.15.1",
-    "material-ui": "^0.17.0",
     "mongoose": "^4.8.2",
     "object-assign": "4.1.0",
     "passport": "^0.3.2",
@@ -101,7 +99,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://www.github.com/arshdkhn1/trade-app"
   },
   "jest": {
     "moduleNameMapper": {
