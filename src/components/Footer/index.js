@@ -5,7 +5,7 @@ class Footer extends Component {
   render() {
     return (
       <footer className="footer">
-        <p className="text-center has-link">
+        <p className="has-link">
           Made by <a href="http://iamarshad.com">Arshad Khan</a>
         </p>
       </footer>
