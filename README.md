@@ -14,7 +14,6 @@ A full stack app for trading.
 * Flexbox - done
 * React Css Modules - ots
 * Helmet -ots
-* Material Design React UI Framework
 * Nodejs -done
 * Express - done
 * Mongoose/MongoDB -done
