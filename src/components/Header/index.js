@@ -26,16 +26,16 @@ class Header extends Component {
 
     this.loggedInMenu = (
       <div className="menu">
-        <Link key={1} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={1} to="/" activeClassName="activeNavLink" className="navLink">
           Home
         </Link>
-        <Link key={2} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={2} to="/profile" activeClassName="activeNavLink" className="navLink">
           Profile
         </Link>
-        <Link key={3} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={3} activeClassName="activeNavLink" className="navLink">
           Trades
         </Link>
-        <Link key={4} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={4} activeClassName="activeNavLink" className="navLink">
           Log Out
         </Link>
       </div>
@@ -43,7 +43,7 @@ class Header extends Component {
 
     this.loggedOutMenu = (
       <div className="menu loginMenu">
-        <Link key={5} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={5} activeClassName="activeNavLink" className="navLink">
           LogIn / Sign Up
         </Link>
       </div>
@@ -86,7 +86,7 @@ class Header extends Component {
     return (
       <header className="header">
         <h1>
-          <Link to="/" activeClassName="logo">
+          <Link onlyActiveOnIndex={true} to="/" className="logo">
             Trader
           </Link>
         </h1>

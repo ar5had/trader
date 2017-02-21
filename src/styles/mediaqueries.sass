@@ -29,5 +29,15 @@
       border: none
       padding: 0
   .item
-    margin-top: 3.5%
+    --width: calc(100vw - 150px)
+    --totalMargin: calc(var(--width) * .07)
+    margin-top: calc(var(--totalMargin) / 2)
+    width
     flex: 0 1 31%
+
+.otherInfo
+  margin: 0 2rem
+
+.basicInfo
+  padding: 0 1.5rem
+
