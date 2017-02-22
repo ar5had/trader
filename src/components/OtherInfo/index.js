@@ -15,17 +15,21 @@ class OtherInfo extends Component {
       <div className="otherInfo">
         <div className="locationInfo">
           <h3 className="normal marB20">Location Info</h3>
-          <div>
-            <input className="houseNo" type="text"/>
-            <input className="city" type="text"/>
-            <input className="state" type="text"/>
-            <input className="Landmark" type="text"/>
-            <input className="Country" type="text"/>
-            <input className="pinCode" type="number"/>
+          <div className="lIWrapper">
+            <input className="houseNo" type="text" placeholder="House"/>
+            <input className="city" type="text" placeholder="City"/>
+            <input className="state" type="text" placeholder="State"/>
+            <input className="Landmark" type="text" placeholder="Landmark"/>
+            <input className="Country" type="text" placeholder="Country"/>
+            <input className="pinCode" type="text" placeholder="Pin Code"/>
           </div>
         </div>
         <div className="contactInfo">
           <h3 className="normal marB20">Contact Info</h3>
+          <div className="cIWrapper">
+            <input className="email" type="email" placeholder="Email"/>
+            <input className="phone" type="tel" placeholder="Number"/>
+          </div>
         </div>
       </div>
     );

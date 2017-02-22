@@ -1,2 +1,14 @@
 .otherInfo
-  flex: 2
+  flex: 3
+
+.lIWrapper, .cIWrapper
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+
+  & > *
+    flex: 0 1 calc(50% - 3rem)
+
+.contactInfo
+  margin-top: 2rem
+  padding-bottom: 1rem
