@@ -17,18 +17,24 @@
     margin: 0 auto 2rem auto
     width: 100%
     padding: .8rem 1rem
-    transition: .3s opacity
+    transition: all .3s
     font-size: .8rem
     font-weight: 700
-    color: #fff
-    opacity: .8
+    background: transparent
+    border: solid 2px
+    opacity: .75
     text-transform: uppercase
     &:hover
       cursor: pointer
       opacity: 1
+    &:active
+      transform: translateY(2px)
+    &:focus
+      opacity: .75
+
   .fbBtn
-    background: $fbColor
+    color: $fbColor
   .twitterBtn
-    background: $twitterColor
+    color: $twitterColor
   .googleBtn
-    background: $googleColor
+    color: $googleColor
