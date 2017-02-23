@@ -32,7 +32,7 @@ class Header extends Component {
         <Link onlyActiveOnIndex={true} key={2} to="/profile" activeClassName="activeNavLink" className="navLink">
           Profile
         </Link>
-        <Link onlyActiveOnIndex={true} key={3} activeClassName="activeNavLink" className="navLink">
+        <Link onlyActiveOnIndex={true} key={3} to="/trades" activeClassName="activeNavLink" className="navLink">
           Trades
         </Link>
         <Link onlyActiveOnIndex={true} key={4} to="/login" activeClassName="activeNavLink" className="navLink">

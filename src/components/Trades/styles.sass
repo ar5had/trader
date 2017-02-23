@@ -1,0 +1,27 @@
+@import '../../styles/variables.sass'
+
+.tradesWrapper
+  min-height: 40vh
+
+.addTradeWrapper
+  display: flex
+  justify-content: flex-end
+  margin: 2rem 0
+  .tradeBtn
+    color: $light-grey
+    font-size: .9rem
+    font-weight: 700
+    padding: 0
+    background: transparent
+    text-transform: uppercase
+    transition: all, .3s
+    cursor: pointer
+    &:hover
+      color: $black
+.tradesInfoWrapper
+  display: flex
+  justify-content: space-between
+  .tradeReqWrapper, .tradeProposedWrapper
+    flex: 0 1 calc(50% - 1rem)
+  h3
+    letter-spacing: 1px
