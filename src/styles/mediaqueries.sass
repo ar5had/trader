@@ -1,3 +1,8 @@
+@media screen and (max-width: 390px)
+  .lIWrapper, .cIWrapper
+    & > *
+      flex-basis: 100%
+      flex: 0 1 calc(50% -2rem)
 @media screen and (min-width: 768px)
   .wrapper
     max-width: 1200px
@@ -35,9 +40,17 @@
     width
     flex: 0 1 31%
 
-.otherInfo
-  margin: 0 2rem
+  .otherInfo
+    margin: 0 2rem
 
-.basicInfo
-  padding: 0 1.5rem
+  .basicInfo
+    padding: 0 1.5rem
+
+  .profilePic
+    width: 150px
+    height: 150px
+
+  .infoWrapper
+    flex-direction: row
+
 
