@@ -10,8 +10,6 @@
     max-width: 1200px
     margin: 10px auto
     padding: 75px !important
-  .main
-    padding: 0
   .footer
     margin: 90px 0 0 0
     padding: 0
@@ -38,7 +36,7 @@
   .item
     --width: calc(100vw - 150px)
     --totalMargin: calc(var(--width) * .07)
-    margin-top: calc(var(--totalMargin) / 2)
+    margin-bottom: calc(var(--totalMargin) / 2)
     width
     flex: 0 1 31%
 
@@ -78,3 +76,11 @@
       font-size: 1rem
   .tradeProposedWrapper
     margin-top: 0
+
+  .itemPageWrapper
+    flex-direction: row
+    .itemInfoWrapper
+      margin-left: 2rem
+      margin-top: 0
+    .reqTradeBtn
+      margin: 3rem 0 2rem 0

@@ -36,7 +36,7 @@ class Trades extends Component {
             </div>
           </div>
           <div className="tradeProposedWrapper">
-            <h3 className="unCap">Trade Proposed</h3>
+            <h3 className="unCap">Trades Proposed</h3>
             <div className="allProposedTradesWrapper">
               {this.getAllProposedTrades()}
             </div>
