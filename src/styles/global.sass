@@ -48,7 +48,7 @@ html
   font-size: 14px
 
 body
-  background: #fcfcfc
+  background: $background-color
 
 *, p, h4, h5, h6, a
   font-size: 1rem
@@ -138,7 +138,7 @@ p
   letter-spacing: 1px
   font-size: 1rem
 
-input
+input, textarea
   padding: .5rem 1rem
   border: none
   color: $grey
@@ -154,7 +154,7 @@ input
     border-color: $black
 
 label
-  font-size: .8rem
+  font-size: .9rem
   line-height: 1
   font-weight: 500
   font-family: roboto_mono, helvetica, sans-serif
@@ -165,6 +165,8 @@ button
   border-radius: 0
   &:focus, &:active
     outline: none
+  &::-moz-focus-inner
+    border: 0
 
 .unCap
   text-transform: none
@@ -172,3 +174,13 @@ button
 a
   white-space: nowrap
   cursor: pointer
+  outline: none
+  &:active, &:focus
+    outline: none
+
+input
+  outline: none
+  box-sizing: border-box
+  width: 100%
+  &:invalid
+    box-shadow: none

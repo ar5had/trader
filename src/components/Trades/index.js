@@ -3,34 +3,64 @@ import { Link } from 'react-router';
 
 import TradeRequest from '../TradeRequest/index';
 import ProposedTrade from '../ProposedTrade/index';
+import AddItemPage from '../AddItemPage/index';
 import './styles.sass';
 
 class Trades extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpened: false
+    };
+  }
+
   componentDidMount() {
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }
 
+  closeModal() {
+    document.body.style.overflow = 'auto';
+    this.setState({ modalOpened: false });
+  }
+
   getAllProposedTrades() {
-    return([
-      <ProposedTrade key="1"/>,
-      <ProposedTrade key="2"/>
+    return ([
+      <ProposedTrade key="1" />,
+      <ProposedTrade key="2" />
     ]);
   }
 
   getAllTradeRequests() {
-    return([
-      <TradeRequest key="1"/>,
-      <TradeRequest key="2"/>
+    return ([
+      <TradeRequest key="1" />,
+      <TradeRequest key="2" />
     ]);
+  }
+
+  getModal() {
+    if (this.state.modalOpened) {
+      return <AddItemPage close={this.closeModal.bind(this)} />;
+    } else {
+      return;
+    }
+
   }
 
   render() {
     return (
       <div className="tradesWrapper">
+        {this.getModal()}
         <div className="addTradeWrapper">
           <Link to="myItems"><button className="tradeBtn allItemsBtn">My Items</button></Link>
-          <Link to="addItem"><button className="tradeBtn addItemBtn">+ Add Item</button></Link>
+          <button
+            onClick={() => {
+              document.body.style.overflow = 'hidden';
+              this.setState({ modalOpened: true });
+            }}
+            className="tradeBtn addItemBtn">
+            + Add Item
+          </button>
         </div>
         <div className="tradesInfoWrapper">
           <div className="tradeReqWrapper">

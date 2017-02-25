@@ -7,6 +7,17 @@
       flex: 0 1 calc(50% -2rem)
   h3.error
     font-size: 2rem
+  .priceWrapper
+    flex-direction: column
+    .inputWrapper
+      flex: 1
+      .input
+        width: 100%
+      &:first-child
+        margin-right: 0 !important
+      &:last-child
+        margin-left: 0 !important
+
 @media screen and (min-width: 768px)
   button.normalBtn
     padding: .5rem 1rem !important
@@ -107,6 +118,21 @@
       margin-left: 3rem
     .userImg
       margin-top: .2rem
-      flex: 0 0 8rem
-      height: 8rem
-      width: 8rem
+      flex: 0 0 10rem
+      height: 10rem
+      width: 10rem
+  .myItemsWrapper
+    padding: 0 0 2rem 0
+
+  .addItemWrapper
+    .itemWrapper
+      display: flex
+      flex-direction: row !important
+      .itemPicWrapper
+        .img
+          height: 12rem !important
+          width: 12rem !important
+    .itemInfoWrapper
+      margin-left: 2rem
+      margin-top: 0 !important
+

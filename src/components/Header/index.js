@@ -36,7 +36,7 @@ class Header extends Component {
           Trades
         </Link>
         <Link onlyActiveOnIndex={true} key={4} to="/login" activeClassName="activeNavLink" className="navLink">
-          Log Out
+          Login
         </Link>
       </div>
     );
@@ -64,6 +64,10 @@ class Header extends Component {
   setMenuState(width) {
     if (this.previousWidth !== width) {
       if (width > 768) {
+        const menu = document.querySelector('div.menu');
+        if(menu) {
+          menu.classList.remove("open");
+        }
         this.setState({menuActive: false});
       } else {
         this.setState({menuActive: true});

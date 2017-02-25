@@ -28,7 +28,8 @@
   margin-bottom: 30px
   &:hover
     cursor: pointer
-  &:focus
+  &:focus, &:active
+    padding: 0
     outline: none
   img
     width: 1.3rem
@@ -42,7 +43,6 @@ header
 
 .menu
   width: 100%
-  flex: 1
   box-sizing: border-box
   transition: height .3s
   height: 0
