@@ -13,7 +13,7 @@ class ProposedTrade extends Component {
           </h4>
         </div>
         <div className="tradeBtnWrapper lower">
-          <button className="cancelBtn">Cancel Proposal</button>
+          <button className="cancelBtn normalBtn">Cancel Proposal</button>
         </div>
       </div>
     );

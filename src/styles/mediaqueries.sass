@@ -1,3 +1,5 @@
+@import './variables.sass'
+
 @media screen and (max-width: 400px)
   .lIWrapper, .cIWrapper
     & > *
@@ -6,6 +8,8 @@
   h3.error
     font-size: 2rem
 @media screen and (min-width: 768px)
+  button.normalBtn
+    padding: .5rem 1rem !important
   .wrapper
     max-width: 1200px
     margin: 10px auto
@@ -62,7 +66,7 @@
     .tradeReqWrapper, .tradeProposedWrapper
       flex: 0 1 calc(50% - 1rem)
 
-  .trWrapper, .ptWrapper
+  .trWrapper, .ptWrapper, .uIWrapper
     .userImg
       margin-top: .2rem
       flex: 0 0 4rem
@@ -84,3 +88,25 @@
       margin-top: 0
     .reqTradeBtn
       margin: 3rem 0 2rem 0
+      border: solid 2px $black
+  .uIWrapper
+    margin: 0 0 4rem 0
+    .upper
+      flex-direction: row
+    .itemCost
+      color: lighten($black, 20%)
+      font-size: 1.2rem
+      margin: 1rem 0
+      font-weight: 500
+    .addDate
+      margin: .5rem 0
+      font-weight: 500
+    .itemDescription
+      margin: 2rem 0
+    .itemInfo
+      margin-left: 3rem
+    .userImg
+      margin-top: .2rem
+      flex: 0 0 8rem
+      height: 8rem
+      width: 8rem

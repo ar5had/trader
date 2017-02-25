@@ -13,8 +13,8 @@ class TradeRequest extends Component {
           </h4>
         </div>
         <div className="tradeBtnWrapper lower">
-          <button className="acceptBtn">Accept</button>
-          <button className="declineBtn">Decline</button>
+          <button className="acceptBtn normalBtn">Accept</button>
+          <button className="declineBtn normalBtn">Decline</button>
         </div>
       </div>
     );

@@ -16,9 +16,10 @@
   .seller
     margin-top: 1.5rem
     font-size: 1rem
+    letter-spacing: 1px
     color: $grey
     span
-      font-weight: 500
+      font-weight: 800
       color: $black
   .itemCost
     color: lighten($black, 20%)
@@ -32,10 +33,16 @@
     cursor: pointer
     transition: color .2s
     font-weight: 500
-    &:hover
-      color: $black
     span.small
-      font-weight: 800
+      svg
+        transform: rotateZ(90deg)
+        transition: color .2s
+        fill: $grey
+        font-weight: 800
+    &:hover, &:active
+      color: $black
+      span svg
+        fill: $black
 
   button
     font-size: .8rem

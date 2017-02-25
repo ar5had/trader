@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+
 import TradeRequest from '../TradeRequest/index';
 import ProposedTrade from '../ProposedTrade/index';
 import './styles.sass';
 
 class Trades extends Component {
   componentDidMount() {
+    document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }
 
@@ -26,7 +29,8 @@ class Trades extends Component {
     return (
       <div className="tradesWrapper">
         <div className="addTradeWrapper">
-          <button className="tradeBtn">+ Add Trade</button>
+          <Link to="myItems"><button className="tradeBtn allItemsBtn">My Items</button></Link>
+          <Link to="addItem"><button className="tradeBtn addItemBtn">+ Add Item</button></Link>
         </div>
         <div className="tradesInfoWrapper">
           <div className="tradeReqWrapper">

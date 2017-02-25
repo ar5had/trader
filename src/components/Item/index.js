@@ -8,7 +8,6 @@ class Item extends Component {
   render() {
     return(
       <div className="item" onClick={()=>{
-          console.log('clicked');
           browserHistory.push('/item/123');
         }}/>
 

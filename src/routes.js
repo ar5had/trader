@@ -6,8 +6,10 @@ import Main from './components/Main/index';
 import Profile from './components/Profile/index';
 import Login from './components/Login/index';
 import Trades from './components/Trades/index';
-import ErrorPage from './components/ErrorPage/index';
 import ItemPage from './components/ItemPage/index';
+import MyItems from './components/MyItems/index';
+import AddItemPage from './components/AddItemPage/index';
+import ErrorPage from './components/ErrorPage/index';
 
 export default (
   <Route path="/" component={App}>
@@ -16,6 +18,8 @@ export default (
     <Route path="profile" component={Profile} />
     <Route path="login" component={Login} />
     <Route path="trades" component={Trades} />
+    <Route path="myItems" component={MyItems} />
+    <Route path="addItem" component={AddItemPage} />
     <Route path="*" component={ErrorPage} />
   </Route>
 );
