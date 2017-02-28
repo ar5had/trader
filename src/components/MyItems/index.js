@@ -20,9 +20,8 @@ class MyItems extends Component {
 
   closeModal() {
     this.setState({ modalOpened: false });
-    setTimeout(() => {
-      document.body.style.overflow = 'auto';
-    }, 100);
+    document.body.classList.remove('modal-opened');
+    document.body.style.marginRight = 0;
   }
 
   getModal() {
@@ -34,7 +33,10 @@ class MyItems extends Component {
   }
 
   openModal() {
-    document.body.style.overflow = 'hidden';
+    const scrollBar = document.querySelector('.scrollbar-measure');
+    const scrollBarWidth = scrollBar.offsetWidth - scrollBar.clientWidth;
+    document.body.classList.add('modal-opened');
+    document.body.style.marginRight = `${scrollBarWidth}px`;
     this.setState({ modalOpened: true });
   }
 

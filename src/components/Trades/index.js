@@ -21,9 +21,8 @@ class Trades extends Component {
 
   closeModal() {
     this.setState({ modalOpened: false });
-    setTimeout(() => {
-      document.body.style.overflow = 'auto';
-    }, 100);
+    document.body.classList.remove('modal-opened');
+    document.body.style.marginRight = 0;
   }
 
   getAllProposedTrades() {
@@ -46,7 +45,14 @@ class Trades extends Component {
     } else {
       return;
     }
+  }
 
+  openModal() {
+    const scrollBar = document.querySelector('.scrollbar-measure');
+    const scrollBarWidth = scrollBar.offsetWidth - scrollBar.clientWidth;
+    document.body.classList.add('modal-opened');
+    document.body.style.marginRight = `${scrollBarWidth}px`;
+    this.setState({ modalOpened: true });
   }
 
   render() {
@@ -57,8 +63,7 @@ class Trades extends Component {
           <Link to="myItems"><button className="tradeBtn allItemsBtn">My Items</button></Link>
           <button
             onClick={() => {
-              document.body.style.overflow = 'hidden';
-              this.setState({ modalOpened: true });
+              this.openModal();
             }}
             className="tradeBtn addItemBtn">
             + Add Item
