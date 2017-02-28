@@ -19,13 +19,15 @@ class MyItems extends Component {
 
 
   closeModal() {
-    document.body.style.overflow = 'auto';
     this.setState({ modalOpened: false });
+    setTimeout(() => {
+      document.body.style.overflow = 'auto';
+    }, 100);
   }
 
   getModal() {
     if (this.state.modalOpened) {
-      return <AddItemPage close={this.closeModal.bind(this)} />;
+      return <AddItemPage openClass="open" close={this.closeModal.bind(this)} />;
     } else {
       return;
     }

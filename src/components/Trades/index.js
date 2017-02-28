@@ -20,8 +20,10 @@ class Trades extends Component {
   }
 
   closeModal() {
-    document.body.style.overflow = 'auto';
     this.setState({ modalOpened: false });
+    setTimeout(() => {
+      document.body.style.overflow = 'auto';
+    }, 100);
   }
 
   getAllProposedTrades() {
@@ -40,7 +42,7 @@ class Trades extends Component {
 
   getModal() {
     if (this.state.modalOpened) {
-      return <AddItemPage close={this.closeModal.bind(this)} />;
+      return <AddItemPage key="modal" openClass="open" close={this.closeModal.bind(this)} />;
     } else {
       return;
     }
