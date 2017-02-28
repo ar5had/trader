@@ -17,7 +17,6 @@ class MyItems extends Component {
     document.querySelector('.menu').classList.remove('open');
   }
 
-
   closeModal() {
     this.setState({ modalOpened: false });
     document.body.classList.remove('modal-opened');

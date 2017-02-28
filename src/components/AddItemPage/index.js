@@ -10,14 +10,14 @@ class AddItemPage extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.modalWrapper.classList.add(this.props.openClass);
-    }, 200);
+    }, 50);
   }
 
   close() {
     this.modalWrapper.classList.remove(this.props.openClass);
     setTimeout(() => {
       this.props.close();
-    }, 750);
+    }, 850);
   }
 
   render() {
