@@ -17,7 +17,7 @@ class AddItemPage extends Component {
     this.modalWrapper.classList.remove(this.props.openClass);
     setTimeout(() => {
       this.props.close();
-    }, 850);
+    }, 550);
   }
 
   render() {
