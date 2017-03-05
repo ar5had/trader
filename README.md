@@ -8,19 +8,18 @@ A full stack app for trading.
 * I can propose a trade and wait for the other user to accept the trade.
 
 ## Tech Stack
-* React - done
-* Redux - done
-* React Router - done
-* Flexbox - done
-* React Css Modules - ots
-* Helmet -ots
-* Nodejs -done
-* Express - done
-* Mongoose/MongoDB -done
+* React 
+* Redux 
+* React Router 
+* Flexbox 
+* Helmet - TBD
+* Nodejs
+* Express 
+* Mongoose/MongoDB
 * Webpack - pick any boilerplate
-* now as paas -done
+* now as paas
 * Use React-redux-router
-* yarn - done
+* yarn 
 
 ## Questions
 * Why `path.resolve("..", ".env")` goes one level up then it should in tools/server.js?

@@ -1,16 +1,22 @@
 export default {
   profile: {
     basic: {
-      localAddress: 'Loading...',
-      city: 'Loading...',
-      state: 'Loading...',
-      country: 'Loading...',
-      landmark: 'Loading...',
-      pinCode: 'Loading...'
+      imgUrl: "",
+      name: "Loading..."
     },
     other: {
-      email: 'Loading...',
-      phoneNo: 'Loading...'
+      location: {
+        localAddress: 'Loading...',
+        city: 'Loading...',
+        state: 'Loading...',
+        country: 'Loading...',
+        landmark: 'Loading...',
+        pinCode: 'Loading...'
+      },
+      contact: {
+        email: 'Loading...',
+        phoneNo: 'Loading...'
+      }
     }
   }
 };

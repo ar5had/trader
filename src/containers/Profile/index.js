@@ -16,8 +16,8 @@ class Profile extends Component {
   render() {
     return (
       <div className="infoWrapper">
-        <BasicInfo data={this.props.profile} />
-        <OtherInfo data={this.props.profile} />
+        <BasicInfo data={this.props.profile.basic} />
+        <OtherInfo data={this.props.profile.other} />
       </div>
     );
   }
