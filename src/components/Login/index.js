@@ -11,9 +11,9 @@ class Login extends Component {
       <div className="loginWrapper">
         <h3 className="loginHeading text-center">Login with your social account</h3>
         <div className="btnWrapper">
-          <button className="loginBtn fbBtn">Facebook Login</button>
-          <button className="loginBtn googleBtn">Google Login</button>
-          <button className="loginBtn twitterBtn">Twitter Login</button>
+          <a href="/auth/facebook"><button className="loginBtn fbBtn">Facebook Login</button></a>
+          <a href="/auth/google"><button className="loginBtn googleBtn">Google Login</button></a>
+          <a href="/auth/twitter"><button className="loginBtn twitterBtn">Twitter Login</button></a>
         </div>
       </div>
     );
