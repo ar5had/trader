@@ -12,17 +12,31 @@ class OtherInfo extends Component {
   }
 
   handleCFSubmit(event) {
-    console.log('Contact Form Event-', event);
     event.preventDefault();
-    this.props.updateProfileInfo();
+    const email = document.getElementById('email').value;
+    const phoneNo = document.getElementById('phoneNo').value;
+    this.props.updateProfileInfo({email, phoneNo});
     this.setState({contactEditing: false});
+  }
+
+  handleLFSubmit(event) {
+    event.preventDefault();
+    const localAddress = document.getElementById('localAddress').value;
+    const state = document.getElementById('state').value;
+    const city = document.getElementById('city').value;
+    const landmark = document.getElementById('landmark').value;
+    const country = document.getElementById('country').value;
+    const pinCode = document.getElementById('pinCode').value;
+    this.props.updateProfileInfo({localAddress, state, city, landmark, country, pinCode});
+    this.setState({locationEditing: false});
   }
 
   getLocationData() {
     const { localAddress, city, state, landmark, country, pinCode} = this.props.data;
     if (this.state.locationEditing) {
       return (
-        <div className="lIWrapper" key="lIWrapper">
+        <form name="locationForm" className="lIWrapper"
+         key="lIWrapper" onSubmit={this.handleLFSubmit.bind(this)}>
           <div className="inputWrapper">
             <label htmlFor="localAddress">Local Address:</label>
             <input id="localAddress" className="localAddress" type="text" placeholder="Local Address" defaultValue={localAddress} />
@@ -47,7 +61,8 @@ class OtherInfo extends Component {
             <label htmlFor="pinCode">Pin Code:</label>
             <input id="pinCode" className="pinCode" type="text" placeholder="Pin Code" defaultValue={pinCode} />
           </div>
-        </div>
+          <input type="submit" ref={node => (this.submitLFBtn = node)} style={{display: 'none'}}/>
+        </form>
       );
     } else {
       return (
@@ -86,7 +101,7 @@ class OtherInfo extends Component {
     if (this.state.contactEditing) {
       return (
         <form className="cIWrapper" key="cIWrapper" onSubmit={this.handleCFSubmit.bind(this)}
-         ref={node => this.contactForm = node} name="contactForm">
+          name="contactForm">
           <div className="inputWrapper">
             <label htmlFor="email">Email:</label>
             <input id="email" name="email" className="email" type="email" placeholder="Email" defaultValue={email} />
@@ -141,7 +156,12 @@ class OtherInfo extends Component {
             <button className="marB20"
               key="lSave"
               onClick={() => {
-                this.setState({ locationEditing: false });
+                // this will trigger synthetic form submission event
+                // refs can't be used here as they will trigger native event
+                // and then page will reload
+                this.submitLFBtn.click();
+                // dont put setState here, let the form first submit
+                // and then change state
               }}>
               Save
             </button>,
