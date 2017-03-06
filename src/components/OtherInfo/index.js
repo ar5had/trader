@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 
 import './styles.sass';
 
@@ -11,33 +11,41 @@ class OtherInfo extends Component {
     };
   }
 
+  handleCFSubmit(event) {
+    console.log('Contact Form Event-', event);
+    event.preventDefault();
+    this.props.updateProfileInfo();
+    this.setState({contactEditing: false});
+  }
+
   getLocationData() {
+    const { localAddress, city, state, landmark, country, pinCode} = this.props.data;
     if (this.state.locationEditing) {
       return (
         <div className="lIWrapper" key="lIWrapper">
           <div className="inputWrapper">
             <label htmlFor="localAddress">Local Address:</label>
-            <input id="localAddress" className="localAddress" type="text" placeholder="Local Address" />
+            <input id="localAddress" className="localAddress" type="text" placeholder="Local Address" defaultValue={localAddress} />
           </div>
           <div className="inputWrapper">
             <label htmlFor="city">City:</label>
-            <input id="city" className="city" type="text" placeholder="City" />
+            <input id="city" className="city" type="text" placeholder="City" defaultValue={city} />
           </div>
           <div className="inputWrapper">
             <label htmlFor="state">State:</label>
-            <input id="state" className="state" type="text" placeholder="State" />
+            <input id="state" className="state" type="text" placeholder="State" defaultValue={state} />
           </div>
           <div className="inputWrapper">
             <label htmlFor="landmark">Landmark:</label>
-            <input id="landmark" className="landmark" type="text" placeholder="Landmark" />
+            <input id="landmark" className="landmark" type="text" placeholder="Landmark" defaultValue={landmark} />
           </div>
           <div className="inputWrapper">
             <label htmlFor="country">Country:</label>
-            <input id="country" className="country" type="text" placeholder="Country" />
+            <input id="country" className="country" type="text" placeholder="Country" defaultValue={country} />
           </div>
           <div className="inputWrapper">
-            <label htmlFor="pincode">Pin Code:</label>
-            <input id="pincode" className="pinCode" type="text" placeholder="Pin Code" />
+            <label htmlFor="pinCode">Pin Code:</label>
+            <input id="pinCode" className="pinCode" type="text" placeholder="Pin Code" defaultValue={pinCode} />
           </div>
         </div>
       );
@@ -46,27 +54,27 @@ class OtherInfo extends Component {
         <div className="lIWrapper" key="lIWrapperText">
           <div className="inputWrapper">
             <label>Local Address:</label>
-            <p className="inputData">House no 33</p>
+            <p className="inputData">{localAddress}</p>
           </div>
           <div className="inputWrapper">
             <label>City:</label>
-            <p className="inputData">New Delhi</p>
+            <p className="inputData">{city}</p>
           </div>
           <div className="inputWrapper">
             <label>State:</label>
-            <p className="inputData">Delhi</p>
+            <p className="inputData">{state}</p>
           </div>
           <div className="inputWrapper">
             <label>Landmark:</label>
-            <p className="inputData">Yasin Manzil</p>
+            <p className="inputData">{landmark}</p>
           </div>
           <div className="inputWrapper">
             <label>Country:</label>
-            <p className="inputData">India</p>
+            <p className="inputData">{country}</p>
           </div>
           <div className="inputWrapper">
             <label>Pin Code:</label>
-            <p className="inputData">100065</p>
+            <p className="inputData">{pinCode}</p>
           </div>
         </div>
       );
@@ -74,29 +82,32 @@ class OtherInfo extends Component {
   }
 
   getContactData() {
+    const { email, phoneNo } = this.props.data;
     if (this.state.contactEditing) {
       return (
-        <div className="cIWrapper" key="cIWrapper">
+        <form className="cIWrapper" key="cIWrapper" onSubmit={this.handleCFSubmit.bind(this)}
+         ref={node => this.contactForm = node} name="contactForm">
           <div className="inputWrapper">
             <label htmlFor="email">Email:</label>
-            <input id="email" className="email" type="email" placeholder="Email" />
+            <input id="email" name="email" className="email" type="email" placeholder="Email" defaultValue={email} />
           </div>
           <div className="inputWrapper">
-            <label htmlFor="phone">Phone no:</label>
-            <input id="phone" className="phone" type="tel" placeholder="Phone No" />
+            <label htmlFor="phoneNo">Phone no:</label>
+            <input id="phoneNo" name="phoneNo" className="phone" type="tel" placeholder="Phone No" defaultValue={phoneNo} />
           </div>
-        </div>
+          <input type="submit" ref={node => (this.submitCFBtn = node)} style={{display: 'none'}}/>
+        </form>
       );
     } else {
       return (
         <div className="cIWrapper" key="cIWrapperText">
           <div className="inputWrapper">
             <label>Email:</label>
-            <p className="inputData">arshdkhn1@gmail.com</p>
+            <p className="inputData">{email}</p>
           </div>
           <div className="inputWrapper">
             <label>Phone no:</label>
-            <p className="inputData">+91-9999999999</p>
+            <p className="inputData">{phoneNo}</p>
           </div>
         </div>
       );
@@ -149,7 +160,12 @@ class OtherInfo extends Component {
             <button className="marB20"
               key="cSave"
               onClick={() => {
-                this.setState({ contactEditing: false });
+                // this will trigger synthetic form submission event
+                // refs can't be used here as they will trigger native event
+                // and then page will reload
+                this.submitCFBtn.click();
+                // dont put setState here, let the form first submit
+                // and then change state
               }}>
               Save
             </button>,
@@ -175,18 +191,23 @@ class OtherInfo extends Component {
             <h3 className="normal marB20">Location Info</h3>
             {this.getButtons('LOCATION')}
           </div>
-            {this.getLocationData()}
+          {this.getLocationData()}
         </div>
         <div className="contactInfo">
           <div className="heading">
             <h3 className="normal marB20">Contact Info</h3>
             {this.getButtons('CONTACT')}
           </div>
-            {this.getContactData()}
+          {this.getContactData()}
         </div>
       </div>
     );
   }
 }
+
+OtherInfo.propTypes = {
+  data: PropTypes.object.isRequired,
+  updateProfileInfo: PropTypes.func.isRequired
+};
 
 export default OtherInfo;
