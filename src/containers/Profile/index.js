@@ -13,11 +13,21 @@ class Profile extends Component {
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }
+
+  updateProfileInfo(changedInfo) {
+    this.props.actions.updateProfileInfo(changedInfo);
+  }
+
   render() {
     return (
       <div className="infoWrapper">
-        <BasicInfo data={this.props.profile.basic} />
-        <OtherInfo data={this.props.profile.other} />
+        {/*
+          no need to pass update method to basic info as for this appm picture and
+          and name of user will not be mutable and their value will be based upon
+          the social account which user uses to sign in.
+        */}
+        <BasicInfo data={this.props.profile} />
+        <OtherInfo data={this.props.profile} update={this.updateProfileInfo.bind(this)} />
       </div>
     );
   }
