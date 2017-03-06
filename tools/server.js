@@ -12,6 +12,7 @@ import passport from 'passport';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
+import authRoutes from '../routes/authRoutes';
 
 const environment = process.argv[2];
 const app = express();
@@ -64,6 +65,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// passport auth routes
+authRoutes(app, passport);
 
 const options = {
   server: {
