@@ -27,7 +27,7 @@ class Profile extends Component {
           the social account which user uses to sign in.
         */}
         <BasicInfo data={this.props.profile} />
-        <OtherInfo data={this.props.profile} update={this.updateProfileInfo.bind(this)} />
+        <OtherInfo data={this.props.profile} updateProfileInfo={this.updateProfileInfo.bind(this)} />
       </div>
     );
   }
