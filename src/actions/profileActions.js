@@ -13,5 +13,5 @@ export function updateProfileInfo(changedInfo) {
   return {
     type: types.UPDATE_PROFILE_INFO,
     payload: changedInfo
-  }
+  };
 }
