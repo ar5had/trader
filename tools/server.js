@@ -12,7 +12,8 @@ import passport from 'passport';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
-import authRoutes from '../routes/authRoutes';
+import authRoutes from '../server/authRoutes';
+import api from '../server/api';
 
 const environment = process.argv[2];
 const app = express();
@@ -21,36 +22,40 @@ const server = http.createServer(app);
 /* eslint-disable no-console */
 console.log(chalkSuccess(`Starting Express server in ${environment} mode...`));
 
+const startWebpackDev = () => {
+  if (environment !== "production") {
+    const bundler = webpack(config);
+
+    app.use(express.static('src/*.html'));
+    app.use(historyApiFallback());
+    app.use(webpackHotMiddleware(bundler));
+    app.use(webpackDevMiddleware(bundler, {
+      // Dev middleware can't access config, so we provide publicPath
+      publicPath: config.output.publicPath,
+
+      // These settings suppress noisy webpack output so only errors are displayed to the console.
+      noInfo: false,
+      quiet: false,
+      stats: {
+        assets: false,
+        colors: true,
+        version: false,
+        hash: false,
+        timings: false,
+        chunks: false,
+        chunkModules: false
+      }
+
+      // for other settings see
+      // http://webpack.github.io/docs/webpack-dev-middleware.html
+    }));
+  } else {
+    app.use(express.static('dist'));
+  }
+};
+
 if (environment !== "production") {
   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
-
-  const bundler = webpack(config);
-
-  app.use(express.static('src/*.html'));
-  app.use(historyApiFallback());
-  app.use(webpackHotMiddleware(bundler));
-  app.use(webpackDevMiddleware(bundler, {
-    // Dev middleware can't access config, so we provide publicPath
-    publicPath: config.output.publicPath,
-
-    // These settings suppress noisy webpack output so only errors are displayed to the console.
-    noInfo: false,
-    quiet: false,
-    stats: {
-      assets: false,
-      colors: true,
-      version: false,
-      hash: false,
-      timings: false,
-      chunks: false,
-      chunkModules: false
-    }
-
-    // for other settings see
-    // http://webpack.github.io/docs/webpack-dev-middleware.html
-  }));
-} else {
-  app.use(express.static('dist'));
 }
 
 require('../config/passport')(passport);
@@ -65,9 +70,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// passport auth routes
-authRoutes(app, passport);
 
 const options = {
   server: {
@@ -92,7 +94,10 @@ const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 
 conn.once('open', () => {
-  // Routes
+  // passport auth routes
+  authRoutes(app, passport);
+  api(app);
+  startWebpackDev();
 });
 
 server.listen(process.env.PORT);
