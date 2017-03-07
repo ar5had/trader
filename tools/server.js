@@ -22,7 +22,7 @@ const server = http.createServer(app);
 /* eslint-disable no-console */
 console.log(chalkSuccess(`Starting Express server in ${environment} mode...`));
 
-const startWebpackDev = () => {
+const runWebpack = () => {
   if (environment !== "production") {
     const bundler = webpack(config);
 
@@ -88,7 +88,7 @@ mongoose.connect(process.env.MONGO_URI, options, err => {
   }
 });
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = require('bluebird');
 const conn = mongoose.connection;
 
 conn.on('error', console.error.bind(console, 'connection error:'));
@@ -97,7 +97,7 @@ conn.once('open', () => {
   // passport auth routes
   authRoutes(app, passport);
   api(app);
-  startWebpackDev();
+  runWebpack();
 });
 
 server.listen(process.env.PORT);
