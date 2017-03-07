@@ -29,6 +29,7 @@
   "author": "Arshad Khan <arshdkhn1@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.16.1",
     "dotenv": "^4.0.0",
     "express-session": "^1.15.1",
