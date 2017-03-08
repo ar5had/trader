@@ -3,14 +3,18 @@ module.exports = function (app) {
     if (req.isAuthenticated()) {
       next();
 		} else {
-			res.status(401).send();
+			res.sendStatus(401);
 		}
 	}
 
-  app.get('/isUserLoggedIn', isLoggedIn);
+  app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.sendStatus(200));
 
   app.get('/getProfileData', isLoggedIn, (req, res) => {
-    const {name, address, phoneNo, email} = req.user;
-    res.json({name, address, phoneNo, email});
+    if(req.user) {
+      const {name, address, phoneNo, email} = req.user;
+      res.json({name, address, phoneNo, email});
+    } else {
+      res.json({name: 'unauthorisedUser'});
+    }
   });
 };

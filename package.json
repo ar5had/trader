@@ -48,7 +48,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "3.6.0",
     "redux-logger": "^2.8.2",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "unfetch": "^2.1.2"
   },
   "devDependencies": {
     "autoprefixer": "6.5.4",

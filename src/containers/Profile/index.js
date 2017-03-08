@@ -12,6 +12,7 @@ class Profile extends Component {
   componentDidMount() {
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
+    this.props.actions.getInitalProfileState();
   }
 
   updateProfileInfo(changedInfo) {
