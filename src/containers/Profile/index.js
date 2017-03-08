@@ -9,10 +9,13 @@ import OtherInfo from '../../components/OtherInfo/index';
 import './styles.sass';
 
 class Profile extends Component {
+  componentWillMount() {
+    this.props.actions.getInitalProfileState();
+  }
+
   componentDidMount() {
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
-    this.props.actions.getInitalProfileState();
   }
 
   updateProfileInfo(changedInfo) {

@@ -3,18 +3,30 @@ module.exports = function (app) {
     if (req.isAuthenticated()) {
       next();
 		} else {
-			res.sendStatus(401);
+			res.status(401).json({'error': 'Unauthorized Request!'});
 		}
 	}
 
-  app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.sendStatus(200));
+  app.get('isUserLoggedIn', isLoggedIn, (req, res) => res.sendStatus(200));
 
-  app.get('/getProfileData', isLoggedIn, (req, res) => {
+  // remove if else in sending req.user data
+  // when you implement the authentication for paths/pages
+  app.get('/api/getProfileData', isLoggedIn, (req, res) => {
     if(req.user) {
       const {name, address, phoneNo, email} = req.user;
       res.json({name, address, phoneNo, email});
     } else {
       res.json({name: 'unauthorisedUser'});
     }
+  });
+
+  app.post('/api/setProfileData', isLoggedIn, (req, res) => {
+    // res.json(req.body);
+    // if(req.user) {
+    //   const {name, address, phoneNo, email} = req.user;
+    //   res.json({name, address, phoneNo, email});
+    // } else {
+    //   res.json({name: 'unauthorisedUser'});
+    // }
   });
 };

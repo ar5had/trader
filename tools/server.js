@@ -60,7 +60,8 @@ if (environment !== "production") {
 
 require('../config/passport')(passport);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
