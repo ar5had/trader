@@ -5,9 +5,10 @@ const Schema = mongoose.Schema;
 
 const User = new Schema({
   name: String,
-  picture: String,
-  booksPosted: Array,
-  booksBought: Array,
+  dp: String,
+  items: Array,
+  phoneNo: String,
+  email: String,
   address: {
     houseNo: String,
     city: String,

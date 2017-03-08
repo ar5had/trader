@@ -36,11 +36,10 @@ module.exports = function (passport) {
             newUser.twitter.username = profile.username;
             newUser.name = profile.displayName;
             newUser.dp = profile.photos[0].value || "/public/img/user.png";
-            newUser.pollsCount = 0;
-            newUser.pollsVotedCount = 0;
             newUser.address = null;
-            newUser.booksPosted = [];
-            newUser.booksBought = [];
+            newUser.items = [];
+            newUser.phoneNo = null;
+            newUser.email = null;
 
             newUser.save((err) => {
               if (err)
@@ -71,12 +70,11 @@ module.exports = function (passport) {
             newUser.facebook.token = token;
             newUser.name = profile.displayName;
             newUser.facebook.email = (profile.emails && profile.emails[0].value) || "Email not added";
-            newUser.dp = profile.image || "/public/img/user.png";
-            newUser.pollsCount = 0;
-            newUser.pollsVotedCount = 0;
+            newUser.dp = profile.photos[0].value || "/public/img/user.png";
             newUser.address = null;
-            newUser.booksPosted = [];
-            newUser.booksBought = [];
+            newUser.items = [];
+            newUser.phoneNo = null;
+            newUser.email = null;
 
             newUser.save((err) => {
               if (err)
@@ -108,11 +106,10 @@ module.exports = function (passport) {
             newUser.name = profile.displayName;
             newUser.google.email = profile.emails[0].value; // pull the first email
             newUser.dp = profile.photos[0].value || "/public/img/user.png";
-            newUser.pollsCount = 0;
-            newUser.pollsVotedCount = 0;
             newUser.address = null;
-            newUser.booksPosted = [];
-            newUser.booksBought = [];
+            newUser.items = [];
+            newUser.phoneNo = null;
+            newUser.email = null;
 
             newUser.save((err) => {
               if (err)
