@@ -7,10 +7,21 @@ import './styles.sass';
 import '../../styles/animation.sass';
 
 class App extends Component {
-  render() {
-    return (
+  constructor(props) {
+    super(props);
+    this.state = {
+      userLoggedIn: false
+    };
+  }
+  componentWillMount() {
+    console.log('component will mount!');
+
+  }
+
+  getContent() {
+    const mainContent = (
       <div className="wrapper">
-        <Header />
+        <Header userLogged/>
         <ReactCSSTransitionGroup
           transitionName="content"
           transitionEnterTimeout={500}
@@ -22,6 +33,12 @@ class App extends Component {
         </ReactCSSTransitionGroup>
       </div>
     );
+
+    return mainContent;
+  }
+
+  render() {
+    return this.getContent()
   }
 }
 

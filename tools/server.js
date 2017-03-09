@@ -13,6 +13,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
 import authRoutes from '../server/authRoutes';
+import logoutRoute from '../server/logoutRoute';
 
 const api = require('../server/api');
 const environment = process.argv[2];
@@ -97,6 +98,7 @@ conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', () => {
   // passport auth routes
   authRoutes(app, passport);
+  logoutRoute(app);
   api(app);
   runWebpack();
 });

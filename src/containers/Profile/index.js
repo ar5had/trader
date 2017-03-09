@@ -37,7 +37,7 @@ class Profile extends Component {
           <span
             onClick={
               () => {
-                Object.assign(this.message.style,{opacity:"0",marginBottom: `-${this.message.offsetHeight}px`});
+                Object.assign(this.message.style,{opacity:"0",marginBottom: `-${this.message.offsetHeight}px`, zIndex: '-99'});
                 setTimeout(() => { this.setState({ showMessage: false }); }, 250);
               }
             }
