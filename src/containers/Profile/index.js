@@ -18,8 +18,8 @@ class Profile extends Component {
     document.querySelector('.menu').classList.remove('open');
   }
 
-  updateProfileInfo(changedInfo) {
-    this.props.actions.updateProfileInfo(changedInfo);
+  updateProfileInfo(changedInfo, editSection) {
+    this.props.actions.updateProfileInfo(changedInfo, editSection);
   }
 
   render() {

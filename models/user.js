@@ -10,11 +10,11 @@ const User = new Schema({
   phoneNo: String,
   email: String,
   address: {
-    houseNo: String,
+    country: String,
     city: String,
     state: String,
     landmark: String,
-    street: String,
+    localAddress: String,
     pinCode: String
   },
   google: {

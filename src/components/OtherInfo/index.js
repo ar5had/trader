@@ -15,8 +15,8 @@ class OtherInfo extends Component {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const phoneNo = document.getElementById('phoneNo').value;
-    this.props.updateProfileInfo({email, phoneNo});
-    this.setState({contactEditing: false});
+    this.props.updateProfileInfo({ email, phoneNo }, "contact");
+    this.setState({ contactEditing: false });
   }
 
   handleLFSubmit(event) {
@@ -27,16 +27,16 @@ class OtherInfo extends Component {
     const landmark = document.getElementById('landmark').value;
     const country = document.getElementById('country').value;
     const pinCode = document.getElementById('pinCode').value;
-    this.props.updateProfileInfo({localAddress, state, city, landmark, country, pinCode});
-    this.setState({locationEditing: false});
+    this.props.updateProfileInfo({ localAddress, state, city, landmark, country, pinCode }, "location");
+    this.setState({ locationEditing: false });
   }
 
   getLocationData() {
-    const { localAddress, city, state, landmark, country, pinCode} = this.props.data;
+    const { localAddress, city, state, landmark, country, pinCode} = this.props.data.address;
     if (this.state.locationEditing) {
       return (
         <form name="locationForm" className="lIWrapper"
-         key="lIWrapper" onSubmit={this.handleLFSubmit.bind(this)}>
+          key="lIWrapper" onSubmit={this.handleLFSubmit.bind(this)}>
           <div className="inputWrapper">
             <label htmlFor="localAddress">Local Address:</label>
             <input id="localAddress" className="localAddress" type="text" placeholder="Local Address" defaultValue={localAddress} />
@@ -61,7 +61,7 @@ class OtherInfo extends Component {
             <label htmlFor="pinCode">Pin Code:</label>
             <input id="pinCode" className="pinCode" type="text" placeholder="Pin Code" defaultValue={pinCode} />
           </div>
-          <input type="submit" ref={node => (this.submitLFBtn = node)} style={{display: 'none'}}/>
+          <input type="submit" ref={node => (this.submitLFBtn = node)} style={{ display: 'none' }} />
         </form>
       );
     } else {
@@ -69,27 +69,27 @@ class OtherInfo extends Component {
         <div className="lIWrapper" key="lIWrapperText">
           <div className="inputWrapper">
             <label>Local Address:</label>
-            <p className="inputData">{localAddress}</p>
+            <p className="inputData">{localAddress ? localAddress : "Local Address"}</p>
           </div>
           <div className="inputWrapper">
             <label>City:</label>
-            <p className="inputData">{city}</p>
+            <p className="inputData">{city ? city : "City"}</p>
           </div>
           <div className="inputWrapper">
             <label>State:</label>
-            <p className="inputData">{state}</p>
+            <p className="inputData">{state ? state : "State"}</p>
           </div>
           <div className="inputWrapper">
             <label>Landmark:</label>
-            <p className="inputData">{landmark}</p>
+            <p className="inputData">{landmark ? landmark : "Landmark"}</p>
           </div>
           <div className="inputWrapper">
             <label>Country:</label>
-            <p className="inputData">{country}</p>
+            <p className="inputData">{country ? country : "Country"}</p>
           </div>
           <div className="inputWrapper">
             <label>Pin Code:</label>
-            <p className="inputData">{pinCode}</p>
+            <p className="inputData">{pinCode ? pinCode : "Pincode"}</p>
           </div>
         </div>
       );
@@ -110,7 +110,7 @@ class OtherInfo extends Component {
             <label htmlFor="phoneNo">Phone no:</label>
             <input id="phoneNo" name="phoneNo" className="phone" type="tel" placeholder="Phone No" defaultValue={phoneNo} />
           </div>
-          <input type="submit" ref={node => (this.submitCFBtn = node)} style={{display: 'none'}}/>
+          <input type="submit" ref={node => (this.submitCFBtn = node)} style={{ display: 'none' }} />
         </form>
       );
     } else {
@@ -118,11 +118,11 @@ class OtherInfo extends Component {
         <div className="cIWrapper" key="cIWrapperText">
           <div className="inputWrapper">
             <label>Email:</label>
-            <p className="inputData">{email}</p>
+            <p className="inputData">{email ? email : "Email"}</p>
           </div>
           <div className="inputWrapper">
             <label>Phone no:</label>
-            <p className="inputData">{phoneNo}</p>
+            <p className="inputData">{phoneNo ? phoneNo : "Phone No"}</p>
           </div>
         </div>
       );

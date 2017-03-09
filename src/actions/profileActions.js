@@ -32,9 +32,9 @@ export function getInitalProfileState() {
   };
 }
 
-export function updateProfileInfo(changedInfo) {
+export function updateProfileInfo(changedInfo, editSection) {
   return (dispatch) => {
-    fetch('/api/setProfileData', {
+    fetch(`/api/setProfileData?edit=${editSection}`, {
       method: 'POST',
       body: JSON.stringify(changedInfo),
       headers: {

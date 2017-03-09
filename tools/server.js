@@ -13,8 +13,8 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
 import authRoutes from '../server/authRoutes';
-import api from '../server/api';
 
+const api = require('../server/api');
 const environment = process.argv[2];
 const app = express();
 const server = http.createServer(app);

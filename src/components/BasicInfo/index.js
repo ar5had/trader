@@ -6,7 +6,7 @@ const BasicInfo = ({data}) => {
   return(
     <div className="basicInfo">
       <div className="profilePic">
-        <img src={data.imgUrl} alt={data.name} />
+        <img src={data.dp} alt={data.name} />
       </div>
       <div className="nameWrapper">
         <h3 className="normal">{data.name}</h3>
