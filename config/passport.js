@@ -35,7 +35,8 @@ module.exports = function (passport) {
             newUser.twitter.token = token;
             newUser.twitter.username = profile.username;
             newUser.name = profile.displayName;
-            newUser.dp = profile.photos[0].value || "/public/img/user.png";
+            newUser.dp = profile.photos && profile.photos[0].value;
+            newUser.dp = newUser.dp && newUser.dp.replace("_normal", "");
             newUser.address = {
               localAddress: "",
               pinCode: "",
@@ -62,7 +63,8 @@ module.exports = function (passport) {
   passport.use(new FacebookStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret,
-    callbackURL: configAuth.facebookAuth.callbackURL
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields: ['id', 'name','picture.type(large)', 'emails',  'displayName', 'about', 'gender']
   },
     (token, refreshToken, profile, done) => {
       process.nextTick(function () {
@@ -77,7 +79,7 @@ module.exports = function (passport) {
             newUser.facebook.token = token;
             newUser.name = profile.displayName;
             newUser.facebook.email = (profile.emails && profile.emails[0].value) || "Email not added";
-            newUser.dp = profile.photos[0].value || "/public/img/user.png";
+            newUser.dp = profile.photos && profile.photos[0].value;
             newUser.address = {
               localAddress: "",
               pinCode: "",
@@ -119,7 +121,8 @@ module.exports = function (passport) {
             newUser.google.token = token;
             newUser.name = profile.displayName;
             newUser.google.email = profile.emails[0].value; // pull the first email
-            newUser.dp = profile.photos[0].value || "/public/img/user.png";
+            newUser.dp = profile.photos && profile.photos[0].value;
+            newUser.dp = newUser.dp && newUser.dp.slice(0, newUser.dp.lastIndexOf('?'));
             newUser.address = {
               localAddress: "",
               pinCode: "",

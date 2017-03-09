@@ -15,8 +15,8 @@ module.exports = function (app) {
   // when you implement the authentication for paths/pages
   app.get('/api/getProfileData', isLoggedIn, (req, res) => {
     if (req.user) {
-      const {name, address, phoneNo, email} = req.user;
-      res.json({ name, address, phoneNo, email });
+      const {name, address, phoneNo, email, dp} = req.user;
+      res.json({ name, address, phoneNo, email, dp });
     } else {
       res.json({ name: 'unauthorisedUser' });
     }

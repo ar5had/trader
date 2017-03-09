@@ -9,7 +9,10 @@ module.exports = function (app, passport) {
       failureRedirect: '/login'
     }),
     function (req, res) {
-      res.redirect(req.session.returnTo || "/");
+      const {email, phoneNo} = req.user;
+      const redirectPath = email.concat(phoneNo) ? '/': '/profile?message=fillProfileInfo';
+
+      res.redirect(req.session.returnTo || redirectPath);
       delete req.session.returnTo;
       req.session.save();
     });
@@ -23,7 +26,10 @@ module.exports = function (app, passport) {
       failureRedirect: '/login'
     }),
     function (req, res) {
-      res.redirect(req.session.returnTo || "/");
+      const {email, phoneNo} = req.user;
+      const redirectPath = email.concat(phoneNo) ? '/': '/profile?message=fillProfileInfo';
+
+      res.redirect(req.session.returnTo || redirectPath);
       delete req.session.returnTo;
       req.session.save();
     });
@@ -37,7 +43,10 @@ module.exports = function (app, passport) {
       failureRedirect: '/login'
     }),
     function (req, res) {
-      res.redirect(req.session.returnTo || "/");
+      const {email, phoneNo} = req.user;
+      const redirectPath = email.concat(phoneNo) ? '/': '/profile?message=fillProfileInfo';
+
+      res.redirect(req.session.returnTo || redirectPath);
       delete req.session.returnTo;
       req.session.save();
     });

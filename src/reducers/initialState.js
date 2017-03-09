@@ -1,6 +1,6 @@
 export default {
   profile: {
-    dp: "http://iamarshad.com/images/asdd.jpg",
+    dp: '',
     name: '',
     address: {
       localAddress: '',

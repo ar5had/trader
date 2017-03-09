@@ -107,7 +107,7 @@ class OtherInfo extends Component {
             <input id="email" name="email" className="email" type="email" placeholder="Email" defaultValue={email} />
           </div>
           <div className="inputWrapper">
-            <label htmlFor="phoneNo">Phone no:</label>
+            <label htmlFor="phoneNo">Phone No:</label>
             <input id="phoneNo" name="phoneNo" className="phone" type="tel" placeholder="Phone No" defaultValue={phoneNo} />
           </div>
           <input type="submit" ref={node => (this.submitCFBtn = node)} style={{ display: 'none' }} />
@@ -121,7 +121,7 @@ class OtherInfo extends Component {
             <p className="inputData">{email ? email : "Email"}</p>
           </div>
           <div className="inputWrapper">
-            <label>Phone no:</label>
+            <label>Phone No:</label>
             <p className="inputData">{phoneNo ? phoneNo : "Phone No"}</p>
           </div>
         </div>
