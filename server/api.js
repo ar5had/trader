@@ -1,14 +1,14 @@
 import User from '../models/user';
 module.exports = function (app) {
-  const isLoggedIn = (req, res) => {
+  const isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
-      res.json({ 'error': '' });
+      next();
     } else {
       res.json({ 'error': 'UNAUTHORIZED' });
     }
   };
 
-  app.get('/isUserLoggedIn', isLoggedIn);
+  app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.json({ 'error': '' }));
 
   // remove if else in sending req.user data
   // when you implement the authentication for paths/pages

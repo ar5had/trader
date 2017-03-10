@@ -1,3 +1,5 @@
+import fetch from 'unfetch';
+
 export default function CheckAuth(success, failure) {
   fetch('/isUserLoggedIn', {
     method: 'GET',

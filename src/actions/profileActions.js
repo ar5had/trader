@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 import fetch from 'unfetch';
 
-export function getInitalProfileState() {
+export function getInitalProfileState(cb) {
   return (dispatch) => {
     fetch('/api/getProfileData', {
       method: 'GET',
@@ -19,15 +19,19 @@ export function getInitalProfileState() {
         return response.json();
       }
     })
-    .then(profileData => dispatch(
-      {
-        type: types.GET_INITIAL_PROFILE_STATE,
-        payload: profileData
-      }
-    ))
+    .then(profileData => {
+      dispatch(
+        {
+          type: types.GET_INITIAL_PROFILE_STATE,
+          payload: profileData
+        }
+      );
+      cb();
+    })
     .catch(err => {
       /* eslint-disable no-console */
       console.error(`Got error:${err} while dispatching GET_INITIAL_PROFILE_STATE!`);
+      cb();
     });
   };
 }
