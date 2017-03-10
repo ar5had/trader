@@ -1,6 +1,6 @@
 module.exports = function (app) {
-  app.post(function (req, res) {
+  app.post('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.sendStatus(200);
   });
 };

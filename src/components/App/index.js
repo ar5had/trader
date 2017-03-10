@@ -17,7 +17,7 @@ class App extends Component {
   getContent() {
     const mainContent = (
       <div className="wrapper">
-        <Header userLogged/>
+        <Header userlogged={true} />
         <ReactCSSTransitionGroup
           transitionName="content"
           transitionEnterTimeout={500}

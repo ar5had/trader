@@ -18,6 +18,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 render(
   <Provider store={store}>
     <Router history={history}>
+      {/*Passing dispatch method so that actions can be called in onEnter hook*/}
       {routes(store.dispatch)}
     </Router>
   </Provider>, document.getElementById('app')

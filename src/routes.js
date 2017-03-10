@@ -11,19 +11,22 @@ import MyItems from './components/MyItems/index';
 import ErrorPage from './components/ErrorPage/index';
 import CheckAuth from './utils/checkAuth';
 
-import * as profileActions from './actions/profileActions';
+import { getInitialState } from './actions/commonActions';
 
-export default function routes(dispatch) {
-  const requireAuth = (nextState, replace, cb) => {
+export default function AllRoutes(dispatch) {
+
+
+  const requireAuthAndLoad = (nextState, replace, cb) => {
     // CheckAuth take two function as parameter
     // one for authorized req
     // other for unauthorized req
+    // If user is authorized then load initial state
     CheckAuth(
       () => {
-        cb();
-        if(nextState.location.pathname === '/profile') {
-          console.log('going to call getInitalProfileState');
-          profileActions.getInitalProfileState(cb)(dispatch);
+        if (nextState.location.pathname === '/profile') {
+          getInitialState(cb, 'profile')(dispatch);
+        } else {
+          cb();
         }
       },
       () => {
@@ -62,10 +65,10 @@ export default function routes(dispatch) {
     <Route path="/" component={App}>
       <IndexRoute component={Main} />
       <Route path="item/:id" component={ItemPage} />
-      <Route path="profile" component={Profile} onEnter={requireAuth} />
-      <Route path="login" component={Login} onEnter={requireNoAuth}/>
-      <Route path="trades" component={Trades} onEnter={requireAuth} />
-      <Route path="myItems" component={MyItems} onEnter={requireAuth} />
+      <Route path="profile" component={Profile} onEnter={requireAuthAndLoad} />
+      <Route path="login" component={Login} onEnter={requireNoAuth} />
+      <Route path="trades" component={Trades} onEnter={requireAuthAndLoad} />
+      <Route path="myItems" component={MyItems} onEnter={requireAuthAndLoad} />
       <Route path="*" component={ErrorPage} />
     </Route>
   );
