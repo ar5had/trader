@@ -13,10 +13,6 @@ class App extends Component {
       userLoggedIn: false
     };
   }
-  componentWillMount() {
-    console.log('component will mount!');
-
-  }
 
   getContent() {
     const mainContent = (
@@ -38,7 +34,7 @@ class App extends Component {
   }
 
   render() {
-    return this.getContent()
+    return this.getContent();
   }
 }
 

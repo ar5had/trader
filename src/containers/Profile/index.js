@@ -16,10 +16,6 @@ class Profile extends Component {
     };
   }
 
-  componentWillMount() {
-    this.props.actions.getInitalProfileState();
-  }
-
   componentDidMount() {
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
@@ -68,7 +64,8 @@ class Profile extends Component {
 Profile.propTypes = {
   profile: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  foo: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

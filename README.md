@@ -23,3 +23,11 @@ A full stack app for trading.
 
 ## Questions
 * Why `path.resolve("..", ".env")` goes one level up then it should in tools/server.js?
+* 
+```
+replace({
+  pathname: '/login',
+  // what does this line do
+  state: { nextPathname: nextState.location.pathname }
+});
+```

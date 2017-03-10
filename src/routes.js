@@ -9,15 +9,56 @@ import Trades from './components/Trades/index';
 import ItemPage from './components/ItemPage/index';
 import MyItems from './components/MyItems/index';
 import ErrorPage from './components/ErrorPage/index';
+import CheckAuth from './utils/checkAuth';
+
+const requireAuth = (nextState, replace, cb) => {
+  // CheckAuth take two function as parameter
+  // one for authorized req
+  // other for unauthorized req
+  CheckAuth(
+    () => {
+      cb();
+    },
+    () => {
+      replace({
+        pathname: '/login',
+        state: { nextPathname: nextState.location.pathname }
+      });
+      cb();
+    }
+  );
+};
+
+const requireNoAuth = (nextState, replace, cb) => {
+  // CheckAuth take two function as parameter
+  // one for authorized req
+  // other for unauthorized req
+
+  // If user is already authorized then
+  // send him back to home(/)
+  // else let him goto login page
+  CheckAuth(
+    () => {
+      replace({
+        pathname: '/',
+        state: { nextPathname: nextState.location.pathname }
+      });
+      cb();
+    },
+    () => {
+      cb();
+    },
+  );
+};
 
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Main} />
     <Route path="item/:id" component={ItemPage} />
-    <Route path="profile" component={Profile} />
-    <Route path="login" component={Login} />
-    <Route path="trades" component={Trades} />
-    <Route path="myItems" component={MyItems} />
+    <Route path="profile" component={Profile} onEnter={requireAuth} />
+    <Route path="login" component={Login} onEnter={requireNoAuth}/>
+    <Route path="trades" component={Trades} onEnter={requireAuth} />
+    <Route path="myItems" component={MyItems} onEnter={requireAuth} />
     <Route path="*" component={ErrorPage} />
   </Route>
 );
