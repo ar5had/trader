@@ -13,6 +13,7 @@ class MyItems extends Component {
   }
 
   componentDidMount() {
+    document.title = 'My Items - Trader';
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }
@@ -52,7 +53,7 @@ class MyItems extends Component {
             + Add Item
           </button>
         </div>
-        {[1, 2].map((e, i) => <UserItem key={i} editModal={this.openModal.bind(this)}/>)}
+        {[1, 2].map((e, i) => <UserItem key={i} />)}
       </div>
     );
   }

@@ -12,7 +12,7 @@
     margin-top: 2rem
     flex: 1
   .itemName
-    margin: 1rem 0 .5rem 0
+    margin: 2rem 0 .5rem 0
   .seller
     margin-top: 1.5rem
     font-size: 1rem
@@ -29,15 +29,16 @@
 
   .backLink
     font-size: .9rem
-    color: $grey
+    color: $light-grey
     cursor: pointer
+    padding-bottom: 3px
     transition: color .2s
-    font-weight: 500
+    font-weight: 700
     span.small
       svg
         transform: rotateZ(90deg)
         transition: color .2s
-        fill: $grey
+        fill: $light-grey
         font-weight: 800
     &:hover, &:active
       color: $black
@@ -53,7 +54,16 @@
     transition: opacity .3s
     &:hover
       opacity: .8
-  .reqTradeBtn
+  .reqTradeBtn, .removeTradeBtn
     margin: 3rem 0 0 0
     background: $black
     color: #fff
+    display: block
+  .optionsWrapper
+    .removeTradeBtn
+      margin: 3rem 0
+    span.small
+      svg
+        transform: rotateZ(-90deg) translateX(-4px)
+    .backLink
+      border-bottom: solid 2px

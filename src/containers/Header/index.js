@@ -80,7 +80,7 @@ class Header extends Component {
         <Link onlyActiveOnIndex={true} key={5} to="/login"
           activeClassName="activeNavLink" className="navLink"
           onClick={this.collapseMenu.bind(this)} >
-          LogIn/Sign Up
+          LogIn | Sign Up
         </Link>
       </div>
     );

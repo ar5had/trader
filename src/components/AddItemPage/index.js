@@ -20,6 +20,15 @@ class AddItemPage extends Component {
     }, 550);
   }
 
+  handleNewItemFormSubmit(event) {
+    event.preventDefault();
+  }
+
+  saveItem() {
+    // triggers form submit
+    this.submitItemFormBtn.click();
+  }
+
   render() {
     return (
       <div className="addItemWrapper" ref={node => { this.modalWrapper = node; }}>
@@ -28,7 +37,7 @@ class AddItemPage extends Component {
           <div className="heading">
             <h3>Add Item</h3>
           </div>
-          <div className="itemWrapper">
+          <form className="itemWrapper" onSubmit={this.handleNewItemFormSubmit.bind(this)}>
             <div className="itemPicWrapper">
               <div className="img" />
               <p className="imgText frm">Upload Item Picture</p>
@@ -57,9 +66,10 @@ class AddItemPage extends Component {
                 <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags" />
               </div>
             </div>
-          </div>
+            <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
+          </form>
           <div className="buttonWrapper">
-            <button className="saveItemBtn" onClick={this.close.bind(this)}>Save</button>
+            <button className="saveItemBtn" onClick={this.saveItem.bind(this)}>Save</button>
             <button className="cancelItemBtn" onClick={this.close.bind(this)}>Cancel</button>
           </div>
         </div>

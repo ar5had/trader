@@ -15,6 +15,7 @@ class Trades extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Trades - Trader';
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }

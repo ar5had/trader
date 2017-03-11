@@ -4,6 +4,7 @@ import Item from '../Item/index';
 
 class Homepage extends Component {
   componentDidMount() {
+    document.title = 'Home - Trader';
     document.body.scrollTop = 0;
     document.querySelector('.menu').classList.remove('open');
   }

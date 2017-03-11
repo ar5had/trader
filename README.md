@@ -12,11 +12,10 @@ A full stack app for trading.
 * Redux 
 * React Router 
 * Flexbox 
-* Helmet - TBD
 * Nodejs
 * Express 
 * Mongoose/MongoDB
-* Webpack - pick any boilerplate
+* Webpack
 * now as paas
 * Use React-redux-router
 * yarn 
