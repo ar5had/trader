@@ -37,4 +37,9 @@ module.exports = function (app) {
         }
       });
   });
+
+  app.post('/api/addItem', (req, res) => {
+    console.log(req.body);
+    res.json(req.body);
+  });
 };

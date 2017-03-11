@@ -1,10 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 
 import './styles.sass';
+import addItemPic from '../../assets/images/fileUpload.svg';
+
+const isCurrencyValid = val => (
+  val === "₹-INR" ||
+  val === "$-DOLLAR" ||
+  val === "€-EURO" ||
+  val === "£-POUND"
+);
+
+const isPriceValid = val => (!isNaN(val) && !isNaN(parseInt(val, 10)));
 
 class AddItemPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      errorMsg: null
+    };
   }
 
   componentDidMount() {
@@ -22,6 +35,39 @@ class AddItemPage extends Component {
 
   handleNewItemFormSubmit(event) {
     event.preventDefault();
+    const itemData = {};
+    [].forEach.call(event.target, (elem) => {
+      if (elem.getAttribute('type') !== 'submit') {
+        itemData[elem.getAttribute('name')] = elem.value;
+      }
+    });
+
+    const currencyValidity = isCurrencyValid(itemData.itemCurrency);
+    const priceValidity = isPriceValid(itemData.itemPrice);
+
+    if(currencyValidity && priceValidity) {
+      this.props.addItem(itemData);
+    } else {
+      if(!currencyValidity) {
+        this.showErrorMessage('Enter correct currency from the given list!');
+      } else if(!priceValidity) {
+        this.showErrorMessage('Enter a valid price value!');
+      }
+    }
+  }
+
+  showErrorMessage(str) {
+    this.setState({errorMsg: str});
+  }
+
+  getErrorMessage() {
+    if(!this.state.errorMsg) {
+      return (
+        <h3 className="fullWidthFlexItem error">You are a fool!</h3>
+      );
+    } else {
+      return;
+    }
   }
 
   saveItem() {
@@ -37,10 +83,13 @@ class AddItemPage extends Component {
           <div className="heading">
             <h3>Add Item</h3>
           </div>
-          <form className="itemWrapper" onSubmit={this.handleNewItemFormSubmit.bind(this)}>
-            <div className="itemPicWrapper">
-              <div className="img" />
-              <p className="imgText frm">Upload Item Picture</p>
+          <form name="addItemForm" className="itemWrapper" onSubmit={this.handleNewItemFormSubmit.bind(this)}>
+            {this.getErrorMessage()}
+            <div className="itemPicWrapper text-center">
+              <img className="img imgStyle" onClick={() => this.picInput.click()} src={addItemPic} />
+              <input name="itemPic" type="file" id="itemPicInput"
+                accept="image/jpeg, image/png" ref={node => this.picInput = node} />
+              <label htmlFor="itemPicInput" className="imgText frm">Upload Item Picture</label>
             </div>
             <div className="itemInfoWrapper">
               <div className="inputWrapper">
@@ -54,7 +103,13 @@ class AddItemPage extends Component {
                 </div>
                 <div className="inputWrapper">
                   <label htmlFor="itemCurrency">Currency:</label>
-                  <input id="itemCurrency" name="itemCurrency" type="text" className="itemCurrency" placeholder="Enter Currency" />
+                  <input autoComplete={false} id="itemCurrency" list="currency" name="itemCurrency" type="search" className="itemCurrency" placeholder="Enter Currency" />
+                  <datalist id="currency">
+                    <option value="₹-INR" />
+                    <option value="$-DOLLAR" />
+                    <option value="€-EURO" />
+                    <option value="£-POUND" />
+                  </datalist>
                 </div>
               </div>
               <div className="inputWrapper">
@@ -63,7 +118,7 @@ class AddItemPage extends Component {
               </div>
               <div className="inputWrapper">
                 <label htmlFor="itemTags">Tags(Comma Separated):</label>
-                <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags" />
+                <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of Item" />
               </div>
             </div>
             <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
@@ -80,7 +135,9 @@ class AddItemPage extends Component {
 
 AddItemPage.propTypes = {
   close: PropTypes.func,
-  openClass: PropTypes.string
+  openClass: PropTypes.string,
+  addItem: PropTypes.func.isRequired
 };
 
 export default AddItemPage;
+

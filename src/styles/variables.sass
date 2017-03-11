@@ -8,6 +8,7 @@ $grey: rgba(34, 34, 34, .55)
 $fbColor: rgba(59, 89, 152, 0.9)
 $twitterColor: rgba(85, 172, 238, 0.9)
 $googleColor: rgba(221, 75, 57, 0.9)
+$red: #B33A3A
 
 =hider-gradient
   background: #f2f2f2
@@ -17,7 +18,7 @@ $googleColor: rgba(221, 75, 57, 0.9)
 @function strip-units($number)
   @return $number / ($number * 0 + 1)
 
-@function get-vw($target) 
+@function get-vw($target)
   $vw-context: (1000*.01) * 1px
   @return ($target/$vw-context) * 1vw
 

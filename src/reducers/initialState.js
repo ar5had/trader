@@ -15,5 +15,6 @@ export default {
   },
   app: {
     loggedIn: false
-  }
+  },
+  items: []
 };

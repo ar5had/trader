@@ -59,6 +59,7 @@
 
     .itemWrapper
       display: flex
+      flex-wrap: wrap
       flex-direction: column
       overflow-y: auto
       height: calc(85vh - 137px)
@@ -67,17 +68,32 @@
       padding: 2.5rem 1.5rem 0 1.5rem
       .itemPicWrapper
         flex: 1
+        position: relative
+        #itemPicInput
+          width: 0.1px
+          height: 0.1px
+          opacity: 0
+          overflow: hidden
+          position: absolute
+          left: 46%
+          z-index: -1
+        .imgStyle
+          background: #eee
+          padding: 2rem
         .img
           margin: auto
-          background: #eee
-          height: 9rem
-          width: 9rem
+          display: block
+          height: 5rem
+          width: 5rem
           border-radius: 50%
+          cursor: pointer
         .imgText
           color: $black
           font-weight: 500
           font-size: .9rem
           text-align: center
+          display: inline-block
+          cursor: pointer
           margin: 2rem 0
           line-height: 1.5
           padding: 0 10px
@@ -94,6 +110,17 @@
         width: 100% !important
       .itemTags
         margin-bottom: 2.5rem
+      h3.fullWidthFlexItem
+        border: none
+        margin: 0 0 2rem 0
+        color: #fafafa
+        background: lighten($red, 20%)
+        border-left: solid 4px $red
+        font-weight: 700 !important
+        letter-spacing: 1px
+        font-size: 1.1rem
+        text-align: left
+        width: 100%
     .buttonWrapper
       display: flex
       z-index: 999

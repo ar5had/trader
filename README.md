@@ -29,4 +29,5 @@ A full stack app for trading.
     state: { nextPathname: nextState.location.pathname }
   });
   ```
-* Can a redux prop be changed using dev tools
+* Can a redux prop be changed using dev tools ?
+* UpdateAppState is called twice on homepage ?

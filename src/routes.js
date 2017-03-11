@@ -5,9 +5,9 @@ import App from './components/App/index';
 import Main from './components/Main/index';
 import Profile from './containers/Profile/index';
 import Login from './components/Login/index';
-import Trades from './components/Trades/index';
+import Trades from './containers/Trades/index';
 import ItemPage from './containers/ItemPage/index';
-import MyItems from './components/MyItems/index';
+import MyItems from './containers/MyItems/index';
 import ErrorPage from './components/ErrorPage/index';
 import CheckAuth from './utils/checkAuth';
 

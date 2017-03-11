@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import TradeRequest from '../TradeRequest/index';
-import ProposedTrade from '../ProposedTrade/index';
-import AddItemPage from '../AddItemPage/index';
+import TradeRequest from '../../components/TradeRequest/index';
+import ProposedTrade from '../../components/ProposedTrade/index';
+import AddItemPage from '../../components/AddItemPage/index';
 import './styles.sass';
 
 class Trades extends Component {
