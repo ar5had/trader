@@ -15,7 +15,7 @@ class OtherInfo extends Component {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const phoneNo = document.getElementById('phoneNo').value;
-    this.props.updateProfileInfo({ email, phoneNo }, "contact");
+    this.props.updateProfileState({ email, phoneNo }, "contact");
     this.setState({ contactEditing: false });
   }
 
@@ -27,7 +27,7 @@ class OtherInfo extends Component {
     const landmark = document.getElementById('landmark').value;
     const country = document.getElementById('country').value;
     const pinCode = document.getElementById('pinCode').value;
-    this.props.updateProfileInfo({ localAddress, state, city, landmark, country, pinCode }, "location");
+    this.props.updateProfileState({ localAddress, state, city, landmark, country, pinCode }, "location");
     this.setState({ locationEditing: false });
   }
 
@@ -227,7 +227,7 @@ class OtherInfo extends Component {
 
 OtherInfo.propTypes = {
   data: PropTypes.object.isRequired,
-  updateProfileInfo: PropTypes.func.isRequired
+  updateProfileState: PropTypes.func.isRequired
 };
 
 export default OtherInfo;

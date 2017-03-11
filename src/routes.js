@@ -12,9 +12,23 @@ import ErrorPage from './components/ErrorPage/index';
 import CheckAuth from './utils/checkAuth';
 
 import { getInitialState } from './actions/commonActions';
+import { updateAppState } from './actions/appActions';
+
 
 export default function AllRoutes(dispatch) {
 
+  const loadAppState = (nextState, replace, cb) => {
+    CheckAuth(
+      () => {
+        updateAppState({ loggedIn: true })(dispatch);
+        cb();
+      },
+      () => {
+        updateAppState({ loggedIn: false })(dispatch);
+        cb();
+      }
+    );
+  };
 
   const requireAuthAndLoad = (nextState, replace, cb) => {
     // CheckAuth take two function as parameter
@@ -62,7 +76,7 @@ export default function AllRoutes(dispatch) {
   };
 
   return (
-    <Route path="/" component={App}>
+    <Route path="/" component={App} onEnter={loadAppState}>
       <IndexRoute component={Main} />
       <Route path="item/:id" component={ItemPage} />
       <Route path="profile" component={Profile} onEnter={requireAuthAndLoad} />

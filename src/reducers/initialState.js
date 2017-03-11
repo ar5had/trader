@@ -12,5 +12,8 @@ export default {
     },
     email: '',
     phoneNo: ''
+  },
+  app: {
+    loggedIn: false
   }
 };

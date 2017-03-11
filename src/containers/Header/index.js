@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as appActions from '../../actions/appActions';
 
 import './styles.sass';
 
@@ -47,8 +51,17 @@ class Header extends Component {
             () => {
               this.collapseMenu();
               fetch('/logout', {method: 'POST', credentials: 'same-origin'})
-              .then(res => res.status === 200 ? browserHistory.push('/') : '')
-              .catch(err => console.error(`Error Happened while logging out- ${err}`));
+              .then(res => {
+                if(res.status === 200) {
+                  this.props.actions.updateAppState({ loggedIn: false });
+                  browserHistory.push('/');
+                }
+              })
+
+              .catch(err => {
+                /*eslint-disable no-alert, no-console */
+                console.error(`Error Happened while logging out- ${err}`);
+              });
             }
           }
         >
@@ -72,7 +85,6 @@ class Header extends Component {
       </div>
     );
 
-    this.setNav();
     this.setMenuState(window.innerWidth);
     this.previousWidth = window.innerWidth;
 
@@ -103,12 +115,12 @@ class Header extends Component {
     }
   }
 
-  setNav() {
+  getNav() {
     // check for auth here
-    if (this.props.userlogged) {
-      this.setState({ nav: this.loggedInMenu });
+    if (this.props.app.loggedIn) {
+      return this.loggedInMenu;
     } else {
-      this.setState({ nav: this.loggedOutMenu });
+      return this.loggedOutMenu;
     }
   }
 
@@ -121,14 +133,30 @@ class Header extends Component {
           </Link>
         </h1>
         {this.state.menuActive ? this.menuButton : ""}
-        {this.state.nav}
+        {this.getNav()}
       </header>
     );
   }
 }
 
 Header.propTypes = {
-  userlogged: PropTypes.bool.isRequired
+  app: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    app: state.appData
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(appActions, dispatch)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

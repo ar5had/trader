@@ -21,8 +21,8 @@ class Profile extends Component {
     document.querySelector('.menu').classList.remove('open');
   }
 
-  updateProfileInfo(changedInfo, editSection) {
-    this.props.actions.updateProfileInfo(changedInfo, editSection);
+  updateProfileState(changedState, editSection) {
+    this.props.actions.updateProfileState(changedState, editSection);
   }
 
   getMessage() {
@@ -55,7 +55,7 @@ class Profile extends Component {
           the social account which user uses to sign in.
         */}
         <BasicInfo data={this.props.profile} />
-        <OtherInfo data={this.props.profile} updateProfileInfo={this.updateProfileInfo.bind(this)} />
+        <OtherInfo data={this.props.profile} updateProfileState={this.updateProfileState.bind(this)} />
       </div>
     );
   }

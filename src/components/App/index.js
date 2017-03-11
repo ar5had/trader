@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import Header from '../Header/index';
+import Header from '../../containers/Header/index';
 import Footer from '../Footer/index';
 import './styles.sass';
 import '../../styles/animation.sass';
@@ -17,7 +17,7 @@ class App extends Component {
   getContent() {
     const mainContent = (
       <div className="wrapper">
-        <Header userlogged={true} />
+        <Header />
         <ReactCSSTransitionGroup
           transitionName="content"
           transitionEnterTimeout={500}
