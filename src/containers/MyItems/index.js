@@ -60,20 +60,20 @@ class MyItems extends Component {
             + Add Item
           </button>
         </div>
-        {[1, 2].map((e, i) => <UserItem key={i} />)}
+        {this.props.items.map(item => <UserItem key={item.itemAdditionData.getTime()} data={item} />)}
       </div>
     );
   }
 }
 
 MyItems.propTypes = {
-  app: PropTypes.object.isRequired,
+  items: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    app: state.appData
+    items: state.itemData
   };
 };
 

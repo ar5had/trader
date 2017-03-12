@@ -1,4 +1,7 @@
 import User from '../models/user';
+import Item from '../models/item';
+import objectAssign from 'object-assign';
+
 module.exports = function (app) {
   const isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -39,7 +42,9 @@ module.exports = function (app) {
   });
 
   app.post('/api/addItem', (req, res) => {
-    console.log(req.body);
-    res.json(req.body);
+    const item = objectAssign({}, req.body, {itemAdditionDate: new Date()});
+    Item.create(item, (err, doc) => {
+      res.json(doc);
+    });
   });
 };

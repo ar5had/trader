@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import './styles.sass';
 
@@ -8,17 +8,20 @@ class UserItem extends Component {
   }
 
   render() {
+    const { data } = this.props;
     return (
       <div className="uIWrapper">
         <div className="upper">
           <div className="userImg" />
           <div className="itemInfo">
             <h3 className="itemName">
-              <Link to="item/1234">Eloquent Javascript</Link>
+              <Link to={`/item/${data.itemAdditionDate.getTime()}`}>{data.itemName}</Link>
             </h3>
-            <p className="itemCost frm">$40</p>
-            <p className="addDate frm">23 Jan, 2017</p>
-            <p className="itemDescription">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque nihil dicta temporibus incidunt fugit culpa similique ipsum sit? Hic ad beatae quidem repudiandae dignissimos tenetur consequuntur, ullam, accusantium earum at.</p>
+            <p className="itemCost frm">{`${data.itemCurrency.slice(0,1)}${data.itemPrice}`}</p>
+            <p className="addDate frm">{data.itemAdditionDate.toDateString().slice(5)}</p>
+            <p className="itemDescription">
+              {data.itemDescription}
+            </p>
             <div className="tradeBtnWrapper lower">
               <button className="deleteBtn normalBtn">Remove Item</button>
             </div>
@@ -28,5 +31,9 @@ class UserItem extends Component {
     );
   }
 }
+
+UserItem.propTypes = {
+  data: PropTypes.object.isRequired
+};
 
 export default UserItem;

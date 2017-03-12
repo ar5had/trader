@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import fetch from 'unfetch';
 
 export function acceptTrade(data) {
   return (dispatch) => {

@@ -86,6 +86,7 @@ class AddItemPage extends Component {
   saveItem() {
     // triggers form submit
     this.submitItemFormBtn.click();
+    this.close();
   }
 
   render() {
