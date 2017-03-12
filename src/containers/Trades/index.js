@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as itemActions from '../../actions/itemActions';
 
 import TradeRequest from '../../components/TradeRequest/index';
 import ProposedTrade from '../../components/ProposedTrade/index';
@@ -42,7 +46,11 @@ class Trades extends Component {
 
   getModal() {
     if (this.state.modalOpened) {
-      return <AddItemPage key="modal" openClass="open" close={this.closeModal.bind(this)} />;
+      return (
+        <AddItemPage
+          openClass="open" close={this.closeModal.bind(this)}
+          addItem={this.props.itemActions.addItem.bind(this)} />
+      );
     } else {
       return;
     }
@@ -89,4 +97,24 @@ class Trades extends Component {
   }
 }
 
-export default Trades;
+Trades.propTypes = {
+  // trades: PropTypes.object.isRequired,
+  itemActions: PropTypes.object.isRequired
+};
+
+// const mapStateToProps = (state) => {
+//   return {
+//     trades: state.tradesData
+//   };
+// };
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    itemActions: bindActionCreators(itemActions, dispatch)
+  };
+};
+
+export default connect(
+  /*mapStateToProps*/ undefined,
+  mapDispatchToProps
+)(Trades);

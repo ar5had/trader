@@ -12,6 +12,15 @@ const isCurrencyValid = val => (
 
 const isPriceValid = val => (!isNaN(val) && !isNaN(parseInt(val, 10)));
 
+const scrollElemToTop = (elem) => {
+  let timeOut;
+  if (elem.scrollTop != 0) {
+    elem.scrollTop -= 50;
+    timeOut = setTimeout(scrollElemToTop.bind(null, elem), 10);
+  }
+  else clearTimeout(timeOut);
+};
+
 class AddItemPage extends Component {
   constructor(props) {
     super(props);
@@ -45,25 +54,29 @@ class AddItemPage extends Component {
     const currencyValidity = isCurrencyValid(itemData.itemCurrency);
     const priceValidity = isPriceValid(itemData.itemPrice);
 
-    if(currencyValidity && priceValidity) {
+    if (currencyValidity && priceValidity) {
+      this.setState({errorMsg: ''});
       this.props.addItem(itemData);
     } else {
-      if(!currencyValidity) {
+      scrollElemToTop(document.addItemForm);
+      if (!currencyValidity) {
         this.showErrorMessage('Enter correct currency from the given list!');
-      } else if(!priceValidity) {
+      } else if (!priceValidity) {
         this.showErrorMessage('Enter a valid price value!');
       }
     }
   }
 
   showErrorMessage(str) {
-    this.setState({errorMsg: str});
+    this.setState({ errorMsg: str });
   }
 
   getErrorMessage() {
-    if(!this.state.errorMsg) {
+    if (this.state.errorMsg) {
       return (
-        <h3 className="fullWidthFlexItem error">You are a fool!</h3>
+        <div className="errorMsgWrapper">
+          <h3 className="fullWidthFlexItem error">{this.state.errorMsg}</h3>
+        </div>
       );
     } else {
       return;
@@ -85,43 +98,45 @@ class AddItemPage extends Component {
           </div>
           <form name="addItemForm" className="itemWrapper" onSubmit={this.handleNewItemFormSubmit.bind(this)}>
             {this.getErrorMessage()}
-            <div className="itemPicWrapper text-center">
-              <img className="img imgStyle" onClick={() => this.picInput.click()} src={addItemPic} />
-              <input name="itemPic" type="file" id="itemPicInput"
-                accept="image/jpeg, image/png" ref={node => this.picInput = node} />
-              <label htmlFor="itemPicInput" className="imgText frm">Upload Item Picture</label>
-            </div>
-            <div className="itemInfoWrapper">
-              <div className="inputWrapper">
-                <label htmlFor="itemName">Name:</label>
-                <input id="itemName" name="itemName" type="text" className="itemName" placeholder="Enter Name" required />
+            <div className="flexWrapper">
+              <div className="itemPicWrapper text-center">
+                <img className="img imgStyle" onClick={() => this.picInput.click()} src={addItemPic} />
+                <input name="itemPic" type="file" id="itemPicInput"
+                  accept="image/jpeg, image/png" ref={node => this.picInput = node} />
+                <label htmlFor="itemPicInput" className="imgText frm">Upload Item Picture</label>
               </div>
-              <div className="priceWrapper">
+              <div className="itemInfoWrapper">
                 <div className="inputWrapper">
-                  <label htmlFor="itemPrice">Price:</label>
-                  <input min="0" id="itemPrice" name="itemPrice" type="number" className="itemPrice" placeholder="Enter Price" required />
+                  <label htmlFor="itemName">Name:</label>
+                  <input id="itemName" name="itemName" type="text" className="itemName" placeholder="Enter Name" required />
+                </div>
+                <div className="priceWrapper">
+                  <div className="inputWrapper">
+                    <label htmlFor="itemPrice">Price:</label>
+                    <input min="0" id="itemPrice" name="itemPrice" type="number" className="itemPrice" placeholder="Enter Price" required />
+                  </div>
+                  <div className="inputWrapper">
+                    <label htmlFor="itemCurrency">Currency:</label>
+                    <input autoComplete={false} id="itemCurrency" list="currency" name="itemCurrency" type="search" className="itemCurrency" placeholder="Enter Currency" />
+                    <datalist id="currency">
+                      <option value="₹-INR" />
+                      <option value="$-DOLLAR" />
+                      <option value="€-EURO" />
+                      <option value="£-POUND" />
+                    </datalist>
+                  </div>
                 </div>
                 <div className="inputWrapper">
-                  <label htmlFor="itemCurrency">Currency:</label>
-                  <input autoComplete={false} id="itemCurrency" list="currency" name="itemCurrency" type="search" className="itemCurrency" placeholder="Enter Currency" />
-                  <datalist id="currency">
-                    <option value="₹-INR" />
-                    <option value="$-DOLLAR" />
-                    <option value="€-EURO" />
-                    <option value="£-POUND" />
-                  </datalist>
+                  <label htmlFor="itemDescription">Description:</label>
+                  <textarea name="itemDescription" id="itemDescription" className="itemDescription" placeholder="Enter Item Description" />
+                </div>
+                <div className="inputWrapper">
+                  <label htmlFor="itemTags">Tags(Comma Separated):</label>
+                  <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of Item" />
                 </div>
               </div>
-              <div className="inputWrapper">
-                <label htmlFor="itemDescription">Description:</label>
-                <textarea name="itemDescription" id="itemDescription" className="itemDescription" placeholder="Enter Item Description" />
-              </div>
-              <div className="inputWrapper">
-                <label htmlFor="itemTags">Tags(Comma Separated):</label>
-                <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of Item" />
-              </div>
+              <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
             </div>
-            <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
           </form>
           <div className="buttonWrapper">
             <button className="saveItemBtn" onClick={this.saveItem.bind(this)}>Save</button>
