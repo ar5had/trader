@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
+
 
 class ErrorPage extends Component {
   componentDidMount() {
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('404 - Page Not Found!');
   }
   render() {
     return (

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+
 import './styles.sass';
 import Item from '../Item/index';
+import loadPageProps from '../../utils/loadPageProps';
 
 class Homepage extends Component {
   componentDidMount() {
-    document.title = 'Home - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('Home - Trader');
   }
   render() {
     return (

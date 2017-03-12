@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
 
 class Login extends Component {
   componentDidMount() {
-    document.title = 'Login - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('Login - Trader');
   }
   render() {
     return (

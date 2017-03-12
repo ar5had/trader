@@ -7,6 +7,7 @@ import * as itemActions from '../../actions/itemActions';
 import UserItem from '../../components/UserItem/index';
 import AddItemPage from '../../components/AddItemPage/index';
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
 
 class MyItems extends Component {
   constructor(props) {
@@ -17,9 +18,7 @@ class MyItems extends Component {
   }
 
   componentDidMount() {
-    document.title = 'My Items - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('My Items - Trader');
   }
 
   closeModal() {

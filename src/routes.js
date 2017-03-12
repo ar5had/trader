@@ -18,6 +18,7 @@ import { updateAppState } from './actions/appActions';
 export default function AllRoutes(dispatch) {
 
   const loadAppState = (nextState, replace, cb) => {
+    document.body.style.cursor = 'wait';
     CheckAuth(
       () => {
         updateAppState({ loggedIn: true })(dispatch);
@@ -31,6 +32,7 @@ export default function AllRoutes(dispatch) {
   };
 
   const requireAuthAndLoad = (nextState, replace, cb) => {
+    document.body.style.cursor = 'wait';
     // CheckAuth take two function as parameter
     // one for authorized req
     // other for unauthorized req
@@ -54,6 +56,7 @@ export default function AllRoutes(dispatch) {
   };
 
   const requireNoAuth = (nextState, replace, cb) => {
+    document.body.style.cursor = 'wait';
     // CheckAuth take two function as parameter
     // one for authorized req
     // other for unauthorized req

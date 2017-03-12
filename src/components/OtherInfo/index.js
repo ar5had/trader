@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-
+import objectAssign from 'object-assign';
 import './styles.sass';
 
 class OtherInfo extends Component {
@@ -9,6 +9,17 @@ class OtherInfo extends Component {
       locationEditing: false,
       contactEditing: false
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if(JSON.stringify(this.props) !== JSON.stringify(props)) {
+      const newAddress = objectAssign({}, props.data.address);
+      if(JSON.stringify(newAddress) !== JSON.stringify(this.props.data.address)) {
+        this.locationUpdated = true;
+      } else {
+        this.contactUpdated = true;
+      }
+    }
   }
 
   handleCFSubmit(event) {
@@ -65,31 +76,33 @@ class OtherInfo extends Component {
         </form>
       );
     } else {
+      const updatedClass = this.locationUpdated ? 'updated' : '';
+      this.locationUpdated = false;
       return (
         <div className="lIWrapper" key="lIWrapperText">
           <div className="inputWrapper">
             <label>Local Address:</label>
-            <p className="inputData">{localAddress ? localAddress : "Local Address"}</p>
+            <p className={`inputData ${updatedClass}`}>{localAddress ? localAddress : "Local Address"}</p>
           </div>
           <div className="inputWrapper">
             <label>City:</label>
-            <p className="inputData">{city ? city : "City"}</p>
+            <p className={`inputData ${updatedClass}`}>{city ? city : "City"}</p>
           </div>
           <div className="inputWrapper">
             <label>State:</label>
-            <p className="inputData">{state ? state : "State"}</p>
+            <p className={`inputData ${updatedClass}`}>{state ? state : "State"}</p>
           </div>
           <div className="inputWrapper">
             <label>Landmark:</label>
-            <p className="inputData">{landmark ? landmark : "Landmark"}</p>
+            <p className={`inputData ${updatedClass}`}>{landmark ? landmark : "Landmark"}</p>
           </div>
           <div className="inputWrapper">
             <label>Country:</label>
-            <p className="inputData">{country ? country : "Country"}</p>
+            <p className={`inputData ${updatedClass}`}>{country ? country : "Country"}</p>
           </div>
           <div className="inputWrapper">
             <label>Pin Code:</label>
-            <p className="inputData">{pinCode ? pinCode : "Pincode"}</p>
+            <p className={`inputData ${updatedClass}`}>{pinCode ? pinCode : "Pincode"}</p>
           </div>
         </div>
       );
@@ -114,15 +127,17 @@ class OtherInfo extends Component {
         </form>
       );
     } else {
+      const updatedClass = this.contactUpdated ? 'updated' : '';
+      this.contactUpdated = false;
       return (
         <div className="cIWrapper" key="cIWrapperText">
           <div className="inputWrapper">
             <label>Email:</label>
-            <p className="inputData">{email ? email : "Email"}</p>
+            <p className={`inputData ${updatedClass}`}>{email ? email : "Email"}</p>
           </div>
           <div className="inputWrapper">
             <label>Phone No:</label>
-            <p className="inputData">{phoneNo ? phoneNo : "Phone No"}</p>
+            <p className={`inputData ${updatedClass}`}>{phoneNo ? phoneNo : "Phone No"}</p>
           </div>
         </div>
       );

@@ -7,6 +7,7 @@ import * as profileActions from '../../actions/profileActions';
 import BasicInfo from '../../components/BasicInfo/index';
 import OtherInfo from '../../components/OtherInfo/index';
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
 
 class Profile extends Component {
   constructor(props) {
@@ -17,9 +18,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    document.title = 'Profile - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('Profile - Trader');
   }
 
   updateProfileState(changedState, editSection) {

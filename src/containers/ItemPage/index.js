@@ -3,12 +3,11 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
 
 class ItemPage extends Component {
   componentDidMount() {
-    document.title = 'Item - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('Item - Trader');
   }
 
   getButton() {

@@ -9,6 +9,7 @@ import TradeRequest from '../../components/TradeRequest/index';
 import ProposedTrade from '../../components/ProposedTrade/index';
 import AddItemPage from '../../components/AddItemPage/index';
 import './styles.sass';
+import loadPageProps from '../../utils/loadPageProps';
 
 class Trades extends Component {
   constructor(props) {
@@ -19,9 +20,7 @@ class Trades extends Component {
   }
 
   componentDidMount() {
-    document.title = 'Trades - Trader';
-    document.body.scrollTop = 0;
-    document.querySelector('.menu').classList.remove('open');
+    loadPageProps('Trades - Trader');
   }
 
   closeModal() {
