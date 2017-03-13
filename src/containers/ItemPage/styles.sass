@@ -13,8 +13,21 @@
     flex: 1
   .itemName
     margin: 2rem 0 .5rem 0
+  .itemTags
+    margin: 3rem 0 4rem 0
+    font-weight: 700
+    font-size: 1rem
+    .tags
+      padding: .5rem 1rem
+      border-radius: 30px
+      color: $black
+      border: solid 2px
+      font-family: roboto
+      display: inline-block
+      margin: 1rem 1rem 0 0
+      &:first-child
+        margin-left: 1rem
   .seller
-    margin-top: 1.5rem
     font-size: 1rem
     letter-spacing: 1px
     color: $grey
@@ -60,8 +73,7 @@
     color: #fff
     display: block
   .optionsWrapper
-    .removeTradeBtn
-      margin: 3rem 0
+    margin-top: 3rem
     span.small
       svg
         transform: rotateZ(-90deg) translateX(-4px)

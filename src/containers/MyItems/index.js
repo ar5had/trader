@@ -84,7 +84,7 @@ MyItems.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    items: state.itemData
+    items: state.myItemsData
   };
 };
 

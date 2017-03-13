@@ -3,6 +3,39 @@
 .uIWrapper
   margin: 0 0 3rem 0
   transition: all .3s
+  .removeBtnWrapper.open
+    transform: translateX(0)
+    div
+      z-index: 1
+      opacity: 1
+      visibility: visible
+    .deleteBtn
+      opacity: 0
+      visibility: hidden
+      z-index: -9999
+  .removeBtnWrapper
+    transition: transform .3s
+    transform: translateX(-310px)
+    div
+      z-index: -9999
+      opacity: 0
+      visibility: hidden
+      transition: opacity .3s, visibility .3s
+      display: flex
+      align-items: center
+      padding: 0 .5rem
+      p
+        font-weight: 500
+      button
+        margin-left: 1rem
+        color: #fcfcfc
+        padding: .5rem 2rem
+        background: $black
+        border: solid 2px $black
+        &:last-child
+          color: $black
+          background: transparent
+          border: solid 2px $black
   .itemCost
     color: lighten($black, 20%)
     font-size: 1.2rem
@@ -15,6 +48,20 @@
     letter-spacing: 1px
   .itemDescription
     margin: .5rem 0 1.5rem 0
+  .itemTags
+    margin-bottom: 3rem
+    font-weight: 700
+    font-size: 1rem
+    .tags
+      padding: .5rem 1rem
+      border-radius: 30px
+      color: $black
+      border: solid 2px
+      font-family: roboto
+      display: inline-block
+      margin: 1rem 1rem 0 0
+      &:first-child
+        margin-left: 1rem
   .upper
     margin: 0 0 1rem 0
     display: flex
@@ -54,12 +101,13 @@
     text-transform: uppercase
     padding: .5rem 1rem
     cursor: pointer
-    transition: opacity .3s
+    transition: opacity .3s, visibility .3s
     &:hover
       opacity: .8
   .deleteBtn
     background: $black
     color: #fff
+    z-index: 1
   .editBtn
     margin-left: 1rem
     background: none

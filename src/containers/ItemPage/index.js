@@ -11,10 +11,9 @@ class ItemPage extends Component {
   }
 
   getButton() {
-    if(this.props.app.loggedIn) {
+    if(this.props.app.ownItem) {
       return (
         <div className="optionsWrapper">
-          <button className="removeTradeBtn normalBtn">Remove Item</button>
           <Link className="backLink" to="/myItems">
             Back to your items
           </Link>
@@ -26,6 +25,7 @@ class ItemPage extends Component {
   }
 
   render() {
+    const data = this.props.app;
     return (
       <div className="itemPageWrapper">
         <div className="itemImgWrapper" />
@@ -38,12 +38,20 @@ class ItemPage extends Component {
               </svg>
             </span>All Items
           </Link>
-          <h3 className="itemName">Eloquent Javascript</h3>
-          <p className="itemCost frm">$40</p>
+          <h3 className="itemName">{data.itemName}</h3>
+          <p className="itemCost frm">{`${data.itemCurrency.slice(0,1)}${data.itemPrice}`}</p>
           <p className="description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea nulla modi, odit explicabo hic doloremque commodi ab molestiae. Iure voluptatem labore et aliquid soluta inventore expedita quam vel a earum!
+            {data.itemDescription}
           </p>
-          <p className="seller frm">By <span>Arshad Khan</span></p>
+          <div className="itemTags frm">
+            Tags:
+            {
+              data.itemTags.trim().split(',').map(
+                (elem, i) => <span key={i} className="tags">{elem}</span>
+              )
+            }
+          </div>
+          <p className="seller frm">By <span>{data.itemOwner}</span></p>
           {this.getButton()}
         </div>
       </div>
@@ -57,10 +65,9 @@ ItemPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    app: state.appData
+    app: state.individualItemData
   };
 };
-
 
 export default connect(
   mapStateToProps

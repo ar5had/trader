@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from './components/App/index';
-import Main from './components/Main/index';
+import Main from './containers/Main/index';
 import Profile from './containers/Profile/index';
 import Login from './components/Login/index';
 import Trades from './containers/Trades/index';
@@ -12,6 +12,7 @@ import ErrorPage from './components/ErrorPage/index';
 import CheckAuth from './utils/checkAuth';
 
 import { getInitialState } from './actions/commonActions';
+import { loadIndividualItemState } from './actions/individualItemActions';
 import { updateAppState } from './actions/appActions';
 
 
@@ -56,6 +57,18 @@ export default function AllRoutes(dispatch) {
     );
   };
 
+  const loadAllItems = (nextState, replace, cb) => {
+    document.body.style.cursor = 'wait';
+    getInitialState(cb, 'allItems')(dispatch);
+  };
+
+  const loadIndividualItem = (nextState, replace, cb) => {
+    document.body.style.cursor = 'wait';
+    // fetch the id from /item/123 like url
+    const id = nextState.location.pathname.split('/')[2];
+    loadIndividualItemState(cb, replace, 'individualItem', id)(dispatch);
+  };
+
   const requireNoAuth = (nextState, replace, cb) => {
     document.body.style.cursor = 'wait';
     // CheckAuth take two function as parameter
@@ -81,8 +94,8 @@ export default function AllRoutes(dispatch) {
 
   return (
     <Route path="/" component={App} onEnter={loadAppState}>
-      <IndexRoute component={Main} />
-      <Route path="item/:id" component={ItemPage} />
+      <IndexRoute component={Main} onEnter={loadAllItems} />
+      <Route path="item/:id" component={ItemPage} onEnter={loadIndividualItem}/>
       <Route path="profile" component={Profile} onEnter={requireAuthAndLoad} />
       <Route path="login" component={Login} onEnter={requireNoAuth} />
       <Route path="trades" component={Trades} onEnter={requireAuthAndLoad} />

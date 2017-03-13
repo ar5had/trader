@@ -16,5 +16,7 @@ export default {
   app: {
     loggedIn: false
   },
-  items: []
+  myItems: [],
+  allItems: [],
+  individualItemData: {}
 };

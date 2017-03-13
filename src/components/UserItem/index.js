@@ -15,18 +15,40 @@ class UserItem extends Component {
           <div className="userImg" />
           <div className="itemInfo">
             <h3 className="itemName">
-              <Link to={`/item/123`}>{data.itemName}</Link>
+              <Link to={`/item/${data.key}`}>{data.itemName}</Link>
             </h3>
             <p className="itemCost frm">{`${data.itemCurrency.slice(0,1)}${data.itemPrice}`}</p>
             <p className="addDate frm">{data.itemAdditionDate}</p>
             <p className="itemDescription">
               {data.itemDescription}
             </p>
-            <div className="tradeBtnWrapper lower">
-              <button className="deleteBtn normalBtn"
-                onClick={() => {
+            <div className="itemTags frm">
+              Tags:
+              {
+                data.itemTags.trim().split(',').map(
+                  (elem, i) => <span key={i} className="tags">{elem}</span>
+                )
+              }
+            </div>
+            <div ref={node => this.rbw = node}
+              className="tradeBtnWrapper lower removeBtnWrapper">
+              <div>
+                <p>Are you sure?</p>
+                <button onClick={() => {
                   this.itemNode.classList.add('blacklisted');
                   this.props.deleteItem(data.key, this.itemNode);
+                }}>
+                  Yes
+                </button>
+                <button onClick={() => {
+                  this.rbw.classList.remove('open');
+                }}>
+                  No
+                </button>
+              </div>
+              <button className="deleteBtn normalBtn"
+                onClick={() => {
+                  this.rbw.classList.add('open');
                 }}
               >
                Remove Item

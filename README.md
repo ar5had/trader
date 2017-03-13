@@ -31,3 +31,8 @@ A full stack app for trading.
   ```
 * Can a redux prop be changed using dev tools ?
 * UpdateAppState is called twice on homepage ?
+
+## Todos
+* Implement trade req and propose logic
+* Double check on remove item
+* Check for own item on item page

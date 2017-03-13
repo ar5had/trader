@@ -130,11 +130,12 @@ class AddItemPage extends Component {
                 <div className="inputWrapper">
                   <label htmlFor="itemDescription">Description:</label>
                   <textarea name="itemDescription" id="itemDescription" className="itemDescription"
-                   placeholder="Enter a good Item Description so that other users get interested in your item" />
+                   placeholder="Enter a good Item Description so that other users get interested in your Item" required />
                 </div>
                 <div className="inputWrapper">
                   <label htmlFor="itemTags">Tags(Comma Separated):</label>
-                  <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of your Item" />
+                  <textarea name="itemTags" id="itemTags"
+                   className="itemTags" placeholder="Enter Tags for better searchablity of your Item" required />
                 </div>
               </div>
               <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />

@@ -81,4 +81,46 @@ module.exports = function (app) {
         }
       });
   });
+
+  app.get('/api/getAllItemsData', (req, res) => {
+    Item.find({},
+      ['key', 'itemName', 'itemCurrency', 'itemPrice'],
+      {
+        sort: { key: -1 }
+      }
+    )
+      .exec((err, docs) => {
+        if (err) {
+          console.error('Error happened while loading allItems-', err);
+          res.sendStatus(500);
+        } else {
+          res.json(docs);
+        }
+      });
+  });
+
+  app.get('/api/getIndividualItemData/:key', (req, res) => {
+    Item.findOne({ key: req.params.key },
+      ['key', 'itemName', 'itemCurrency', 'itemPrice',
+        'itemDescription', 'itemTags', 'itemOwner', 'itemOwnerId']
+    )
+      .exec((err, doc) => {
+        if (err) {
+          console.error('Error happened while loading individual Item-', err);
+          res.sendStatus(500);
+        } else {
+          if(doc) {
+            const item = objectAssign({}, doc._doc);
+            const ownItem = item.itemOwnerId === (req.user && req.user._id.toString());
+            delete item._id;
+            delete item.itemOwnerId;
+            delete item.__v;
+            item.ownItem = ownItem;
+            res.json(item);
+          } else {
+            res.sendStatus(400);
+          }
+        }
+      });
+  });
 };

@@ -4,11 +4,15 @@ import { routerReducer } from 'react-router-redux';
 import profileDataReducer from './profileDataReducer';
 import appDataReducer from './appDataReducer';
 import myItemsReducer from './myItemsReducer';
+import allItemsReducer from './allItemsReducer';
+import individualItemReducer from './individualItemReducer';
 
 const rootReducer = combineReducers({
   profileData: profileDataReducer,
   appData: appDataReducer,
-  itemData: myItemsReducer,
+  myItemsData: myItemsReducer,
+  allItemsData: allItemsReducer,
+  individualItemData: individualItemReducer,
   routing: routerReducer
 });
 
