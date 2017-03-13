@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as itemActions from '../../actions/itemActions';
+import * as myItemsActions from '../../actions/myItemsActions';
 
 import UserItem from '../../components/UserItem/index';
 import AddItemPage from '../../components/AddItemPage/index';
@@ -32,7 +32,7 @@ class MyItems extends Component {
       return (
         <AddItemPage
           openClass="open" close={this.closeModal.bind(this)}
-          addItem={this.props.actions.addItem.bind(this)} />
+          addItem={this.props.actions.addMyItem.bind(this)} />
       );
     } else {
       return;
@@ -45,6 +45,17 @@ class MyItems extends Component {
     document.body.classList.add('modal-opened');
     document.body.style.marginRight = `${scrollBarWidth}px`;
     this.setState({ modalOpened: true });
+  }
+
+  getItems() {
+    if (this.props.items.length > 0) {
+      return this.props.items.map(
+        item =>
+          <UserItem key={item.key} data={item} deleteItem={this.props.actions.deleteMyItem.bind(this)}/>
+      );
+    } else {
+      return <h3 className="noItemHeading"> You haven't added any item yet! Click on ADD ITEM button to add item </h3>;
+    }
   }
 
   render() {
@@ -60,14 +71,14 @@ class MyItems extends Component {
             + Add Item
           </button>
         </div>
-        {this.props.items.map(item => <UserItem key={item.itemAdditionData.getTime()} data={item} />)}
+        {this.getItems()}
       </div>
     );
   }
 }
 
 MyItems.propTypes = {
-  items: PropTypes.object.isRequired,
+  items: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
 
@@ -79,7 +90,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(itemActions, dispatch)
+    actions: bindActionCreators(myItemsActions, dispatch)
   };
 };
 

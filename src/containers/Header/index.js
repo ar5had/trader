@@ -40,6 +40,11 @@ class Header extends Component {
           onClick={this.collapseMenu.bind(this)} >
           Profile
         </Link>
+        <Link onlyActiveOnIndex={true} key={7} to="/myItems"
+          activeClassName="activeNavLink" className="navLink"
+          onClick={this.collapseMenu.bind(this)} >
+          My Items
+        </Link>
         <Link onlyActiveOnIndex={true} key={3} to="/trades"
           activeClassName="activeNavLink" className="navLink"
           onClick={this.collapseMenu.bind(this)} >

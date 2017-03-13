@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import objectAssign from 'object-assign';
 
 import * as profileActions from '../../actions/profileActions';
 
@@ -33,7 +34,7 @@ class Profile extends Component {
           <span
             onClick={
               () => {
-                Object.assign(this.message.style,{opacity:"0",marginBottom: `-${this.message.offsetHeight}px`, zIndex: '-99'});
+                objectAssign(this.message.style,{opacity:"0",marginBottom: `-${this.message.offsetHeight}px`, zIndex: '-99'});
                 setTimeout(() => { this.setState({ showMessage: false }); }, 250);
               }
             }

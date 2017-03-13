@@ -3,12 +3,12 @@ import { routerReducer } from 'react-router-redux';
 
 import profileDataReducer from './profileDataReducer';
 import appDataReducer from './appDataReducer';
-import itemReducer from './itemReducer';
+import myItemsReducer from './myItemsReducer';
 
 const rootReducer = combineReducers({
   profileData: profileDataReducer,
   appData: appDataReducer,
-  itemData: itemReducer,
+  itemData: myItemsReducer,
   routing: routerReducer
 });
 

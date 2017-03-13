@@ -12,7 +12,8 @@ const Item = new Schema({
   itemTags: String,
   itemOwner: String,
   itemOwnerId: String,
-  itemAdditionDate: Date
+  itemAdditionDate: String,
+  key: Number
 });
 
 module.exports = mongoose.model('Item', Item);

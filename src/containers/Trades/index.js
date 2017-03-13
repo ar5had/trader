@@ -3,30 +3,20 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as itemActions from '../../actions/itemActions';
+import * as myItemsActions from '../../actions/myItemsActions';
 
 import TradeRequest from '../../components/TradeRequest/index';
 import ProposedTrade from '../../components/ProposedTrade/index';
-import AddItemPage from '../../components/AddItemPage/index';
 import './styles.sass';
 import loadPageProps from '../../utils/loadPageProps';
 
 class Trades extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalOpened: false
-    };
   }
 
   componentDidMount() {
     loadPageProps('Trades - Trader');
-  }
-
-  closeModal() {
-    this.setState({ modalOpened: false });
-    document.body.classList.remove('modal-opened');
-    document.body.style.marginRight = 0;
   }
 
   getAllProposedTrades() {
@@ -43,39 +33,12 @@ class Trades extends Component {
     ]);
   }
 
-  getModal() {
-    if (this.state.modalOpened) {
-      return (
-        <AddItemPage
-          openClass="open" close={this.closeModal.bind(this)}
-          addItem={this.props.itemActions.addItem.bind(this)} />
-      );
-    } else {
-      return;
-    }
-  }
-
-  openModal() {
-    const scrollBar = document.querySelector('.scrollbar-measure');
-    const scrollBarWidth = scrollBar.offsetWidth - scrollBar.clientWidth;
-    document.body.classList.add('modal-opened');
-    document.body.style.marginRight = `${scrollBarWidth}px`;
-    this.setState({ modalOpened: true });
-  }
 
   render() {
     return (
       <div className="tradesWrapper">
-        {this.getModal()}
         <div className="addTradeWrapper">
-          <Link to="myItems"><button className="tradeBtn allItemsBtn">My Items</button></Link>
-          <button
-            onClick={() => {
-              this.openModal();
-            }}
-            className="tradeBtn addItemBtn">
-            + Add Item
-          </button>
+          <Link to="/myItems"><button className="tradeBtn allItemsBtn">My Items</button></Link>
         </div>
         <div className="tradesInfoWrapper">
           <div className="tradeReqWrapper">
@@ -109,7 +72,7 @@ Trades.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    itemActions: bindActionCreators(itemActions, dispatch)
+    itemActions: bindActionCreators(myItemsActions, dispatch)
   };
 };
 

@@ -13,15 +13,9 @@ module.exports = function (app) {
 
   app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.json({ 'error': '' }));
 
-  // remove if else in sending req.user data
-  // when you implement the authentication for paths/pages
   app.get('/api/getProfileData', isLoggedIn, (req, res) => {
-    if (req.user) {
-      const {name, address, phoneNo, email, dp} = req.user;
-      res.json({ name, address, phoneNo, email, dp });
-    } else {
-      res.json({ name: 'Unauthorised User' });
-    }
+    const {name, address, phoneNo, email, dp} = req.user;
+    res.json({ name, address, phoneNo, email, dp });
   });
 
   app.post('/api/setProfileData', isLoggedIn, (req, res) => {
@@ -41,10 +35,50 @@ module.exports = function (app) {
       });
   });
 
-  app.post('/api/addItem', (req, res) => {
-    const item = objectAssign({}, req.body, {itemAdditionDate: new Date()});
-    Item.create(item, (err, doc) => {
-      res.json(doc);
+  app.post('/api/addMyItem', (req, res) => {
+    const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
+    const data = objectAssign({}, req.body, { itemAdditionDate: new Date().toDateString().slice(4), key: new Date().getTime() }, ownerInfo);
+    const newItem = new Item(data);
+    newItem.save((err, doc) => {
+      if (err) {
+        console.error('Error happened while adding new myitem-', err);
+        res.sendStatus(500);
+      } else {
+        const item = objectAssign({}, doc._doc);
+        delete item._id;
+        delete item.__v;
+        delete item.itemOwnerId;
+        res.json(item);
+      }
     });
+  });
+
+  app.get('/api/getMyItemsData', isLoggedIn, (req, res) => {
+    Item.find({ itemOwnerId: req.user._id.toString() },
+      ['key', 'itemName', 'itemCurrency', 'itemAdditionDate', 'itemPrice', 'itemDescription', 'itemTags'],
+      {
+        sort: { key: -1 }
+      }
+    )
+      .exec((err, docs) => {
+        if (err) {
+          console.error('Error happened while loading myItems-', err);
+          res.sendStatus(500);
+        } else {
+          res.json(docs);
+        }
+      });
+  });
+
+  app.delete('/api/deleteMyItem/:key', isLoggedIn, (req, res) => {
+    Item.find({ key: req.params.key })
+      .remove((err) => {
+        if (err) {
+          console.error('Error happened while deleting item with key', req.params.key, "-", err);
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(200);
+        }
+      });
   });
 };

@@ -33,7 +33,7 @@ export function getInitialState(cb, page) {
     })
     .catch(err => {
       /* eslint-disable no-console */
-      console.error(`Got error:${err} while dispatching GET_INITIAL_PROFILE_STATE!`);
+      console.error(`Got error:${err} while dispatching GET_INITIAL_${page.toUpperCase()}_STATE!`);
       cb();
     });
   };

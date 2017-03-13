@@ -39,8 +39,9 @@ export default function AllRoutes(dispatch) {
     // If user is authorized then load initial state
     CheckAuth(
       () => {
-        if (nextState.location.pathname === '/profile') {
-          getInitialState(cb, 'profile')(dispatch);
+        const path = nextState.location.pathname;
+        if (path !== '/trades') {
+          getInitialState(cb, path.slice(1))(dispatch);
         } else {
           cb();
         }

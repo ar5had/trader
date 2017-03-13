@@ -57,6 +57,7 @@ class AddItemPage extends Component {
     if (currencyValidity && priceValidity) {
       this.setState({errorMsg: ''});
       this.props.addItem(itemData);
+      this.close();
     } else {
       scrollElemToTop(document.addItemForm);
       if (!currencyValidity) {
@@ -86,7 +87,6 @@ class AddItemPage extends Component {
   saveItem() {
     // triggers form submit
     this.submitItemFormBtn.click();
-    this.close();
   }
 
   render() {
@@ -109,12 +109,12 @@ class AddItemPage extends Component {
               <div className="itemInfoWrapper">
                 <div className="inputWrapper">
                   <label htmlFor="itemName">Name:</label>
-                  <input id="itemName" name="itemName" type="text" className="itemName" placeholder="Enter Name" required />
+                  <input id="itemName" name="itemName" type="text" className="itemName" placeholder="Enter Item Name" required />
                 </div>
                 <div className="priceWrapper">
                   <div className="inputWrapper">
                     <label htmlFor="itemPrice">Price:</label>
-                    <input min="0" id="itemPrice" name="itemPrice" type="number" className="itemPrice" placeholder="Enter Price" required />
+                    <input min="0" id="itemPrice" name="itemPrice" type="number" className="itemPrice" placeholder="Enter Item Price" required />
                   </div>
                   <div className="inputWrapper">
                     <label htmlFor="itemCurrency">Currency:</label>
@@ -129,11 +129,12 @@ class AddItemPage extends Component {
                 </div>
                 <div className="inputWrapper">
                   <label htmlFor="itemDescription">Description:</label>
-                  <textarea name="itemDescription" id="itemDescription" className="itemDescription" placeholder="Enter Item Description" />
+                  <textarea name="itemDescription" id="itemDescription" className="itemDescription"
+                   placeholder="Enter a good Item Description so that other users get interested in your item" />
                 </div>
                 <div className="inputWrapper">
                   <label htmlFor="itemTags">Tags(Comma Separated):</label>
-                  <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of Item" />
+                  <textarea name="itemTags" id="itemTags" className="itemTags" placeholder="Enter Tags for better searchablity of your Item" />
                 </div>
               </div>
               <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
