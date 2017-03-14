@@ -79,9 +79,6 @@
           position: absolute
           left: 46%
           z-index: -1
-        .imgStyle
-          background: #eee
-          padding: 2rem
         .img
           margin: auto
           display: block
@@ -89,6 +86,20 @@
           width: 5rem
           border-radius: 50%
           cursor: pointer
+          background: url('../../assets/images/fileUpload.svg') no-repeat
+          background-size: 100% 100%
+          background-position: 50% 50%
+          border: solid 2rem #eee
+        .imgLoaded
+          border: none
+          width: 9rem
+          height: 9rem
+          background-size: 100% 100% !important
+          background-position: 50% 50% !important
+        .imgLoadErrors
+            font-weight: 700
+            color: $red
+
         .imgText
           color: $black
           font-weight: 500
@@ -100,8 +111,17 @@
           line-height: 1.5
           padding: 0 10px
           position: relative
+          span
+            color: $light-grey
+            position: relative
+            &:before
+              content: '*'
+              position: absolute
+              top: -5px
+              font-size: .9rem
+              left: -15px
       .itemInfoWrapper
-        flex: 3
+        flex: 2
         margin-top: 2rem
         .inputWrapper
       .itemDescription, .itemTags

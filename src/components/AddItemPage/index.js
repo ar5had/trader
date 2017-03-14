@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 import './styles.sass';
-import addItemPic from '../../assets/images/fileUpload.svg';
 
 const isCurrencyValid = val => (
   val === "₹-INR" ||
@@ -55,7 +54,7 @@ class AddItemPage extends Component {
     const priceValidity = isPriceValid(itemData.itemPrice);
 
     if (currencyValidity && priceValidity) {
-      this.setState({errorMsg: ''});
+      this.setState({ errorMsg: '' });
       this.props.addItem(itemData);
       this.close();
     } else {
@@ -89,6 +88,30 @@ class AddItemPage extends Component {
     this.submitItemFormBtn.click();
   }
 
+  handleItemImgLoad(event) {
+    const input = event.target;
+    const file = input.files[0];
+    const fr = new FileReader();
+    fr.onload = () => {
+      this.itemImg.classList.add('imgLoaded');
+      this.itemImg.style.background = `url( ${fr.result} )`;
+    };
+    if (file) {
+      const errorElem = document.querySelector('.imgLoadErrors');
+      errorElem.innerText = "";
+      if (file.size > 512000) {
+        errorElem.innerText =
+          'Image size is greater than 500kb!';
+      } else if(file.type !=='image/jpeg' || file.type !== 'image/png'
+                 || file.type !== 'image/gif') {
+        errorElem.innerText =
+          'Wrong Image Format! Choose a jpeg or png or gif image file.';
+      } else {
+        fr.readAsDataURL(file);
+      }
+    }
+  }
+
   render() {
     return (
       <div className="addItemWrapper" ref={node => { this.modalWrapper = node; }}>
@@ -101,10 +124,19 @@ class AddItemPage extends Component {
             {this.getErrorMessage()}
             <div className="flexWrapper">
               <div className="itemPicWrapper text-center">
-                <img className="img imgStyle" onClick={() => this.picInput.click()} src={addItemPic} />
-                <input name="itemPic" type="file" id="itemPicInput"
-                  accept="image/jpeg, image/png" ref={node => this.picInput = node} />
-                <label htmlFor="itemPicInput" className="imgText frm">Upload Item Picture</label>
+                <div className="img imgStyle"
+                  ref={node => this.itemImg = node}
+                  onClick={() => this.picInput.click()} />
+                <input name="itemPic" type="file"
+                  onChange={this.handleItemImgLoad.bind(this)}
+                  id="itemPicInput"
+                  accept="image/jpeg, image/png, image/gif" ref={node => this.picInput = node} />
+                <label htmlFor="itemPicInput" className="imgText frm">
+                  Upload Item Picture
+                  <br />
+                  <span>Make sure image is of good quality and below 500kb</span>
+                </label>
+                <p className="imgLoadErrors" />
               </div>
               <div className="itemInfoWrapper">
                 <div className="inputWrapper">
@@ -130,12 +162,12 @@ class AddItemPage extends Component {
                 <div className="inputWrapper">
                   <label htmlFor="itemDescription">Description:</label>
                   <textarea name="itemDescription" id="itemDescription" className="itemDescription"
-                   placeholder="Enter a good Item Description so that other users get interested in your Item" required />
+                    placeholder="Enter a good Item Description so that other users get interested in your Item" required />
                 </div>
                 <div className="inputWrapper">
                   <label htmlFor="itemTags">Tags(Comma Separated):</label>
                   <textarea name="itemTags" id="itemTags"
-                   className="itemTags" placeholder="Enter Tags for better searchablity of your Item" required />
+                    className="itemTags" placeholder="Enter Tags for better searchablity of your Item" required />
                 </div>
               </div>
               <input type="submit" ref={node => (this.submitItemFormBtn = node)} style={{ display: 'none' }} />
