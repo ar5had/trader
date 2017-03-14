@@ -12,7 +12,8 @@ class UserItem extends Component {
     return (
       <div className="uIWrapper" ref={node => this.itemNode = node}>
         <div className="upper">
-          <div className="userImg" />
+          <div className="userImg"
+           style={{background: `url(${data.itemPic})`}} />
           <div className="itemInfo">
             <h3 className="itemName">
               <Link to={`/item/${data.key}`}>{data.itemName}</Link>

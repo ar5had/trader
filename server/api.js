@@ -1,8 +1,19 @@
 import User from '../models/user';
 import Item from '../models/item';
 import objectAssign from 'object-assign';
+import cloudinary from 'cloudinary';
+import multer from 'multer';
+
+const upload = multer({ dest: '../uploads/', limits: { fileSize: 512000 } });
 
 module.exports = function (app) {
+
+  cloudinary.config({
+    cloud_name: process.env.CAPI_CLOUD_NAME,
+    api_key: process.env.CAPI_KEY,
+    api_secret: process.env.CAPI_SECRET
+  });
+
   const isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
       next();
@@ -35,21 +46,25 @@ module.exports = function (app) {
       });
   });
 
-  app.post('/api/addMyItem', (req, res) => {
+  app.post('/api/addMyItem', upload.single('itemPic'), (req, res) => {
     const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
     const data = objectAssign({}, req.body, { itemAdditionDate: new Date().toDateString().slice(4), key: new Date().getTime() }, ownerInfo);
     const newItem = new Item(data);
-    newItem.save((err, doc) => {
-      if (err) {
-        console.error('Error happened while adding new myitem-', err);
-        res.sendStatus(500);
-      } else {
-        const item = objectAssign({}, doc._doc);
-        delete item._id;
-        delete item.__v;
-        delete item.itemOwnerId;
-        res.json(item);
-      }
+
+    cloudinary.uploader.upload(`${req.file.path}`, function (result) {
+      newItem.itemPic = result.secure_url;
+      newItem.save((err, doc) => {
+        if (err) {
+          console.error('Error happened while adding new myitem-', err);
+          res.sendStatus(500);
+        } else {
+          const item = objectAssign({}, doc._doc);
+          delete item._id;
+          delete item.__v;
+          delete item.itemOwnerId;
+          res.json(item);
+        }
+      });
     });
   });
 
@@ -109,7 +124,7 @@ module.exports = function (app) {
           console.error('Error happened while loading individual Item-', err);
           res.sendStatus(500);
         } else {
-          if(doc) {
+          if (doc) {
             const item = objectAssign({}, doc._doc);
             const ownItem = item.itemOwnerId === (req.user && req.user._id.toString());
             delete item._id;

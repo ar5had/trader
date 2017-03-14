@@ -43,19 +43,22 @@ class AddItemPage extends Component {
 
   handleNewItemFormSubmit(event) {
     event.preventDefault();
-    const itemData = {};
+    const fd = new FormData();
     [].forEach.call(event.target, (elem) => {
       if (elem.getAttribute('type') !== 'submit') {
-        itemData[elem.getAttribute('name')] = elem.value;
+        if (elem.getAttribute('type') === 'file') {
+          fd.append(elem.getAttribute('name'), elem.files[0]);
+        } else {
+          fd.append(elem.getAttribute('name'), elem.value);
+        }
       }
     });
-
-    const currencyValidity = isCurrencyValid(itemData.itemCurrency);
-    const priceValidity = isPriceValid(itemData.itemPrice);
+    const currencyValidity = isCurrencyValid(fd.get('itemCurrency'));
+    const priceValidity = isPriceValid(fd.get('itemPrice'));
 
     if (currencyValidity && priceValidity) {
       this.setState({ errorMsg: '' });
-      this.props.addItem(itemData);
+      this.props.addItem(fd);
       this.close();
     } else {
       scrollElemToTop(document.addItemForm);
@@ -99,11 +102,12 @@ class AddItemPage extends Component {
     if (file) {
       const errorElem = document.querySelector('.imgLoadErrors');
       errorElem.innerText = "";
+
       if (file.size > 512000) {
         errorElem.innerText =
           'Image size is greater than 500kb!';
-      } else if(file.type !=='image/jpeg' || file.type !== 'image/png'
-                 || file.type !== 'image/gif') {
+      } else if (file.type !== 'image/jpeg' && file.type !== 'image/png'
+        && file.type !== 'image/gif') {
         errorElem.innerText =
           'Wrong Image Format! Choose a jpeg or png or gif image file.';
       } else {
@@ -120,7 +124,11 @@ class AddItemPage extends Component {
           <div className="heading">
             <h3>Add Item</h3>
           </div>
-          <form name="addItemForm" className="itemWrapper" onSubmit={this.handleNewItemFormSubmit.bind(this)}>
+          <form name="addItemForm"
+            encType="multipart/form-data"
+            className="itemWrapper"
+            onSubmit={this.handleNewItemFormSubmit.bind(this)}
+          >
             {this.getErrorMessage()}
             <div className="flexWrapper">
               <div className="itemPicWrapper text-center">
@@ -130,7 +138,7 @@ class AddItemPage extends Component {
                 <input name="itemPic" type="file"
                   onChange={this.handleItemImgLoad.bind(this)}
                   id="itemPicInput"
-                  accept="image/jpeg, image/png, image/gif" ref={node => this.picInput = node} />
+                  accept="image/jpeg, image/png, image/gif" ref={node => this.picInput = node} required />
                 <label htmlFor="itemPicInput" className="imgText frm">
                   Upload Item Picture
                   <br />

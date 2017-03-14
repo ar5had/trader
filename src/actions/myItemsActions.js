@@ -6,10 +6,9 @@ export function addMyItem(itemData) {
   return (dispatch) => {
     fetch('/api/addMyItem', {
       method: 'POST',
-      body: JSON.stringify(itemData),
+      body: itemData,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Cache': 'no-cache'
       },
       credentials: 'same-origin'
