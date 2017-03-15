@@ -28,7 +28,9 @@ class ItemPage extends Component {
     const data = this.props.app;
     return (
       <div className="itemPageWrapper">
-        <div className="itemImgWrapper" />
+        <div className="itemImgWrapper"
+          style={{background: `url(${data.itemPic})`}}
+        />
         <div className="itemInfoWrapper">
           <Link className="backLink" to="/">
             <span className="small">

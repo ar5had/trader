@@ -9,13 +9,15 @@ class Item extends Component {
   }
 
   render() {
-    const {name, price, itemId} = this.props;
+    const {name, price, itemId, pic} = this.props;
     const url = `/item/${itemId}`;
     const openItem = this.openItem.bind(this, url);
 
     return(
       <div className="item text-center">
-        <div className="content" onClick={openItem} />
+        <div className="content"
+          style={{ background: `url(${pic})`}}
+          onClick={openItem} />
         <h3 className="itemName" onClick={openItem}>
           {name}
         </h3>
@@ -31,7 +33,8 @@ class Item extends Component {
 Item.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
-  itemId: PropTypes.number.isRequired
+  itemId: PropTypes.number.isRequired,
+  pic: PropTypes.string.isRequired
 };
 
 export default Item;

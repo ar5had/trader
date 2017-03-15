@@ -4,8 +4,10 @@ import objectAssign from 'object-assign';
 import cloudinary from 'cloudinary';
 import multer from 'multer';
 
-const upload = multer({ dest: '../uploads/',
-                        limits: { fileSize: 512000 } });
+const upload = multer({
+  dest: '../uploads/',
+  limits: { fileSize: 512000 }
+});
 
 module.exports = function (app) {
 
@@ -48,8 +50,9 @@ module.exports = function (app) {
   });
 
   app.post('/api/addMyItem', upload.single('itemPic'), (req, res) => {
+    const date = new Date();
     const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
-    const data = objectAssign({}, req.body, { itemAdditionDate: new Date().toDateString().slice(4), key: new Date().getTime() }, ownerInfo);
+    const data = objectAssign({}, req.body, { itemAdditionDate: date.toDateString().slice(4), key: date.getTime() }, ownerInfo);
     const newItem = new Item(data);
 
     cloudinary.uploader.upload(`${req.file.path}`, function (result) {
@@ -57,7 +60,7 @@ module.exports = function (app) {
       newItem.save((err, doc) => {
         if (err) {
           console.error('Error happened while adding new myitem-', err);
-          res.status(500).send({error: 'Some error happened while adding new item!'});
+          res.status(500).send({ error: 'Some error happened while adding new item!' });
         } else {
           const item = objectAssign({}, doc._doc);
           delete item._id;
@@ -66,12 +69,12 @@ module.exports = function (app) {
           res.json(item);
         }
       });
-    });
+    }, { public_id: `${date.getTime()}` });
   });
 
   app.get('/api/getMyItemsData', isLoggedIn, (req, res) => {
     Item.find({ itemOwnerId: req.user._id.toString() },
-      ['key', 'itemName', 'itemCurrency', 'itemAdditionDate', 'itemPrice', 'itemDescription', 'itemTags'],
+      ['key', 'itemName', 'itemPic', 'itemCurrency', 'itemAdditionDate', 'itemPrice', 'itemDescription', 'itemTags'],
       {
         sort: { key: -1 }
       }
@@ -79,7 +82,7 @@ module.exports = function (app) {
       .exec((err, docs) => {
         if (err) {
           console.error('Error happened while loading myItems-', err);
-          res.status(500).send({error: 'Some error happened while loading all of your items!'});
+          res.status(500).send({ error: 'Some error happened while loading all of your items!' });
         } else {
           res.json(docs);
         }
@@ -87,6 +90,7 @@ module.exports = function (app) {
   });
 
   app.delete('/api/deleteMyItem/:key', isLoggedIn, (req, res) => {
+    cloudinary.uploader.destroy(`${req.params.key}`);
     Item.find({ key: req.params.key })
       .remove((err) => {
         if (err) {
@@ -100,7 +104,7 @@ module.exports = function (app) {
 
   app.get('/api/getAllItemsData', (req, res) => {
     Item.find({},
-      ['key', 'itemName', 'itemCurrency', 'itemPrice'],
+      ['key', 'itemName', 'itemCurrency', 'itemPrice', 'itemPic'],
       {
         sort: { key: -1 }
       }
@@ -117,7 +121,7 @@ module.exports = function (app) {
 
   app.get('/api/getIndividualItemData/:key', (req, res) => {
     Item.findOne({ key: req.params.key },
-      ['key', 'itemName', 'itemCurrency', 'itemPrice',
+      ['key', 'itemName', 'itemCurrency', 'itemPrice', 'itemPic',
         'itemDescription', 'itemTags', 'itemOwner', 'itemOwnerId']
     )
       .exec((err, doc) => {
