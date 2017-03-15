@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes';
 import fetch from 'unfetch';
 import objectAssign from 'object-assign';
 
-export function addMyItem(itemData) {
+export function addMyItem(itemData, closeModal, showErrorMsg, hideWaitingMsg) {
   return (dispatch) => {
     fetch('/api/addMyItem', {
       method: 'POST',
@@ -27,9 +27,13 @@ export function addMyItem(itemData) {
             payload: data
           }
         );
+        hideWaitingMsg();
+        closeModal();
       })
       .catch(err => {
         /* eslint-disable no-console */
+        hideWaitingMsg();
+        showErrorMsg('Sorry! Your item can\'t be created due to some error. Try Again!');
         console.error(`Got error:${err} while dispatching ADD_MY_ITEM!`);
       });
   };

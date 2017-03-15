@@ -24,7 +24,8 @@ class AddItemPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMsg: null
+      errorMsg: null,
+      showWaitingMsg: false
     };
   }
 
@@ -58,10 +59,14 @@ class AddItemPage extends Component {
 
     if (currencyValidity && priceValidity) {
       this.setState({ errorMsg: '' });
-      this.props.addItem(fd);
-      this.close();
+      this.props.addItem(
+        fd,
+        this.close.bind(this),
+        this.showErrorMessage.bind(this),
+        this.hideWaitingMsg.bind(this)
+      );
+      this.showWaitingMsg();
     } else {
-      scrollElemToTop(document.addItemForm);
       if (!currencyValidity) {
         this.showErrorMessage('Enter correct currency from the given list!');
       } else if (!priceValidity) {
@@ -71,7 +76,33 @@ class AddItemPage extends Component {
   }
 
   showErrorMessage(str) {
+    scrollElemToTop(document.addItemForm);
     this.setState({ errorMsg: str });
+  }
+
+  showWaitingMsg() {
+    this.setState({showWaitingMsg: true});
+  }
+
+  hideWaitingMsg() {
+    this.setState({showWaitingMsg: false});
+  }
+
+  getWaitingMsg() {
+    if (!this.state.showWaitingMsg) {
+      return;
+    } else {
+      return(
+        <div className="wmWrapper">
+          <div>
+            <h3>Hang on tight!</h3>
+            <div>
+              <div />
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 
   getErrorMessage() {
@@ -121,6 +152,7 @@ class AddItemPage extends Component {
       <div className="addItemWrapper" ref={node => { this.modalWrapper = node; }}>
         <div className="hider" />
         <div className="modal">
+          {this.getWaitingMsg()}
           <div className="heading">
             <h3>Add Item</h3>
           </div>

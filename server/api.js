@@ -4,7 +4,8 @@ import objectAssign from 'object-assign';
 import cloudinary from 'cloudinary';
 import multer from 'multer';
 
-const upload = multer({ dest: '../uploads/', limits: { fileSize: 512000 } });
+const upload = multer({ dest: '../uploads/',
+                        limits: { fileSize: 512000 } });
 
 module.exports = function (app) {
 
@@ -38,7 +39,7 @@ module.exports = function (app) {
     User.findByIdAndUpdate(req.user.id, newProfileData, { new: true })
       .exec((err, doc) => {
         if (err) {
-          res.status(500).json({ error: "Error happened while updating user info!" });
+          res.status(500).send({ error: "Error happened while updating user info!" });
         } else {
           const {address, phoneNo, email} = doc;
           res.json({ address, phoneNo, email });
@@ -56,7 +57,7 @@ module.exports = function (app) {
       newItem.save((err, doc) => {
         if (err) {
           console.error('Error happened while adding new myitem-', err);
-          res.sendStatus(500);
+          res.status(500).send({error: 'Some error happened while adding new item!'});
         } else {
           const item = objectAssign({}, doc._doc);
           delete item._id;
@@ -78,7 +79,7 @@ module.exports = function (app) {
       .exec((err, docs) => {
         if (err) {
           console.error('Error happened while loading myItems-', err);
-          res.sendStatus(500);
+          res.status(500).send({error: 'Some error happened while loading all of your items!'});
         } else {
           res.json(docs);
         }
