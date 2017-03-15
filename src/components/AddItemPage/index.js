@@ -45,17 +45,26 @@ class AddItemPage extends Component {
   handleNewItemFormSubmit(event) {
     event.preventDefault();
     const fd = new FormData();
+    let emptyFieldMsg;
     [].forEach.call(event.target, (elem) => {
       if (elem.getAttribute('type') !== 'submit') {
         if (elem.getAttribute('type') === 'file') {
-          fd.append(elem.getAttribute('name'), elem.files[0]);
+          if (!elem.files[0] && !emptyFieldMsg)
+            emptyFieldMsg = 'Please add an item picture!';
+            fd.append(elem.getAttribute('name'), elem.files[0]);
         } else {
+          if (!elem.value)
+            emptyFieldMsg = `Item ${elem.getAttribute('name').slice(4)} is a required field!`;
           fd.append(elem.getAttribute('name'), elem.value);
         }
       }
     });
     const currencyValidity = isCurrencyValid(fd.get('itemCurrency'));
     const priceValidity = isPriceValid(fd.get('itemPrice'));
+
+    if (emptyFieldMsg) {
+      return this.showErrorMessage(emptyFieldMsg);
+    }
 
     if (currencyValidity && priceValidity) {
       this.setState({ errorMsg: '' });
@@ -81,18 +90,18 @@ class AddItemPage extends Component {
   }
 
   showWaitingMsg() {
-    this.setState({showWaitingMsg: true});
+    this.setState({ showWaitingMsg: true });
   }
 
   hideWaitingMsg() {
-    this.setState({showWaitingMsg: false});
+    this.setState({ showWaitingMsg: false });
   }
 
   getWaitingMsg() {
     if (!this.state.showWaitingMsg) {
       return;
     } else {
-      return(
+      return (
         <div className="wmWrapper">
           <div>
             <h3>Hang on tight!</h3>

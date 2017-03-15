@@ -3,11 +3,15 @@ import Item from '../models/item';
 import objectAssign from 'object-assign';
 import cloudinary from 'cloudinary';
 import multer from 'multer';
+import path from 'path';
+import cp from 'child_process';
+
+const uploadDir = path.resolve(process.cwd(), 'uploads');
 
 const upload = multer({
-  dest: '../uploads/',
+  dest: uploadDir,
   limits: { fileSize: 512000 }
-});
+}).single('itemPic');
 
 module.exports = function (app) {
 
@@ -49,27 +53,50 @@ module.exports = function (app) {
       });
   });
 
-  app.post('/api/addMyItem', upload.single('itemPic'), (req, res) => {
-    const date = new Date();
-    const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
-    const data = objectAssign({}, req.body, { itemAdditionDate: date.toDateString().slice(4), key: date.getTime() }, ownerInfo);
-    const newItem = new Item(data);
-
-    cloudinary.uploader.upload(`${req.file.path}`, function (result) {
-      newItem.itemPic = result.secure_url;
-      newItem.save((err, doc) => {
-        if (err) {
-          console.error('Error happened while adding new myitem-', err);
-          res.status(500).send({ error: 'Some error happened while adding new item!' });
-        } else {
-          const item = objectAssign({}, doc._doc);
-          delete item._id;
-          delete item.__v;
-          delete item.itemOwnerId;
-          res.json(item);
+  app.post('/api/addMyItem', (req, res) => {
+    upload(req, res, err => {
+      if (err) {
+        res.status(500).send('File upload failed.').end();
+      } else {
+        if (!req.file) {
+          return res.status(403).send('Please upload a picture of item!').end();
         }
-      });
-    }, { public_id: `${date.getTime()}` });
+
+        if (!/^image\/(jpe?g|png|gif)$/i.test(req.file.mimetype)) {
+          return res.status(403).send('Please upload JPEG or PNG or GIF image file!').end();
+        }
+
+        const date = new Date();
+        const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
+        const data = objectAssign({}, req.body, { itemAdditionDate: date.toDateString().slice(4), key: date.getTime() }, ownerInfo);
+        const newItem = new Item(data);
+
+        cloudinary.uploader.upload(`${req.file.path}`, function (result) {
+          newItem.itemPic = result.secure_url;
+          newItem.save((err, doc) => {
+            if (err) {
+              console.error('Error happened while adding new myitem-', err);
+              res.status(500).send({ error: 'Some error happened while adding new item!' });
+            } else {
+              const item = objectAssign({}, doc._doc);
+              delete item._id;
+              delete item.__v;
+              delete item.itemOwnerId;
+              res.json(item);
+            }
+          });
+
+          // clear the uploadDir
+          cp.exec('rm -r ' + uploadDir + '/*', err => {
+            if(err) {
+              console.error('Error happenned while clearing uploadDir-', err);
+            }
+          });
+
+        }, { public_id: `${date.getTime()}` });
+
+      }
+    })
   });
 
   app.get('/api/getMyItemsData', isLoggedIn, (req, res) => {

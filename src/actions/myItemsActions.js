@@ -15,7 +15,7 @@ export function addMyItem(itemData, closeModal, showErrorMsg, hideWaitingMsg) {
     })
       .then(response => {
         if (response.status >= 400) {
-          throw new Error(response);
+          throw new Error(response.statusText);
         } else {
           return response.json();
         }
@@ -33,7 +33,8 @@ export function addMyItem(itemData, closeModal, showErrorMsg, hideWaitingMsg) {
       .catch(err => {
         /* eslint-disable no-console */
         hideWaitingMsg();
-        showErrorMsg('Sorry! Your item can\'t be created due to some error. Try Again!');
+        console.log(err);
+        showErrorMsg(`Sorry! Your item can\'t be created. Try again!`);
         console.error(`Got error:${err} while dispatching ADD_MY_ITEM!`);
       });
   };
