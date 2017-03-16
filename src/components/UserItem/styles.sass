@@ -2,7 +2,6 @@
 
 .uIWrapper
   margin: 0 0 3rem 0
-  transition: all .3s
   .removeBtnWrapper.open
     transform: translateX(0)
     div
@@ -15,21 +14,22 @@
       z-index: -9999
   .removeBtnWrapper
     transition: transform .3s
-    transform: translateX(-310px)
+    transform: translateX(-250px)
+    min-width: 365px
     div
       z-index: -9999
       opacity: 0
       visibility: hidden
-      transition: opacity .3s, visibility .3s
+      transition: opacity .2s, visibility .3s
       display: flex
       align-items: center
-      padding: 0 .5rem
       p
         font-weight: 500
+        margin-right: 5px
       button
-        margin-left: 1rem
+        margin-left: .5rem
         color: #fcfcfc
-        padding: .5rem 2rem
+        padding: 5px 1.5rem
         background: $black
         border: solid 2px $black
         &:last-child
@@ -101,13 +101,13 @@
     text-transform: uppercase
     padding: .5rem 1rem
     cursor: pointer
-    transition: opacity .3s, visibility .3s
     &:hover
       opacity: .8
   .deleteBtn
     background: $black
     color: #fff
     z-index: 1
+    transition: opacity .2s, visibility .3s
   .editBtn
     margin-left: 1rem
     background: none
