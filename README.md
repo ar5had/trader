@@ -34,8 +34,4 @@ A full stack app for trading.
 
 ## Todos
 * Implement trade req and propose logic
-* Handle image upload error on the server side so that client can be notified on error
 * load images in a pretty way
-* use streams and decrease the load time of images
-* Check waiting message in different browser.. implement it with flex if not vendor proof
-* Scroll bar and scrollTop on each component!
