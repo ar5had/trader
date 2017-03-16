@@ -1,6 +1,7 @@
 @import '../../styles/variables.sass'
 
 .uIWrapper
+  transition: opacity .15s, margin .3s
   margin: 0 0 3rem 0
   .removeBtnWrapper.open
     transform: translateX(0)
@@ -114,6 +115,3 @@
     border: solid 2px
     &:hover
       opacity: .7
-
-.uIWrapper.blacklisted
-  opacity: .5

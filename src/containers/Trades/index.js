@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as myItemsActions from '../../actions/myItemsActions';
+import * as tradeActions from '../../actions/tradeActions';
 
 import TradeRequest from '../../components/TradeRequest/index';
 import ProposedTrade from '../../components/ProposedTrade/index';
@@ -20,10 +20,23 @@ class Trades extends Component {
   }
 
   getAllProposedTrades() {
-    return ([
-      <ProposedTrade key="1" />,
-      <ProposedTrade key="2" />
-    ]);
+    const trades = this.props.trades.proposedTrades;
+    if(trades.length > 0) {
+      return trades.map(
+        elem =>
+          <ProposedTrade
+            itemPic={elem.itemPic}
+            itemOwner={elem.itemOwner}
+            itemId={elem.id}
+            cancelProposal={this.cancelTradeRequest.bind(this)}
+            itemName={elem.itemName}
+            key={`${elem.id}pt`}
+          />
+      );
+    } else {
+      return (<h4 className="noitemHeading"> No trade proposal sent!</h4>);
+    }
+
   }
 
   getAllTradeRequests() {
@@ -33,6 +46,9 @@ class Trades extends Component {
     ]);
   }
 
+  cancelTradeRequest(id, node) {
+    this.props.tradeActions.cancelTradeProposed(id, node);
+  }
 
   render() {
     return (
@@ -60,23 +76,23 @@ class Trades extends Component {
 }
 
 Trades.propTypes = {
-  // trades: PropTypes.object.isRequired,
-  itemActions: PropTypes.object.isRequired
+  trades: PropTypes.object.isRequired,
+  tradeActions: PropTypes.object.isRequired
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     trades: state.tradesData
-//   };
-// };
+const mapStateToProps = (state) => {
+  return {
+    trades: state.tradesData
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    itemActions: bindActionCreators(myItemsActions, dispatch)
+    tradeActions: bindActionCreators(tradeActions, dispatch)
   };
 };
 
 export default connect(
-  /*mapStateToProps*/ undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Trades);

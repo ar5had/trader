@@ -172,7 +172,7 @@ module.exports = function (app) {
 
             let itemRequestedByCurrentUser = false;
 
-            if(req.user) {
+            if (req.user) {
               itemRequestedByCurrentUser = item.itemRequests.some(elem => (
                 elem.reqMaker.id === req.user._id.toString()
               ));
@@ -202,7 +202,7 @@ module.exports = function (app) {
           elem.reqMaker.id === req.user._id.toString()
         ));
 
-        if(!itemRequestedByCurrentUser) {
+        if (!itemRequestedByCurrentUser) {
           const itemRequest = {
             reqMaker: {
               id: req.user._id.toString(),
@@ -214,14 +214,18 @@ module.exports = function (app) {
           doc.save((err, doc) => {
             const itemRequestedByCurrentUser = true;
 
-            req.user.tradesProposed.push(req.params.key);
+            const proposedTrade = {};
+            proposedTrade.id = req.params.key;
+            proposedTrade.itemName = doc.itemName;
+            proposedTrade.itemPic = doc.itemPic;
+            proposedTrade.itemOwner = doc.itemOwner;
+            req.user.tradesProposed.unshift(proposedTrade);
             req.user.markModified('tradesProposed');
             req.user.save(err => {
-              if(err) {
+              if (err) {
                 console.log('Error happened when adding trades request to user model.');
                 res.status(500).send('Error while saving to user model!').end();
               } else {
-                console.log('save called');
                 res.json(objectAssign({}, doc.toObject(), { itemRequestedByCurrentUser }));
               }
             });
@@ -233,4 +237,42 @@ module.exports = function (app) {
       }
     });
   });
+
+  app.get('/api/getTradesData', isLoggedIn, (req, res) => {
+    res.json({ proposedTrades: req.user.tradesProposed, tradeRequests: [] });
+  });
+
+  app.post('/api/removeitemrequest', isLoggedIn, (req, res) => {
+    const key = req.body.id;
+    Item.findOne({key: key})
+      .exec((err, doc) => {
+        if(err) {
+          console.log("Some error happened while removing item request-", err);
+          res.status(500).send('Some error happened while removing item request');
+        } else {
+          doc.itemRequests = doc.itemRequests.filter(elem => (
+            elem.reqMaker.id !== req.user._id.toString()
+          ));
+          doc.save(err => {
+            if(err) {
+              console.log("Some error happened while removing item request-", err);
+            } else {
+              req.user.tradesProposed = req.user.tradesProposed.filter(
+                elem => elem.id !== key
+              );
+              req.user.markModified('tradesProposed');
+              req.user.save(err => {
+                if(err) {
+                  console.log("Error while removing cancelling trade proposal!");
+                } else {
+                  res.json({ proposedTrades: req.user.tradesProposed });
+                }
+              });
+            }
+          });
+        }
+      });
+
+  });
+
 };

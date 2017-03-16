@@ -41,11 +41,7 @@ export default function AllRoutes(dispatch) {
     CheckAuth(
       () => {
         const path = nextState.location.pathname;
-        if (path !== '/trades') {
-          getInitialState(cb, path.slice(1))(dispatch);
-        } else {
-          cb();
-        }
+        getInitialState(cb, path.slice(1))(dispatch);
       },
       () => {
         replace({

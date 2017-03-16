@@ -20,7 +20,7 @@ class ItemPage extends Component {
   }
 
   getButton() {
-    if(this.props.app.ownItem) {
+    if (this.props.app.ownItem) {
       return (
         <div className="optionsWrapper">
           <Link className="backLink" to="/myItems">
@@ -28,13 +28,21 @@ class ItemPage extends Component {
           </Link>
         </div>
       );
+    } else if (this.props.app.itemRequestedByCurrentUser) {
+      return (
+        <button className="reqTradeBtn normalBtn disabled" disabled={true}>
+          Requested
+        </button>
+      );
     } else {
       return (
         <button
           className="reqTradeBtn normalBtn"
           onClick={
             () => {
-              if(this.props.user.loggedIn) {
+              if (this.props.user.loggedIn) {
+                document.querySelector('.reqTradeBtn').classList.add('disabled');
+                document.querySelector('.reqTradeBtn').disabled = true;
                 this.props
                   .actions.requestItem(
                     this.props.app.key, this.showErrMsg.bind(this)
@@ -52,11 +60,11 @@ class ItemPage extends Component {
   }
 
   showErrMsg(str) {
-    this.setState({'errMsg': str});
+    this.setState({ 'errMsg': str });
   }
 
   getMsg() {
-    if(this.state.errMsg) {
+    if (this.state.errMsg) {
       return (
         <p>{this.state.errMsg}</p>
       );
@@ -69,19 +77,19 @@ class ItemPage extends Component {
     return (
       <div className="itemPageWrapper">
         <div className="itemImgWrapper bkdPic"
-          style={{background: `url(${data.itemPic})`}}
+          style={{ background: `url(${data.itemPic})` }}
         />
         <div className="itemInfoWrapper">
           <Link className="backLink" to="/">
             <span className="small">
               <svg fill="#000000" height="13" viewBox="0 0 18 15" width="13" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 10l5 5 5-5z"/>
-                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 10l5 5 5-5z" />
+                <path d="M0 0h24v24H0z" fill="none" />
               </svg>
             </span>All Items
           </Link>
           <h3 className="itemName">{data.itemName}</h3>
-          <p className="itemCost frm">{`${data.itemCurrency.slice(0,1)}${data.itemPrice}`}</p>
+          <p className="itemCost frm">{`${data.itemCurrency.slice(0, 1)}${data.itemPrice}`}</p>
           <p className="addDate frm">{data.itemAdditionDate}</p>
           <p className="description">
             {data.itemDescription}
