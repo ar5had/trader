@@ -32,6 +32,8 @@ module.exports = function (passport) {
           } else {
             const newUser = new User();
             newUser.twitter.id = profile.id;
+            newUser.tradesProposed = [];
+            newUser.tradesAccepted = [];
             newUser.twitter.token = token;
             newUser.twitter.username = profile.username;
             newUser.name = profile.displayName;
@@ -76,6 +78,8 @@ module.exports = function (passport) {
           } else {
             const newUser = new User();
             newUser.facebook.id = profile.id;
+            newUser.tradesProposed = [];
+            newUser.tradesAccepted = [];
             newUser.facebook.token = token;
             newUser.name = profile.displayName;
             newUser.facebook.email = (profile.emails && profile.emails[0].value) || "Email not added";
@@ -118,6 +122,8 @@ module.exports = function (passport) {
           } else {
             const newUser = new User();
             newUser.google.id = profile.id;
+            newUser.tradesProposed = [];
+            newUser.tradesAccepted = [];
             newUser.google.token = token;
             newUser.name = profile.displayName;
             newUser.google.email = profile.emails[0].value; // pull the first email

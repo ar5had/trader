@@ -1,11 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import './styles.sass';
 import loadPageProps from '../../utils/loadPageProps';
+import * as individualItemActions from '../../actions/individualItemActions';
 
 class ItemPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errMsg: ''
+    };
+  }
+
   componentDidMount() {
     loadPageProps('Item - Trader');
   }
@@ -20,15 +29,46 @@ class ItemPage extends Component {
         </div>
       );
     } else {
-      return <button className="reqTradeBtn normalBtn">Request Trade</button>;
+      return (
+        <button
+          className="reqTradeBtn normalBtn"
+          onClick={
+            () => {
+              if(this.props.user.loggedIn) {
+                this.props
+                  .actions.requestItem(
+                    this.props.app.key, this.showErrMsg.bind(this)
+                  );
+              } else {
+                browserHistory.push('/login');
+              }
+            }
+          }
+        >
+          Request Trade
+        </button>
+      );
     }
+  }
+
+  showErrMsg(str) {
+    this.setState({'errMsg': str});
+  }
+
+  getMsg() {
+    if(this.state.errMsg) {
+      return (
+        <p>{this.state.errMsg}</p>
+      );
+    }
+    return;
   }
 
   render() {
     const data = this.props.app;
     return (
       <div className="itemPageWrapper">
-        <div className="itemImgWrapper"
+        <div className="itemImgWrapper bkdPic"
           style={{background: `url(${data.itemPic})`}}
         />
         <div className="itemInfoWrapper">
@@ -42,6 +82,7 @@ class ItemPage extends Component {
           </Link>
           <h3 className="itemName">{data.itemName}</h3>
           <p className="itemCost frm">{`${data.itemCurrency.slice(0,1)}${data.itemPrice}`}</p>
+          <p className="addDate frm">{data.itemAdditionDate}</p>
           <p className="description">
             {data.itemDescription}
           </p>
@@ -54,6 +95,7 @@ class ItemPage extends Component {
             }
           </div>
           <p className="seller frm">By <span>{data.itemOwner}</span></p>
+          {this.getMsg()}
           {this.getButton()}
         </div>
       </div>
@@ -62,16 +104,26 @@ class ItemPage extends Component {
 }
 
 ItemPage.propTypes = {
-  app: PropTypes.object.isRequired
+  app: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    app: state.individualItemData
+    app: state.individualItemData,
+    user: state.appData
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(individualItemActions, dispatch)
   };
 };
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ItemPage);
 

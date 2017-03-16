@@ -68,7 +68,15 @@ module.exports = function (app) {
 
         const date = new Date();
         const ownerInfo = { itemOwnerId: req.user._id, itemOwner: req.user.name };
-        const data = objectAssign({}, req.body, { itemAdditionDate: date.toDateString().slice(4), key: date.getTime() }, ownerInfo);
+        const data = objectAssign(
+          {},
+          req.body,
+          {
+            itemAdditionDate: date.toDateString().slice(4),
+            itemRequests: [], key: date.getTime()
+          },
+          ownerInfo
+        );
         const newItem = new Item(data);
 
         cloudinary.uploader.upload(`${req.file.path}`, function (result) {
@@ -78,7 +86,7 @@ module.exports = function (app) {
               console.error('Error happened while adding new myitem-', err);
               res.status(500).send({ error: 'Some error happened while adding new item!' });
             } else {
-              const item = objectAssign({}, doc._doc);
+              const item = objectAssign({}, doc.toObject());
               delete item._id;
               delete item.__v;
               delete item.itemOwnerId;
@@ -88,7 +96,7 @@ module.exports = function (app) {
 
           // clear the uploadDir
           cp.exec('rm -r ' + uploadDir + '/*', err => {
-            if(err) {
+            if (err) {
               console.error('Error happenned while clearing uploadDir-', err);
             }
           });
@@ -96,12 +104,13 @@ module.exports = function (app) {
         }, { public_id: `${date.getTime()}` });
 
       }
-    })
+    });
   });
 
   app.get('/api/getMyItemsData', isLoggedIn, (req, res) => {
     Item.find({ itemOwnerId: req.user._id.toString() },
-      ['key', 'itemName', 'itemPic', 'itemCurrency', 'itemAdditionDate', 'itemPrice', 'itemDescription', 'itemTags'],
+      ['key', 'itemName', 'itemPic', 'itemCurrency', 'itemAdditionDate',
+        'itemPrice', 'itemDescription', 'itemTags'],
       {
         sort: { key: -1 }
       }
@@ -148,8 +157,8 @@ module.exports = function (app) {
 
   app.get('/api/getIndividualItemData/:key', (req, res) => {
     Item.findOne({ key: req.params.key },
-      ['key', 'itemName', 'itemCurrency', 'itemPrice', 'itemPic',
-        'itemDescription', 'itemTags', 'itemOwner', 'itemOwnerId']
+      ['key', 'itemName', 'itemCurrency', 'itemPrice', 'itemPic', 'itemRequests',
+        'itemDescription', 'itemAdditionDate', 'itemTags', 'itemOwner', 'itemOwnerId']
     )
       .exec((err, doc) => {
         if (err) {
@@ -157,17 +166,71 @@ module.exports = function (app) {
           res.sendStatus(500);
         } else {
           if (doc) {
-            const item = objectAssign({}, doc._doc);
+            const item = objectAssign({}, doc.toObject());
+            // checking whether the current user has requested the item
+            // in past or not
+
+            let itemRequestedByCurrentUser = false;
+
+            if(req.user) {
+              itemRequestedByCurrentUser = item.itemRequests.some(elem => (
+                elem.reqMaker.id === req.user._id.toString()
+              ));
+            }
+
             const ownItem = item.itemOwnerId === (req.user && req.user._id.toString());
             delete item._id;
             delete item.itemOwnerId;
             delete item.__v;
             item.ownItem = ownItem;
-            res.json(item);
+            res.json(objectAssign(item, { itemRequestedByCurrentUser }));
           } else {
             res.sendStatus(400);
           }
         }
       });
+  });
+
+  app.get('/api/requestitem/:key', isLoggedIn, (req, res) => {
+    Item.findOne({ key: parseInt(req.params.key, 10) }, (err, doc) => {
+      if (err) {
+        console.error('Error happened while loading allItems-', err);
+        res.sendStatus(500);
+      } else {
+        // dont push itemRequest if its already there.
+        const itemRequestedByCurrentUser = doc.itemRequests.some(elem => (
+          elem.reqMaker.id === req.user._id.toString()
+        ));
+
+        if(!itemRequestedByCurrentUser) {
+          const itemRequest = {
+            reqMaker: {
+              id: req.user._id.toString(),
+              name: req.user.name
+            },
+            reqStatus: null
+          };
+          doc.itemRequests.push(itemRequest);
+          doc.save((err, doc) => {
+            const itemRequestedByCurrentUser = true;
+
+            req.user.tradesProposed.push(req.params.key);
+            req.user.markModified('tradesProposed');
+            req.user.save(err => {
+              if(err) {
+                console.log('Error happened when adding trades request to user model.');
+                res.status(500).send('Error while saving to user model!').end();
+              } else {
+                console.log('save called');
+                res.json(objectAssign({}, doc.toObject(), { itemRequestedByCurrentUser }));
+              }
+            });
+
+          });
+        } else {
+          res.json(doc.toObject());
+        }
+      }
+    });
   });
 };

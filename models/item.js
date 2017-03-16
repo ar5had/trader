@@ -13,6 +13,7 @@ const Item = new Schema({
   itemOwner: String,
   itemOwnerId: String,
   itemAdditionDate: String,
+  itemRequests: Array,
   key: Number
 });
 

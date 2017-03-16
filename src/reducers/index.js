@@ -6,6 +6,8 @@ import appDataReducer from './appDataReducer';
 import myItemsReducer from './myItemsReducer';
 import allItemsReducer from './allItemsReducer';
 import individualItemReducer from './individualItemReducer';
+import tradesDataReducer from './tradesDataReducer';
+
 
 const rootReducer = combineReducers({
   profileData: profileDataReducer,
@@ -13,6 +15,7 @@ const rootReducer = combineReducers({
   myItemsData: myItemsReducer,
   allItemsData: allItemsReducer,
   individualItemData: individualItemReducer,
+  tradesData: tradesDataReducer,
   routing: routerReducer
 });
 

@@ -35,9 +35,44 @@ export function loadIndividualItemState(cb, replace, page, id) {
       /* eslint-disable no-console */
       console.error(`Got error:${err} while dispatching GET_INITIAL_${page.toUpperCase()}_STATE!`);
       replace({
-          pathname: '/PagenotFound',
+          pathname: '/pagenotfound',
+          state: { nextPathname: `/item/${id}` }
         });
       cb();
+    });
+  };
+}
+
+export function requestItem(id, showErrMsg) {
+  return (dispatch) => {
+    fetch(`/api/requestitem/${id}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Cache': 'no-cache'
+      },
+      credentials: 'same-origin'
+    })
+    .then(response => {
+      if (response.status >= 400) {
+        throw new Error(response);
+      } else {
+        return response.json();
+      }
+    })
+    .then(data => {
+      dispatch(
+        {
+          type: types[`UPDATE_INDIVIDUALITEM_STATE`],
+          payload: data
+        }
+      );
+    })
+    .catch(err => {
+      /* eslint-disable no-console */
+      showErrMsg('Sorry, item can\'t be requested. Try Again!');
+      console.error(`Got error:${err} while requesting item!`);
     });
   };
 }

@@ -35,3 +35,4 @@ A full stack app for trading.
 ## Todos
 * Implement trade req and propose logic
 * load images in a pretty way
+* page redirection after login

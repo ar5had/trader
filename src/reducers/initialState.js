@@ -18,5 +18,9 @@ export default {
   },
   myItems: [],
   allItems: [],
-  individualItemData: {}
+  individualItemData: {},
+  trades: {
+    proposedTrades: [],
+    tradeRequests: []
+  }
 };

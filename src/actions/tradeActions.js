@@ -69,6 +69,40 @@ export function declineTradeReq(data) {
   };
 }
 
+// export function requestItemTrade(data) {
+//   return (dispatch) => {
+//     fetch('/api/addItem', {
+//       method: 'POST',
+//       body: JSON.stringify(data),
+//       headers: {
+//         'Accept': 'application/json',
+//         'Content-Type': 'application/json',
+//         'Cache': 'no-cache'
+//       },
+//       credentials: 'same-origin'
+//     })
+//     .then(response => {
+//       if (response.status >= 400) {
+//         throw new Error(response);
+//       } else {
+//         return response.json();
+//       }
+//     })
+//     .then(data => {
+//       dispatch(
+//         {
+//           type: types.ACCEPT_TRADE_REQ,
+//           payload: data
+//         }
+//       );
+//     })
+//     .catch(err => {
+//       /* eslint-disable no-console */
+//       console.error(`Got error:${err} while dispatching ACCEPT_TRADE_REQ!`);
+//     });
+//   };
+// }
+
 export function cancelTradeProposed(data) {
   return (dispatch) => {
     fetch('/api/addItem', {
@@ -91,7 +125,7 @@ export function cancelTradeProposed(data) {
     .then(data => {
       dispatch(
         {
-          type: types.CANCEL_TRADE_REQ,
+          type: types.CANCEL_TRADE_PROPOSED,
           payload: data
         }
       );

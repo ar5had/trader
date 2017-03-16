@@ -14,15 +14,15 @@ class Item extends Component {
     const openItem = this.openItem.bind(this, url);
 
     return(
-      <div className="item text-center">
-        <div className="content"
+      <div className="item text-center" onClick={openItem}>
+        <div className="content bkdPic"
           style={{ background: `url(${pic})`}}
-          onClick={openItem} />
-        <h3 className="itemName" onClick={openItem}>
+        />
+        <h3 className="itemName">
           {name}
         </h3>
         <br />
-        <p className="itemCost" onClick={openItem}>
+        <p className="itemCost">
           {price}
         </p>
       </div>

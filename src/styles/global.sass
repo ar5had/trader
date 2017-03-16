@@ -153,6 +153,8 @@ input, textarea
   border-bottom: solid 2px $light-grey
   transition: color .3s, border-color .3s
   background: #fff
+  &:invalid
+    box-shadow: none
   &:active, &:focus
     outline: none
     color: $black
@@ -187,8 +189,6 @@ input
   outline: none
   box-sizing: border-box
   width: 100%
-  &:invalid
-    box-shadow: none
 
 .modal-opened
   overflow: hidden
@@ -199,3 +199,9 @@ input
   overflow-y: scroll
   position: absolute
   top: -9999px
+
+.bkdPic
+  background-repeat: no-repeat !important
+  background-position: 50% 50% !important
+  background-size: 100% 100% !important
+  filter: grayscale(30%)
