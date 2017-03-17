@@ -40,14 +40,41 @@ class Trades extends Component {
   }
 
   getAllTradeRequests() {
-    return ([
-      <TradeRequest key="1" />,
-      <TradeRequest key="2" />
-    ]);
+    const trades = this.props.trades.tradeRequests;
+    if(trades.length > 0) {
+      return trades.map(
+        elem =>
+          elem.itemRequests.map(
+            req => (
+              <TradeRequest
+                itemPic={elem.itemPic}
+                reqMaker={req.reqMaker}
+                reqStatus={req.reqStatus}
+                docId={req.docId.toString()}
+                itemId={elem.key.toString()}
+                declineRequest={this.declineRequest.bind(this)}
+                acceptRequest={this.acceptRequest.bind(this)}
+                itemName={elem.itemName}
+                key={`${elem.key}tr`}
+              />
+            )
+          )
+      );
+    } else {
+      return (<h4 className="noitemHeading"> No trade requests!</h4>);
+    }
   }
 
   cancelTradeRequest(id, node) {
     this.props.tradeActions.cancelTradeProposed(id, node);
+  }
+
+  declineRequest(id, docId, node) {
+    this.props.tradeActions.declineTradeReq(id, docId, node);
+  }
+
+  acceptRequest() {
+
   }
 
   render() {

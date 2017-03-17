@@ -36,11 +36,11 @@ export function acceptTrade(data) {
   };
 }
 
-export function declineTradeReq(data) {
+export function declineTradeReq(key, docId, node) {
   return (dispatch) => {
-    fetch('/api/addItem', {
+    fetch('/api/declinerequest', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify({key, docId}),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -52,16 +52,14 @@ export function declineTradeReq(data) {
       if (response.status >= 400) {
         throw new Error(response);
       } else {
-        return response.json();
+        objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight + 14}px`, zIndex: '-22' });
+        setTimeout(() => {
+          dispatch({
+              type: types.UPDATE_TRADEREQUESTS_STATE,
+              payload: docId
+            });
+        }, 1000);
       }
-    })
-    .then(data => {
-      dispatch(
-        {
-          type: types.DECLINE_TRADE_REQ,
-          payload: data
-        }
-      );
     })
     .catch(err => {
       /* eslint-disable no-console */
@@ -93,7 +91,7 @@ export function cancelTradeProposed(id, node) {
       objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight + 14}px`, zIndex: '-22' });
       setTimeout(() => {
         dispatch({
-            type: types.UPDATE_PROPOSEDTRADE_STATE,
+            type: types.UPDATE_TRADE_STATE,
             payload: data
           });
       }, 1000);

@@ -18,7 +18,7 @@ const User = new Schema({
     pinCode: String
   },
   tradesProposed: Array,
-  tradesAccepted: Array,
+  tradeRequests: Array,
   google: {
     id: String,
     token: String,

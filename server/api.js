@@ -205,10 +205,11 @@ module.exports = function (app) {
         if (!itemRequestedByCurrentUser) {
           const itemRequest = {
             reqMaker: {
+              uniqueId: new Date().getTime(),
               id: req.user._id.toString(),
               name: req.user.name
             },
-            reqStatus: null
+            reqStatus: 'PENDING'
           };
           doc.itemRequests.push(itemRequest);
           doc.save((err, doc) => {
@@ -239,12 +240,31 @@ module.exports = function (app) {
   });
 
   app.get('/api/getTradesData', isLoggedIn, (req, res) => {
-    res.json({ proposedTrades: req.user.tradesProposed, tradeRequests: [] });
+    Item.find({itemOwnerId: req.user._id},
+      {'itemRequests': 1, _id: 0, 'itemPic': 1, 'itemName': 1, 'key': 1})
+      .exec((err, docs) => {
+        if (err) {
+          res.status(500).send('Failed to fetch item trade requests!').end();
+        } else {
+          let requests = docs.filter(elem => elem.itemRequests.length > 0);
+          requests = requests.map(elem => {
+            elem.itemRequests = elem.itemRequests.map(elemItem => {
+              return ({
+                reqStatus: elemItem.reqStatus,
+                reqMaker: elemItem.reqMaker.name,
+                docId: elemItem.reqMaker.uniqueId
+              });
+            });
+            return elem;
+          });
+          res.json({ proposedTrades: req.user.tradesProposed, tradeRequests: requests });
+        }
+    });
   });
 
   app.post('/api/removeitemrequest', isLoggedIn, (req, res) => {
     const key = req.body.id;
-    Item.findOne({key: key})
+    Item.findOne({key: parseInt(key, 10)})
       .exec((err, doc) => {
         if(err) {
           console.log("Some error happened while removing item request-", err);
@@ -272,7 +292,53 @@ module.exports = function (app) {
           });
         }
       });
+  });
 
+  app.post('/api/declinerequest', isLoggedIn, (req, res) => {
+    // first remove itemRequest from item
+    let userId;
+    Item.findOne({key: parseInt(req.body.key, 10)})
+      .exec((err, doc) => {
+        if(err) {
+          res.status(500).send('Error happened while declining trade request!').end();
+          console.log('Error happened while declining trade request!');
+        } else {
+          doc.itemRequests = doc.itemRequests.filter(elem => {
+            if(elem.reqMaker.uniqueId === parseInt(req.body.docId, 10)) {
+              userId = elem.reqMaker.id;
+              return false;
+            } else {
+              return true;
+            }
+          });
+
+          doc.save(err => {
+            if(err) {
+              res.status(500).send('Error happened while declining trade request!').end();
+              console.log('Error happened while declining trade request!');
+            } else {
+              // remove proposedTrade item from the user who made that request.
+              User.findOne({_id: userId})
+                .exec((err, doc) => {
+                  if(err) {
+                    res.status(500).send('Error happened while declining trade request!').end();
+                    console.log('Error happened while declining trade request!');
+                  } else {
+                    doc.tradesProposed = doc.tradesProposed.filter(elem => elem.id !== req.body.key);
+                    doc.save(err => {
+                      if(err) {
+                        res.status(500).send('Error happened while declining trade request!').end();
+                        console.log('Error happened while declining trade request!');
+                      } else {
+                        res.status(200).end();
+                      }
+                    });
+                  }
+                });
+            }
+          });
+        }
+      });
   });
 
 };
