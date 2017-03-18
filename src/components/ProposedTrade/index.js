@@ -24,7 +24,7 @@ const ProposedTrade = ({ itemName, itemPic, itemId, reqStatus, ownerInfo, itemOw
 
   if(!ownerInfo[0] && !ownerInfo[1]) {
     contactInfo.push(
-      <h4>
+      <h4 key="noContactsh">
         Sorry, Item owner hasn't provided any contact details.
       </h4>
     );
@@ -62,7 +62,7 @@ const ProposedTrade = ({ itemName, itemPic, itemId, reqStatus, ownerInfo, itemOw
             Cancel Proposal
           </button> :
           <div className="contactInfoOwner">
-            <h4><span>Owner Contact Info</span></h4>
+            <h4><span className="underline">Owner Contact Info</span></h4>
             {contactInfo}
           </div>
         }

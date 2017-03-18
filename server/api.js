@@ -29,7 +29,9 @@ module.exports = function (app) {
     }
   };
 
-  app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.json({ 'error': '' }));
+  app.get('/isUserLoggedIn', isLoggedIn, (req, res) => {
+    res.json({ 'error': '', 'notificationsCount': req.user.notificationsCount })
+  });
 
   app.get('/api/getProfileData', isLoggedIn, (req, res) => {
     const { name, address, phoneNo, email, dp } = req.user;
@@ -201,6 +203,14 @@ module.exports = function (app) {
         res.sendStatus(500);
       } else {
 
+        User.findOne({ _id: doc.itemOwnerId }, (err, doc) => {
+          if (!err) {
+            doc.notificationsCount += 1;
+            doc.markModified('notificationsCount');
+            doc.save();
+          }
+        });
+
         // dont push itemRequest if its already there.
         const itemRequestedByCurrentUser = doc.itemRequests.some(elem => (
           elem.reqMaker.id === req.user._id.toString()
@@ -270,6 +280,10 @@ module.exports = function (app) {
           });
           res.json({ proposedTrades: req.user.trades, tradeRequests: requests });
         }
+
+        req.user.notificationsCount = 0;
+        req.user.markModified('notificationCount');
+        req.user.save();
       });
   });
 
@@ -281,6 +295,15 @@ module.exports = function (app) {
           console.log("Some error happened while removing item request-", err);
           res.status(500).send('Some error happened while removing item request');
         } else {
+
+          User.findOne({ _id: doc.itemOwnerId }, (err, doc) => {
+            if (!err) {
+              doc.notificationsCount -= 1;
+              doc.markModified('notificationsCount');
+              doc.save();
+            }
+          });
+
           doc.itemRequests = doc.itemRequests.filter(elem => (
             elem.reqMaker.id !== req.user._id.toString()
           ));
@@ -314,6 +337,7 @@ module.exports = function (app) {
           res.status(500).send('Error happened while declining trade request!').end();
           console.log('Error happened while declining trade request!');
         } else {
+
           doc.itemRequests = doc.itemRequests.filter(elem => {
             if (elem.reqMaker.uniqueId.toString() === req.body.docId) {
               userId = elem.reqMaker.id;
@@ -367,6 +391,7 @@ module.exports = function (app) {
           res.status(500).send('Error happened while accepting trade request!').end();
           console.log('Error happened while accepting trade request!');
         } else {
+
           doc.itemRequests = doc.itemRequests.map(elem => {
             if (elem.reqMaker.uniqueId.toString() === docId) {
               userId = elem.reqMaker.id;
@@ -398,6 +423,11 @@ module.exports = function (app) {
                         }
                         return elem;
                       });
+
+                      // for notifications
+                      doc.notificationsCount += 1;
+                      doc.markModified('notificationsCount');
+
                       doc.markModified('trades');
                       doc.save(err => {
                         if (err) {

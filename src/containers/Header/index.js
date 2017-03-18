@@ -49,6 +49,11 @@ class Header extends Component {
           activeClassName="activeNavLink" className="navLink"
           onClick={this.collapseMenu.bind(this)} >
           Trades
+          {
+            this.props.app.notificationsCount > 0 ?
+            `(${this.props.app.notificationsCount})` :
+            ''
+          }
         </Link>
         <Link onlyActiveOnIndex={true} key={4}
           activeClassName="activeNavLink" className="navLink"

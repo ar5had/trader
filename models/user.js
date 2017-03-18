@@ -18,6 +18,7 @@ const User = new Schema({
     pinCode: String
   },
   trades: Array,
+  notificationsCount: Number,
   google: {
     id: String,
     token: String,
