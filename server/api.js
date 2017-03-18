@@ -32,12 +32,12 @@ module.exports = function (app) {
   app.get('/isUserLoggedIn', isLoggedIn, (req, res) => res.json({ 'error': '' }));
 
   app.get('/api/getProfileData', isLoggedIn, (req, res) => {
-    const {name, address, phoneNo, email, dp} = req.user;
+    const { name, address, phoneNo, email, dp } = req.user;
     res.json({ name, address, phoneNo, email, dp });
   });
 
   app.post('/api/setProfileData', isLoggedIn, (req, res) => {
-    const {landmark, city, state, pinCode, country, localAddress} = req.body;
+    const { landmark, city, state, pinCode, country, localAddress } = req.body;
     const address = { landmark, city, state, pinCode, country, localAddress };
     const phoneNo = req.body.phoneNo;
     const email = req.body.email;
@@ -47,7 +47,7 @@ module.exports = function (app) {
         if (err) {
           res.status(500).send({ error: "Error happened while updating user info!" });
         } else {
-          const {address, phoneNo, email} = doc;
+          const { address, phoneNo, email } = doc;
           res.json({ address, phoneNo, email });
         }
       });
@@ -166,6 +166,9 @@ module.exports = function (app) {
           res.sendStatus(500);
         } else {
           if (doc) {
+
+            const isSoldOut = doc.itemRequests.some(elem => elem.reqStatus === 'ACCEPTED');
+
             const item = objectAssign({}, doc.toObject());
             // checking whether the current user has requested the item
             // in past or not
@@ -183,7 +186,7 @@ module.exports = function (app) {
             delete item.itemOwnerId;
             delete item.__v;
             item.ownItem = ownItem;
-            res.json(objectAssign(item, { itemRequestedByCurrentUser }));
+            res.json(objectAssign(item, { itemRequestedByCurrentUser, isSoldOut }));
           } else {
             res.sendStatus(400);
           }
@@ -197,12 +200,18 @@ module.exports = function (app) {
         console.error('Error happened while loading allItems-', err);
         res.sendStatus(500);
       } else {
+
         // dont push itemRequest if its already there.
         const itemRequestedByCurrentUser = doc.itemRequests.some(elem => (
           elem.reqMaker.id === req.user._id.toString()
         ));
 
-        if (!itemRequestedByCurrentUser) {
+        // checkout whether item has already sold out or not.
+        const isSoldOut = doc.itemRequests.some(elem => elem.reqStatus === 'ACCEPTED');
+
+        if (isSoldOut) {
+          res.status(409).send('Item Sold Out');
+        } else if (!itemRequestedByCurrentUser) {
           const itemRequest = {
             reqMaker: {
               uniqueId: new Date().getTime(),
@@ -220,8 +229,10 @@ module.exports = function (app) {
             proposedTrade.itemName = doc.itemName;
             proposedTrade.itemPic = doc.itemPic;
             proposedTrade.itemOwner = doc.itemOwner;
-            req.user.tradesProposed.unshift(proposedTrade);
-            req.user.markModified('tradesProposed');
+            proposedTrade.reqStatus = "PENDING";
+            proposedTrade.reqMakerInfo = [];
+            req.user.trades.unshift(proposedTrade);
+            req.user.markModified('trades');
             req.user.save(err => {
               if (err) {
                 console.log('Error happened when adding trades request to user model.');
@@ -240,8 +251,8 @@ module.exports = function (app) {
   });
 
   app.get('/api/getTradesData', isLoggedIn, (req, res) => {
-    Item.find({itemOwnerId: req.user._id},
-      {'itemRequests': 1, _id: 0, 'itemPic': 1, 'itemName': 1, 'key': 1})
+    Item.find({ itemOwnerId: req.user._id },
+      { 'itemRequests': 1, _id: 0, 'itemPic': 1, 'itemName': 1, 'key': 1 })
       .exec((err, docs) => {
         if (err) {
           res.status(500).send('Failed to fetch item trade requests!').end();
@@ -257,16 +268,16 @@ module.exports = function (app) {
             });
             return elem;
           });
-          res.json({ proposedTrades: req.user.tradesProposed, tradeRequests: requests });
+          res.json({ proposedTrades: req.user.trades, tradeRequests: requests });
         }
-    });
+      });
   });
 
   app.post('/api/removeitemrequest', isLoggedIn, (req, res) => {
     const key = req.body.id;
-    Item.findOne({key: parseInt(key, 10)})
+    Item.findOne({ key: parseInt(key, 10) })
       .exec((err, doc) => {
-        if(err) {
+        if (err) {
           console.log("Some error happened while removing item request-", err);
           res.status(500).send('Some error happened while removing item request');
         } else {
@@ -274,18 +285,18 @@ module.exports = function (app) {
             elem.reqMaker.id !== req.user._id.toString()
           ));
           doc.save(err => {
-            if(err) {
+            if (err) {
               console.log("Some error happened while removing item request-", err);
             } else {
-              req.user.tradesProposed = req.user.tradesProposed.filter(
+              req.user.trades = req.user.trades.filter(
                 elem => elem.id !== key
               );
-              req.user.markModified('tradesProposed');
+              req.user.markModified('trades');
               req.user.save(err => {
-                if(err) {
+                if (err) {
                   console.log("Error while removing cancelling trade proposal!");
                 } else {
-                  res.json({ proposedTrades: req.user.tradesProposed });
+                  res.json({ proposedTrades: req.user.trades });
                 }
               });
             }
@@ -296,49 +307,116 @@ module.exports = function (app) {
 
   app.post('/api/declinerequest', isLoggedIn, (req, res) => {
     // first remove itemRequest from item
-    let userId;
-    Item.findOne({key: parseInt(req.body.key, 10)})
+    let userId, reqStatus;
+    Item.findOne({ key: parseInt(req.body.key, 10) })
       .exec((err, doc) => {
-        if(err) {
+        if (err) {
           res.status(500).send('Error happened while declining trade request!').end();
           console.log('Error happened while declining trade request!');
         } else {
           doc.itemRequests = doc.itemRequests.filter(elem => {
-            if(elem.reqMaker.uniqueId === parseInt(req.body.docId, 10)) {
+            if (elem.reqMaker.uniqueId.toString() === req.body.docId) {
               userId = elem.reqMaker.id;
+              reqStatus = elem.reqStatus;
               return false;
             } else {
               return true;
             }
           });
 
-          doc.save(err => {
-            if(err) {
-              res.status(500).send('Error happened while declining trade request!').end();
-              console.log('Error happened while declining trade request!');
-            } else {
-              // remove proposedTrade item from the user who made that request.
-              User.findOne({_id: userId})
-                .exec((err, doc) => {
-                  if(err) {
-                    res.status(500).send('Error happened while declining trade request!').end();
-                    console.log('Error happened while declining trade request!');
-                  } else {
-                    doc.tradesProposed = doc.tradesProposed.filter(elem => elem.id !== req.body.key);
-                    doc.save(err => {
-                      if(err) {
-                        res.status(500).send('Error happened while declining trade request!').end();
-                        console.log('Error happened while declining trade request!');
-                      } else {
-                        res.status(200).end();
-                      }
-                    });
-                  }
-                });
-            }
-          });
+          if (reqStatus === 'PENDING') {
+            doc.save(err => {
+              if (err) {
+                res.status(500).send('Error happened while declining trade request!').end();
+                console.log('Error happened while declining trade request!');
+              } else {
+                // remove proposedTrade item from the user who made that request.
+                User.findOne({ _id: userId })
+                  .exec((err, doc) => {
+                    if (err) {
+                      res.status(500).send('Error happened while declining trade request!').end();
+                      console.log('Error happened while declining trade request!');
+                    } else {
+                      doc.trades = doc.trades.filter(elem => elem.id !== req.body.key);
+                      doc.save(err => {
+                        if (err) {
+                          res.status(500).send('Error happened while declining trade request!').end();
+                          console.log('Error happened while declining trade request!');
+                        } else {
+                          res.json({ status: 'OK' });
+                        }
+                      });
+                    }
+                  });
+              }
+            });
+          } else {
+            res.json({ status: 'Accepted trade requests can\'t be declined' });
+          }
+
         }
       });
+  });
+
+  app.post('/api/acceptrequest', isLoggedIn, (req, res) => {
+    const { key, docId } = req.body;
+    let userId, prevReqStatus;
+    Item.findOne({ key: parseInt(key, 10) })
+      .exec((err, doc) => {
+        if (err) {
+          res.status(500).send('Error happened while accepting trade request!').end();
+          console.log('Error happened while accepting trade request!');
+        } else {
+          doc.itemRequests = doc.itemRequests.map(elem => {
+            if (elem.reqMaker.uniqueId.toString() === docId) {
+              userId = elem.reqMaker.id;
+              prevReqStatus = elem.reqStatus;
+              // mongoose unable to see changes in embedded arrays
+              // check out issue - https://github.com/Automattic/mongoose/issues/1204
+              elem.reqStatus = 'ACCEPTED';
+            }
+            return elem;
+          });
+          doc.markModified('itemRequests');
+          if (prevReqStatus === 'PENDING') {
+            doc.save(err => {
+              if (err) {
+                res.status(500).send('Error happened while accepting trade request!').end();
+                console.log('Error happened while accepting trade request!');
+              } else {
+                // remove proposedTrade item from the user who made that request.
+                User.findOne({ _id: userId })
+                  .exec((err, doc) => {
+                    if (err) {
+                      res.status(500).send('Error happened while declining trade request!').end();
+                      console.log('Error happened while declining trade request!');
+                    } else {
+                      doc.trades = doc.trades.map(elem => {
+                        if (elem.id === key) {
+                          elem.reqStatus = "ACCEPTED";
+                          elem.reqMakerInfo = [req.user.email, req.user.phoneNo];
+                        }
+                        return elem;
+                      });
+                      doc.markModified('trades');
+                      doc.save(err => {
+                        if (err) {
+                          res.status(500).send('Error happened while declining trade request!').end();
+                          console.log('Error happened while declining trade request!');
+                        } else {
+                          res.json({ status: 'OK' });
+                        }
+                      });
+                    }
+                  });
+              }
+            });
+          } else {
+            res.json({ status: 'Trade request is already accepted!' });
+          }
+        }
+      });
+
   });
 
 };

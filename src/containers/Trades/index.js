@@ -28,6 +28,8 @@ class Trades extends Component {
             itemPic={elem.itemPic}
             itemOwner={elem.itemOwner}
             itemId={elem.id}
+            reqStatus={elem.reqStatus}
+            ownerInfo={elem.reqMakerInfo}
             cancelProposal={this.cancelTradeRequest.bind(this)}
             itemName={elem.itemName}
             key={`${elem.id}pt`}
@@ -73,8 +75,8 @@ class Trades extends Component {
     this.props.tradeActions.declineTradeReq(id, docId, node);
   }
 
-  acceptRequest() {
-
+  acceptRequest(id, docId, node) {
+    this.props.tradeActions.acceptTrade(id, docId, node);
   }
 
   render() {

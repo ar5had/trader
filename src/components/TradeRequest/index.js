@@ -15,18 +15,37 @@ const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequ
           </h4>
         </div>
         <div className="tradeBtnWrapper lower">
-          <button className="acceptBtn normalBtn" ref={node => acceptBtn = node}>Accept</button>
-          <button className="declineBtn normalBtn"
-            ref={node => declineBtn = node}
-            onClick={() => {
-              wrapper.classList.add('blacklisted');
-              acceptBtn.classList.add('disabled');
-              declineBtn.classList.add('disabled');
-              declineRequest(itemId, docId, wrapper);
-            }}
-          >
-            Decline
-          </button>
+          {
+            reqStatus === 'PENDING' ?
+              <div>
+                <button className="acceptBtn normalBtn"
+                  ref={node => acceptBtn = node}
+                  onClick={() => {
+                    acceptBtn.classList.add('disabled');
+                    declineBtn.classList.add('disabled');
+                    acceptRequest(itemId, docId, wrapper);
+                  }}
+                >
+                  Accept
+                </button>
+                <button className="declineBtn normalBtn"
+                  ref={node => declineBtn = node}
+                  onClick={() => {
+                    wrapper.classList.add('blacklisted');
+                    acceptBtn.classList.add('disabled');
+                    declineBtn.classList.add('disabled');
+                    declineRequest(itemId, docId, wrapper);
+                  }}
+                >
+                  Decline
+                </button>
+              </div> :
+              <button className="acceptBtn normalBtn noLinkBtn"
+              >
+                Accepted
+              </button>
+          }
+
         </div>
       </div>
     );

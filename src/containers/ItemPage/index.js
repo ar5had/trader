@@ -28,6 +28,12 @@ class ItemPage extends Component {
           </Link>
         </div>
       );
+    } else if(this.props.app.isSoldOut) {
+      return (
+        <button className="reqTradeBtn normalBtn disabled" disabled={true}>
+          Sold Out
+        </button>
+      );
     } else if (this.props.app.itemRequestedByCurrentUser) {
       return (
         <button className="reqTradeBtn normalBtn disabled" disabled={true}>
@@ -66,7 +72,7 @@ class ItemPage extends Component {
   getMsg() {
     if (this.state.errMsg) {
       return (
-        <p>{this.state.errMsg}</p>
+        <p className="warningMsg">{this.state.errMsg}</p>
       );
     }
     return;
