@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import './styles.sass';
 
 const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequest, declineRequest, itemId }) => {
-    let wrapper;
+    let wrapper, acceptBtn, declineBtn;
     return (
       <div className="trWrapper" ref={node => wrapper = node}>
         <div className="upper">
@@ -15,12 +15,13 @@ const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequ
           </h4>
         </div>
         <div className="tradeBtnWrapper lower">
-          <button className="acceptBtn normalBtn">Accept</button>
+          <button className="acceptBtn normalBtn" ref={node => acceptBtn = node}>Accept</button>
           <button className="declineBtn normalBtn"
+            ref={node => declineBtn = node}
             onClick={() => {
               wrapper.classList.add('blacklisted');
-              document.querySelector('.acceptBtn').classList.add('disabled');
-              document.querySelector('.declineBtn').classList.add('disabled');
+              acceptBtn.classList.add('disabled');
+              declineBtn.classList.add('disabled');
               declineRequest(itemId, docId, wrapper);
             }}
           >

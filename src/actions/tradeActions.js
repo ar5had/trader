@@ -52,7 +52,7 @@ export function declineTradeReq(key, docId, node) {
       if (response.status >= 400) {
         throw new Error(response);
       } else {
-        objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight + 14}px`, zIndex: '-22' });
+        objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight}px`, zIndex: '-22' });
         setTimeout(() => {
           dispatch({
               type: types.UPDATE_TRADEREQUESTS_STATE,
@@ -88,7 +88,7 @@ export function cancelTradeProposed(id, node) {
       }
     })
     .then(data => {
-      objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight + 14}px`, zIndex: '-22' });
+      objectAssign(node.style, { opacity: "0", marginBottom: `-${node.offsetHeight}px`, zIndex: '-22' });
       setTimeout(() => {
         dispatch({
             type: types.UPDATE_TRADE_STATE,
