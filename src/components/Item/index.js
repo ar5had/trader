@@ -4,6 +4,15 @@ import { browserHistory } from 'react-router';
 import './styles.sass';
 
 class Item extends Component {
+  componentDidMount() {
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      const { clientWidth , clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const [head, end] = image.dataset.bg.split('upload');
+      image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
+    });
+  }
+
   openItem(url) {
     browserHistory.push(url);
   }
@@ -16,7 +25,7 @@ class Item extends Component {
     return(
       <div className="item text-center" onClick={openItem}>
         <div className="content bkdPic"
-          style={{ background: `url(${pic})`}}
+          data-bg={`${pic}`}
         />
         <h3 className="itemName">
           {name}

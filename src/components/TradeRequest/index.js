@@ -8,7 +8,7 @@ const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequ
       <div className="trWrapper" ref={node => wrapper = node}>
         <div className="upper">
           <Link to={`/item/${itemId}`}>
-            <img className="userImg" src={itemPic}/>
+            <div className="userImg bkdPic" data-bg={itemPic} />
           </Link>
           <h4>
             <span className="name">{reqMaker}</span> wants to trade with your item- <Link to={`/item/${itemId}`}>{itemName}</Link>

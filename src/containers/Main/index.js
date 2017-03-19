@@ -13,8 +13,9 @@ class Homepage extends Component {
   getAllItemsData() {
     const data = this.props.app;
     if(data.length > 0) {
-      return data.map((e) =>
-        <Item key={e.key} itemId={e.key} pic={e.itemPic}
+      let newData = "asdjlksfdljalsfdjkls".split("").fill(data[0]);
+      return newData.map((e, i) =>
+        <Item key={i} itemId={e.key} pic={e.itemPic}
           price={`${e.itemCurrency.slice(0,1)}${e.itemPrice}`} name={e.itemName} />);
     } else {
       return <h3 className="noItemHeading"> No items found!</h3>;

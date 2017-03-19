@@ -7,13 +7,24 @@ class UserItem extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      const { clientWidth , clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const [head, end] = image.dataset.bg.split('upload');
+      image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
+    });
+  }
+
   render() {
     const { data } = this.props;
     return (
       <div className="uIWrapper" ref={node => this.itemNode = node}>
         <div className="upper">
-          <div className="userImg bkdPic"
-           style={{background: `url(${data.itemPic})`}} />
+          <Link to={`/item/${data.key}`}>
+            <div className="userImg bkdPic"
+            data-bg={data.itemPic} />
+          </Link>
           <div className="itemInfo">
             <h3 className="itemName">
               <Link to={`/item/${data.key}`}>{data.itemName}</Link>

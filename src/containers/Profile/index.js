@@ -20,6 +20,9 @@ class Profile extends Component {
 
   componentDidMount() {
     loadPageProps('Profile - Trader');
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      image.style.backgroundImage = `url('${image.dataset.bg}')`;
+    });
   }
 
   updateProfileState(changedState, editSection) {

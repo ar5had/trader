@@ -17,6 +17,12 @@ class ItemPage extends Component {
 
   componentDidMount() {
     loadPageProps('Item - Trader');
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      const { clientWidth , clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const [head, end] = image.dataset.bg.split('upload');
+      image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
+    });
   }
 
   getButton() {
@@ -83,7 +89,7 @@ class ItemPage extends Component {
     return (
       <div className="itemPageWrapper">
         <div className="itemImgWrapper bkdPic"
-          style={{ background: `url(${data.itemPic})` }}
+          data-bg={`${data.itemPic}`}
         />
         <div className="itemInfoWrapper">
           <Link className="backLink" to="/">

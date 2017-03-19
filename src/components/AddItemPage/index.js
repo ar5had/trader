@@ -137,7 +137,7 @@ class AddItemPage extends Component {
     const fr = new FileReader();
     fr.onload = () => {
       this.itemImg.classList.add('imgLoaded');
-      this.itemImg.style.background = `url( ${fr.result} )`;
+      this.itemImg.style.backgroundImage = `url( ${fr.result} )`;
     };
     if (file) {
       const errorElem = document.querySelector('.imgLoadErrors');

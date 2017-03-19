@@ -7,7 +7,7 @@ const BasicInfo = ({data}) => {
   return(
     <div className="basicInfo">
       <div className="profilePic">
-        <img src={data.dp ? data.dp : userImage} alt={data.name} />
+        <div data-bg={data.dp ? data.dp : userImage} alt={data.name} />
       </div>
       <div className="nameWrapper">
         <h3 className="normal">{data.name}</h3>

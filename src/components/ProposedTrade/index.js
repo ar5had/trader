@@ -34,7 +34,7 @@ const ProposedTrade = ({ itemName, itemPic, itemId, reqStatus, ownerInfo, itemOw
     <div className="ptWrapper" ref={node => wrapper = node}>
       <div className="upper">
         <Link to={`/item/${itemId}`}>
-          <img className="userImg" src={itemPic} />
+          <div className="userImg bkdPic" data-bg={itemPic} />
         </Link>
         {
           reqStatus === 'PENDING' ?

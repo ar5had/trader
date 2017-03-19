@@ -17,6 +17,12 @@ class Trades extends Component {
 
   componentDidMount() {
     loadPageProps('Trades - Trader');
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      const { clientWidth , clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const [head, end] = image.dataset.bg.split('upload');
+      image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
+    });
   }
 
   getAllProposedTrades() {
