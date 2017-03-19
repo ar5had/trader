@@ -1,19 +1,19 @@
 // common server for both production and development
-import historyApiFallback from 'connect-history-api-fallback';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import { chalkSuccess } from './chalkConfig';
-import config from '../webpack.config.dev';
-import express from 'express';
-import http from 'http';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import path from 'path';
-import authRoutes from '../server/authRoutes';
-import logoutRoute from '../server/logoutRoute';
+const historyApiFallback = require('connect-history-api-fallback');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const { chalkSuccess } = require('./chalkConfig');
+const config = require('../webpack.config.dev');
+const express = require('express');
+const http = require('http');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const path = require('path');
+const authRoutes = require('../server/authRoutes');
+const logoutRoute = require('../server/logoutRoute');
 
 const api = require('../server/api');
 const environment = process.argv[2];

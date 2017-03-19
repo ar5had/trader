@@ -25,7 +25,7 @@
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open coverage/lcov-report/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js",
-    "herokuStart": "./node_modules/.bin/babel-node tools/server.js production"
+    "herokuStart": "node tools/distServer.js production"
   },
   "author": "Arshad Khan <arshdkhn1@gmail.com>",
   "license": "MIT",
