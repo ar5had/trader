@@ -93,7 +93,7 @@
     "react-addons-test-utils": "15.4.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "replace": "0.3.0",
-    "rimraf": "2.5.4",
+    "rimraf": "^2.6.1",
     "sass-loader": "4.1.0",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",

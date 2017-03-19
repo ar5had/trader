@@ -7,10 +7,7 @@ import rootReducer from '../reducers';
 
 function configureStoreProd(initialState) {
 
-  const middlewares = process.env.NODE_ENV === 'development' ? [
-    require('redux-immutable-state-invariant')(),
-    thunk
-  ] : [thunk];
+  const middlewares = [thunk];
 
   return createStore(rootReducer, initialState, compose(
     applyMiddleware(...middlewares)
@@ -22,6 +19,7 @@ function configureStoreDev(initialState) {
   const middlewares = [
     // Add other middleware on this line...
     logger(),
+    require('redux-immutable-state-invariant')(),
     // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
     reduxImmutableStateInvariant(),
 

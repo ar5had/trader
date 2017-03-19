@@ -1,10 +1,10 @@
-import User from '../models/user';
-import Item from '../models/item';
-import objectAssign from 'object-assign';
-import cloudinary from 'cloudinary';
-import multer from 'multer';
-import path from 'path';
-import cp from 'child_process';
+const User = require('../models/user');
+const Item = require('../models/item');
+const objectAssign = require('object-assign');
+const cloudinary = require('cloudinary');
+const multer = require('multer');
+const path = require('path');
+const cp = require('child_process');
 
 const uploadDir = path.resolve(process.cwd(), 'uploads');
 
@@ -329,7 +329,7 @@ module.exports = function (app) {
   });
 
   app.post('/api/declinerequest', isLoggedIn, (req, res) => {
-    // first remove itemRequest from item
+    // first remove itemRequest = require(item
     let userId, reqStatus;
     Item.findOne({ key: parseInt(req.body.key, 10) })
       .exec((err, doc) => {
@@ -354,7 +354,7 @@ module.exports = function (app) {
                 res.status(500).send('Error happened while declining trade request!').end();
                 console.log('Error happened while declining trade request!');
               } else {
-                // remove proposedTrade item from the user who made that request.
+                // remove proposedTrade item = require(the user who made that request.
                 User.findOne({ _id: userId })
                   .exec((err, doc) => {
                     if (err) {
@@ -409,7 +409,7 @@ module.exports = function (app) {
                 res.status(500).send('Error happened while accepting trade request!').end();
                 console.log('Error happened while accepting trade request!');
               } else {
-                // remove proposedTrade item from the user who made that request.
+                // remove proposedTrade item = require(the user who made that request.
                 User.findOne({ _id: userId })
                   .exec((err, doc) => {
                     if (err) {

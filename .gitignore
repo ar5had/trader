@@ -41,3 +41,6 @@ dist
 
 # Env file
 .env
+
+# now.json
+now.json
