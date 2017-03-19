@@ -24,11 +24,13 @@
     "test:cover:travis": "npm run test:cover && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js",
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open coverage/lcov-report/index.html",
-    "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
+    "analyze-bundle": "babel-node ./tools/analyzeBundle.js",
+    "herokuStart": "./node_modules/.bin/babel-node tools/server.js production"
   },
   "author": "Arshad Khan <arshdkhn1@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "babel": "6.23.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.16.1",
     "cloudinary": "^1.8.0",
