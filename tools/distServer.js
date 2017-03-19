@@ -13,6 +13,9 @@ const environment = process.env.NODE_ENV;
 const app = express();
 const server = http.createServer(app);
 
+require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
+
+
 if (environment !== "productiion") {
   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
 }
