@@ -57,11 +57,9 @@ const runWebpack = () => {
   }
 };
 
-// if (environment !== "production") {
-//   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
-// }
-
-require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
+if (environment !== "production") {
+  require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
+}
 
 require('../config/passport')(passport);
 
