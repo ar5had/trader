@@ -1,7 +1,15 @@
 module.exports = function (app, passport) {
 
+  const saveQueryVar = (req, res, next) => {
+    const last_item= req.query.l_i;
+    if(last_item) {
+      req.session.returnTo = last_item;
+    }
+    next();
+  };
+
   // route for facebook authentication and login
-  app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+  app.get('/auth/facebook', saveQueryVar, passport.authenticate('facebook', { scope: 'email' }));
 
   // handle the callback after facebook has authenticated the user
   app.get('/auth/facebook/callback',
@@ -18,7 +26,7 @@ module.exports = function (app, passport) {
     });
 
   // route for twitter authentication and login
-  app.get('/auth/twitter', passport.authenticate('twitter'));
+  app.get('/auth/twitter', saveQueryVar, passport.authenticate('twitter'));
 
   // handle the callback after twitter has authenticated the user
   app.get('/auth/twitter/callback',
@@ -35,7 +43,7 @@ module.exports = function (app, passport) {
     });
 
   // route for google authentication and login
-  app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+  app.get('/auth/google', saveQueryVar, passport.authenticate('google', { scope: ['profile', 'email'] }));
 
   // the callback after google has authenticated the user
   app.get('/auth/google/callback',

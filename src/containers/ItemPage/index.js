@@ -19,7 +19,7 @@ class ItemPage extends Component {
     loadPageProps('Item - Trader');
     Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
       const { clientWidth , clientHeight } = image;
-      const imageParams = `w_${clientWidth},h_${clientHeight},f_auto`;
+      const imageParams = `w_${clientWidth},h_${clientHeight},f_auto,q_80`;
       const [head, end] = image.dataset.bg.split('upload');
       image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
     });
@@ -60,7 +60,7 @@ class ItemPage extends Component {
                     this.props.app.key, this.showErrMsg.bind(this)
                   );
               } else {
-                browserHistory.push('/login');
+                browserHistory.push(`/login?l_i=${window.location.pathname}`);
               }
             }
           }

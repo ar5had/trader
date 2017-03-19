@@ -137,7 +137,7 @@ class AddItemPage extends Component {
     const fr = new FileReader();
     fr.onload = () => {
       this.itemImg.classList.add('imgLoaded');
-      this.itemImg.style.backgroundImage = `url( ${fr.result} )`;
+      this.itemImg.style.background = `url( ${fr.result} )`;
     };
     if (file) {
       const errorElem = document.querySelector('.imgLoadErrors');
@@ -183,7 +183,7 @@ class AddItemPage extends Component {
                 <label htmlFor="itemPicInput" className="imgText frm">
                   Upload Item Picture
                   <br />
-                  <span>Make sure image is of good quality and below 500kb</span>
+                  <span>Make sure image is good quality square picture and below 500kb</span>
                 </label>
                 <p className="imgLoadErrors" />
               </div>
