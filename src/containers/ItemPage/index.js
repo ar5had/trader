@@ -19,7 +19,7 @@ class ItemPage extends Component {
     loadPageProps('Item - Trader');
     Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
       const { clientWidth , clientHeight } = image;
-      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const imageParams = `w_${clientWidth},h_${clientHeight},f_auto`;
       const [head, end] = image.dataset.bg.split('upload');
       image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
     });
@@ -88,9 +88,11 @@ class ItemPage extends Component {
     const data = this.props.app;
     return (
       <div className="itemPageWrapper">
-        <div className="itemImgWrapper bkdPic"
-          data-bg={`${data.itemPic}`}
-        />
+        <div className="itemImgWrapper">
+          <div className="itemImg bkdPic"
+            data-bg={`${data.itemPic}`}
+          />
+        </div>
         <div className="itemInfoWrapper">
           <Link className="backLink" to="/">
             <span className="small">

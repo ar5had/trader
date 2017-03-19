@@ -8,14 +8,29 @@ import loadPageProps from '../../utils/loadPageProps';
 class Homepage extends Component {
   componentDidMount() {
     loadPageProps('Home - Trader');
+    this.displayWidthWiseImages();
+    window.addEventListener('resize', () => {
+      clearTimeout(window.reloadImages);
+      window.reloadImages = setTimeout(() => {
+        this.displayWidthWiseImages();
+      }, 500);
+    });
+  }
+
+  displayWidthWiseImages() {
+    Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
+      const { clientWidth, clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight},f_auto,q_80`;
+      const [head, end] = image.dataset.bg.split('upload');
+      image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
+    });
   }
 
   getAllItemsData() {
     const data = this.props.app;
     if(data.length > 0) {
-      let newData = "asdjlksfdljalsfdjkls".split("").fill(data[0]);
-      return newData.map((e, i) =>
-        <Item key={i} itemId={e.key} pic={e.itemPic}
+      return data.map((e) =>
+        <Item key={e.key} itemId={e.key} pic={e.itemPic}
           price={`${e.itemCurrency.slice(0,1)}${e.itemPrice}`} name={e.itemName} />);
     } else {
       return <h3 className="noItemHeading"> No items found!</h3>;

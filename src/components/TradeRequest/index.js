@@ -23,7 +23,7 @@ const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequ
                   onClick={() => {
                     acceptBtn.classList.add('disabled');
                     declineBtn.classList.add('disabled');
-                    acceptRequest(itemId, docId, wrapper);
+                    acceptRequest(itemId, docId, acceptBtn, declineBtn);
                   }}
                 >
                   Accept
@@ -34,7 +34,7 @@ const TradeRequest = ({itemName, itemPic, reqMaker, docId, reqStatus, acceptRequ
                     wrapper.classList.add('blacklisted');
                     acceptBtn.classList.add('disabled');
                     declineBtn.classList.add('disabled');
-                    declineRequest(itemId, docId, wrapper);
+                    declineRequest(itemId, docId, wrapper, acceptBtn, declineBtn);
                   }}
                 >
                   Decline

@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
 import './styles.sass';
-import userImage from '../../assets/images/user.svg';
 
 const BasicInfo = ({data}) => {
+  const userImage = '../../assets/images/user.svg';
   return(
     <div className="basicInfo">
       <div className="profilePic">

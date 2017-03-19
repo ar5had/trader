@@ -33,5 +33,4 @@ A full stack app for trading.
 * UpdateAppState is called twice on homepage ?
 
 ## Todos
-* load images in a pretty way
 * page redirection after login

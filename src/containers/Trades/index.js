@@ -17,9 +17,19 @@ class Trades extends Component {
 
   componentDidMount() {
     loadPageProps('Trades - Trader');
+    this.displayWidthWiseImages();
+    window.addEventListener('resize', () => {
+      clearTimeout(window.reloadImages);
+      window.reloadImages = setTimeout(() => {
+        this.displayWidthWiseImages();
+      }, 500);
+    });
+  }
+
+  displayWidthWiseImages() {
     Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
-      const { clientWidth , clientHeight } = image;
-      const imageParams = `w_${clientWidth},h_${clientHeight}`;
+      const { clientWidth, clientHeight } = image;
+      const imageParams = `w_${clientWidth},h_${clientHeight},f_auto,q_80`;
       const [head, end] = image.dataset.bg.split('upload');
       image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;
     });
@@ -73,16 +83,16 @@ class Trades extends Component {
     }
   }
 
-  cancelTradeRequest(id, node) {
-    this.props.tradeActions.cancelTradeProposed(id, node);
+  cancelTradeRequest(id, node, btn) {
+    this.props.tradeActions.cancelTradeProposed(id, node, btn);
   }
 
-  declineRequest(id, docId, node) {
-    this.props.tradeActions.declineTradeReq(id, docId, node);
+  declineRequest(id, docId, node, btn1, btn2) {
+    this.props.tradeActions.declineTradeReq(id, docId, node, btn1, btn2);
   }
 
-  acceptRequest(id, docId, node) {
-    this.props.tradeActions.acceptTrade(id, docId, node);
+  acceptRequest(id, docId, btn1, btn2) {
+    this.props.tradeActions.acceptTrade(id, docId, btn1, btn2);
   }
 
   render() {

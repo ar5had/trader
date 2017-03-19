@@ -56,7 +56,7 @@ const ProposedTrade = ({ itemName, itemPic, itemId, reqStatus, ownerInfo, itemOw
               cancelBtn.disabled = true;
               cancelBtn.classList.add('disabled');
               wrapper.classList.add('blacklisted');
-              cancelProposal(itemId, wrapper);
+              cancelProposal(itemId, wrapper, cancelBtn);
             }}
           >
             Cancel Proposal

@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes';
 import fetch from 'unfetch';
 import objectAssign from 'object-assign';
 
-export function acceptTrade(key, docId) {
+export function acceptTrade(key, docId, btn1, btn2) {
   return (dispatch) => {
     fetch('/api/acceptrequest', {
       method: 'POST',
@@ -33,12 +33,14 @@ export function acceptTrade(key, docId) {
       })
       .catch(err => {
         /* eslint-disable no-console */
+        btn1.classList.remove('disabled');
+        btn2.classList.remove('disabled');
         console.error(`Got error:${err} while dispatching ACCEPT_TRADE_REQ!`);
       });
   };
 }
 
-export function declineTradeReq(key, docId, node) {
+export function declineTradeReq(key, docId, node, btn1, btn2) {
   return (dispatch) => {
     fetch('/api/declinerequest', {
       method: 'POST',
@@ -70,12 +72,15 @@ export function declineTradeReq(key, docId, node) {
       })
       .catch(err => {
         /* eslint-disable no-console */
+        node.classList.remove('blacklisted');
+        btn1.classList.remove('disabled');
+        btn2.classList.remove('disabled');
         console.error(`Got error:${err} while dispatching DECLINE_TRADE_REQ!`);
       });
   };
 }
 
-export function cancelTradeProposed(id, node) {
+export function cancelTradeProposed(id, node, btn) {
   return (dispatch) => {
     fetch(`/api/removeitemrequest`, {
       method: 'POST',
@@ -105,6 +110,9 @@ export function cancelTradeProposed(id, node) {
       })
       .catch(err => {
         /* eslint-disable no-console */
+        btn.classList.remove('disabled');
+        btn.disabled = false;
+        node.classList.remove('blacklisted');
         console.error(`Got error:${err} while dispatching CANCEL_TRADE_REQ!`);
       });
   };

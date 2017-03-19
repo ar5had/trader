@@ -5,9 +5,11 @@
   display: flex
   flex-direction: column
   .itemImgWrapper
-    background: #eee
     flex: 1
-    min-height: 50vh
+    .itemImg
+      background-image: url('../../assets/images/plain.png')
+      transition: background-image .2s
+      padding-bottom: 100%
   .itemInfoWrapper
     margin-top: 2rem
     flex: 1
