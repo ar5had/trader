@@ -24,11 +24,10 @@ const server = http.createServer(app);
 console.log(chalkSuccess(`Starting Express server in ${environment} mode...`));
 
 const runWebpack = () => {
-  if (environment !== "production") {
+  if (environment === "development") {
     const bundler = webpack(config);
-
-    app.use(express.static('src/*.html'));
     app.use(historyApiFallback());
+    app.use(express.static('src/*.html'));
     app.use(webpackHotMiddleware(bundler));
     app.use(webpackDevMiddleware(bundler, {
       // Dev middleware can't access config, so we provide publicPath
@@ -52,12 +51,17 @@ const runWebpack = () => {
     }));
   } else {
     app.use(express.static('dist'));
+    app.get('*', (_req, res) => {
+      res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+    });
   }
 };
 
-if (environment !== "production") {
-  require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
-}
+// if (environment !== "production") {
+//   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
+// }
+
+require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
 
 require('../config/passport')(passport);
 
