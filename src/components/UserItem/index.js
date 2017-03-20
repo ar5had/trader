@@ -9,12 +9,12 @@ class UserItem extends Component {
 
   componentDidMount() {
     this.displayWidthWiseImages();
-    window.addEventListener('resize', () => {
-      clearTimeout(window.reloadImages);
-      window.reloadImages = setTimeout(() => {
-        this.displayWidthWiseImages();
-      }, 500);
-    });
+    // window.addEventListener('resize', () => {
+    //   clearTimeout(window.reloadImages);
+    //   window.reloadImages = setTimeout(() => {
+    //     this.displayWidthWiseImages();
+    //   }, 500);
+    // });
   }
 
   displayWidthWiseImages() {

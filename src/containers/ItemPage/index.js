@@ -16,9 +16,19 @@ class ItemPage extends Component {
   }
 
   componentDidMount() {
-    loadPageProps('Item - Trader');
+    loadPageProps(`${this.props.app.itemName} - Trader`);
+    this.displayWidthWiseImages();
+    // window.addEventListener('resize', () => {
+    //   clearTimeout(window.reloadImages);
+    //   window.reloadImages = setTimeout(() => {
+    //     this.displayWidthWiseImages();
+    //   }, 500);
+    // });
+  }
+
+  displayWidthWiseImages() {
     Array.from(document.querySelectorAll('[data-bg]')).forEach(image => {
-      const { clientWidth , clientHeight } = image;
+      const { clientWidth, clientHeight } = image;
       const imageParams = `w_${clientWidth},h_${clientHeight},f_auto,q_80`;
       const [head, end] = image.dataset.bg.split('upload');
       image.style.backgroundImage = `url('${head}upload/${imageParams}${end}')`;

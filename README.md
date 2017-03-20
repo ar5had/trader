@@ -16,7 +16,7 @@ A full stack app for trading.
 * Express 
 * Mongoose/MongoDB
 * Webpack
-* now as paas
+* now as paas(Using heroku atm)
 * Use React-redux-router
 * yarn 
 
@@ -30,8 +30,7 @@ A full stack app for trading.
   });
   ```
 * Can a redux prop be changed using dev tools ?
-* UpdateAppState is called twice on homepage ?
 
 ## Todos
 * make images loading better if time permits
-
+* migrate to now if time permits
