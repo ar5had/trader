@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
@@ -16,7 +17,7 @@ const server = http.createServer(app);
 require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
 
 
-if (environment !== "productiion") {
+if (environment === "productiion") {
   require('dotenv').load({path: path.resolve(process.cwd() ,".env")});
 }
 
