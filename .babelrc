@@ -3,6 +3,9 @@
     "react",
     "stage-1"
   ],
+  "plugins": [
+    "add-module-exports"
+  ],
   "env": {
     "development": {
       "presets": [
@@ -16,7 +19,7 @@
           "es2015": {
             "modules": false
           }
-        }],
+        }]
       ],
       "plugins": [
         "transform-react-constant-elements",
