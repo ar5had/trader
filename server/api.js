@@ -127,15 +127,16 @@ module.exports = function (app) {
       });
   });
 
+  // Checks first whether user is loggedIn or not then deletes item ioi item's owner is current user
   app.delete('/api/deleteMyItem/:key', isLoggedIn, (req, res) => {
-    cloudinary.uploader.destroy(`${req.params.key}`);
-    Item.find({ key: req.params.key })
+    Item.find({ key: req.params.key, itemOwnerId: req.user._id })
       .remove((err) => {
         if (err) {
           console.error('Error happened while deleting item with key', req.params.key, "-", err);
           res.sendStatus(500);
         } else {
           res.sendStatus(200);
+          cloudinary.uploader.destroy(`${req.params.key}`);
         }
       });
   });
