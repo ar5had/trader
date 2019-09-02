@@ -12,12 +12,10 @@ const isCurrencyValid = val => (
 const isPriceValid = val => (!isNaN(val) && !isNaN(parseInt(val, 10)));
 
 const scrollElemToTop = (elem) => {
-  let timeOut;
   if (elem.scrollTop != 0) {
     elem.scrollTop -= 50;
-    timeOut = setTimeout(scrollElemToTop.bind(null, elem), 10);
+    setTimeout(scrollElemToTop, 10, elem);
   }
-  else clearTimeout(timeOut);
 };
 
 class AddItemPage extends Component {
